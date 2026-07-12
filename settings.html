@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সেটিংস - চলো পড়তে বসি</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="top-bar">
+    <a href="index.html" class="icon-btn" aria-label="Back to Home">
+      <svg viewBox="0 0 24 24">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+    </a>
+    <a href="index.html" class="brand">চলো পড়তে বসি</a>
+    <span style="width:24px;"></span>
+  </header>
+
+  <main class="main-content">
+    <h2 style="margin-bottom:1.5rem;">সেটিংস</h2>
+
+    <div class="setting-row">
+      <span class="setting-label">ডার্ক মোড</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkModeToggle" onchange="cpbTheme.toggleDarkMode()">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="setting-row">
+      <span class="setting-label">ফন্ট সাইজ</span>
+      <div class="font-size-group">
+        <button class="font-btn" data-size="14" onclick="setFontSize(14)">ছোট</button>
+        <button class="font-btn active" data-size="16" onclick="setFontSize(16)">মাঝারি</button>
+        <button class="font-btn" data-size="18" onclick="setFontSize(18)">বড়</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    [C] 2026-present. All Rights Reserved.
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script>
+    document.getElementById('darkModeToggle').checked = cpbTheme.isDarkMode();
+
+    function setFontSize(size) {
+      cpbTheme.setFontSize(size);
+      document.querySelectorAll('.font-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.size) === size);
+      });
+    }
+
+    const currentSize = cpbTheme.getFontSize();
+    document.querySelectorAll('.font-btn').forEach(btn => {
+      btn.classList.toggle('active', parseInt(btn.dataset.size) === currentSize);
+    });
+  </script>
+</body>
+</html>
