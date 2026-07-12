@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>চলো পড়তে বসি</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --deep-teal: #264653;
+      --saffron: #F4A261;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif;
+      background-color: var(--white);
+      color: var(--deep-teal);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .container {
+      text-align: center;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: var(--deep-teal);
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.25rem;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      background-color: var(--saffron);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #e08e3a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 চলো পড়তে বসি</h1>
+    <p>শীঘ্রই আসছে... আমাদের সাথে যুক্ত থাকুন।</p>
+    <button class="btn" onclick="alert('কাজ চলছে!')">আপডেট জানতে ক্লিক করুন</button>
+  </div>
+</body>
+</html>

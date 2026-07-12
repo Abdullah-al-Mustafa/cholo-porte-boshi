@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <rect 
+    x="4" 
+    y="4" 
+    width="92" 
+    height="92" 
+    rx="22" 
+    fill="#264653" />
+  <path 
+    d="M26 76 
+      C 29 69, 35 66, 44 68 
+      C 48 69, 52 73, 57 68 
+      C 63 64, 71 67, 75 75 
+      L 72 80 
+      C 65 73, 55 71, 48 75 
+      C 40 78, 33 79, 26 80 Z" 
+    fill="#F4A261" />
+  <text 
+    x="50" 
+    y="51.5" 
+    text-anchor="middle" 
+    dominant-baseline="central" 
+    font-family="'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif" 
+    font-size="64" 
+    font-weight="700" 
+    fill="#F4A261" 
+    stroke="#264653" 
+    stroke-width="4.5" 
+    paint-order="stroke fill">চ</text>
+</svg>
