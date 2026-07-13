@@ -1,6 +1,8 @@
 :root {
-  --deep-teal: #264653;
-  --saffron: #F4A261;
+  --primary: #2D6A4F;
+  --primary-dark: #1B4332;
+  --accent: #A8D5BA;
+  --accent-hover: #8BC4A0;
   --white: #ffffff;
   --light-gray: #f5f5f5;
   --dark-bg: #1a1a1a;
@@ -18,7 +20,7 @@
 body {
   font-family: 'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif;
   background-color: var(--white);
-  color: var(--deep-teal);
+  color: var(--primary-dark);
   font-size: var(--font-size);
   min-height: 100vh;
   display: flex;
@@ -31,12 +33,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
-  background-color: var(--deep-teal);
+  padding: 0.6rem 1rem;
+  background-color: var(--primary);
   color: var(--white);
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .top-bar a {
@@ -46,18 +49,32 @@ body {
   align-items: center;
 }
 
+/* Typographic Logo */
 .top-bar .brand {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-family: 'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif;
+  text-transform: none;
+  transition: color 0.3s ease;
+}
+
+.top-bar .brand:hover {
+  color: var(--white);
 }
 
 .top-bar .icon-btn svg {
   width: 24px;
   height: 24px;
-  stroke: var(--saffron);
+  stroke: var(--accent);
   fill: none;
   stroke-width: 2;
+  transition: stroke 0.3s ease;
+}
+
+.top-bar .icon-btn:hover svg {
+  stroke: var(--white);
 }
 
 /* ---------- Main Content ---------- */
@@ -73,8 +90,8 @@ body {
 .footer {
   text-align: center;
   padding: 1rem;
-  background-color: var(--deep-teal);
-  color: var(--saffron);
+  background-color: var(--primary);
+  color: var(--accent);
   font-size: 0.8rem;
   letter-spacing: 0.3px;
 }
@@ -83,16 +100,18 @@ body {
 .search-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid var(--deep-teal);
+  border: 2px solid var(--primary);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   outline: none;
   transition: border-color 0.3s ease;
+  background-color: var(--white);
 }
 
 .search-input:focus {
-  border-color: var(--saffron);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(168, 213, 186, 0.3);
 }
 
 .results-area {
@@ -103,10 +122,11 @@ body {
   padding: 0.75rem;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .result-item:hover {
-  background-color: var(--light-gray);
+  background-color: rgba(168, 213, 186, 0.2);
 }
 
 /* ---------- Settings ---------- */
@@ -120,6 +140,7 @@ body {
 
 .setting-label {
   font-weight: 600;
+  color: var(--primary-dark);
 }
 
 .toggle-switch {
@@ -156,7 +177,7 @@ body {
 }
 
 input:checked + .toggle-slider {
-  background-color: var(--saffron);
+  background-color: var(--accent);
 }
 
 input:checked + .toggle-slider:before {
@@ -170,18 +191,20 @@ input:checked + .toggle-slider:before {
 
 .font-btn {
   padding: 0.4rem 0.8rem;
-  border: 1px solid var(--deep-teal);
+  border: 1px solid var(--primary);
   background: transparent;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: 0.2s;
+  color: var(--primary-dark);
 }
 
 .font-btn.active {
-  background-color: var(--saffron);
-  color: white;
-  border-color: var(--saffron);
+  background-color: var(--accent);
+  color: var(--primary-dark);
+  border-color: var(--accent);
+  font-weight: 600;
 }
 
 /* ---------- Coming Soon ---------- */
@@ -192,7 +215,7 @@ input:checked + .toggle-slider:before {
 
 .coming-soon h1 {
   font-size: 2rem;
-  color: var(--deep-teal);
+  color: var(--primary);
   margin-bottom: 0.5rem;
 }
 
@@ -233,6 +256,10 @@ body.dark .setting-row {
   border-bottom-color: #333;
 }
 
+body.dark .setting-label {
+  color: var(--dark-text);
+}
+
 body.dark .toggle-slider {
   background-color: #555;
 }
@@ -243,6 +270,6 @@ body.dark .font-btn {
 }
 
 body.dark .font-btn.active {
-  background-color: var(--saffron);
+  background-color: var(--accent);
   color: #000;
 }
