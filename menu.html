@@ -7,11 +7,11 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .menu-page { padding: var(--space-6) var(--space-4); max-width: 1000px; margin: 0 auto; width: 100%; }
-    .menu-page h2 { font-size: var(--text-2xl); margin-bottom: var(--space-6); color: var(--heading); }
+    .menu-page { max-width: 800px; margin: 0 auto; width: 100%; }
+    .menu-section { margin-bottom: var(--space-6); }
+    .menu-section-title { font-size: var(--text-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: var(--space-3); padding-left: var(--space-1); }
     .menu-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-3); }
     @media (min-width: 600px) { .menu-grid { grid-template-columns: repeat(3,1fr); } }
-    @media (min-width: 1024px) { .menu-grid { grid-template-columns: repeat(4,1fr); } }
     .menu-card {
       display: flex; flex-direction: column; align-items: center; text-align: center;
       padding: var(--space-5) var(--space-3); border-radius: var(--radius-xl);
@@ -41,61 +41,87 @@
 
   <main class="main-content">
     <div class="menu-page">
-      <h2>মেনু</h2>
-      <div class="menu-grid">
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">🎓</div>
-          <div class="menu-card-label">ক্লাসসমূহ</div>
-          <div class="menu-card-desc">৬ষ্ঠ থেকে ১০ম</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">🎬</div>
-          <div class="menu-card-label">ভিডিও ক্লাস</div>
-          <div class="menu-card-desc">বিষয়ভিত্তিক ভিডিও</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">📚</div>
-          <div class="menu-card-label">ডিজিটাল লাইব্রেরি</div>
-          <div class="menu-card-desc">বই ও রিসোর্স</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">📋</div>
-          <div class="menu-card-label">নোট</div>
-          <div class="menu-card-desc">সংক্ষিপ্ত পড়ার নোট</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">❓</div>
-          <div class="menu-card-label">প্রশ্ন ব্যাংক</div>
-          <div class="menu-card-desc">MCQ, CQ, SQ</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">📝</div>
-          <div class="menu-card-label">মডেল টেস্ট</div>
-          <div class="menu-card-desc">পরীক্ষা প্রস্তুতি</div>
-        </a>
-        <a href="cpb-ai.html" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">
-            <span style="font-family:'Inter',system-ui,sans-serif;font-weight:800;color:var(--primary);">AI</span>
-          </div>
-          <div class="menu-card-label">CPB AI</div>
-          <div class="menu-card-desc">স্টাডি অ্যাসিস্ট্যান্ট</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">🗺️</div>
-          <div class="menu-card-label">শেখার পথ</div>
-          <div class="menu-card-desc">গাইডেড লার্নিং</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">⭐</div>
-          <div class="menu-card-label">গুরুত্বপূর্ণ অধ্যায়</div>
-          <div class="menu-card-desc">পরীক্ষার জন্য জরুরি</div>
-        </a>
-        <a href="#" class="menu-card">
-          <div class="menu-card-icon" style="background:var(--accent-light);">📞</div>
-          <div class="menu-card-label">সাহায্য ও যোগাযোগ</div>
-          <div class="menu-card-desc">সাপোর্ট</div>
-        </a>
+
+      <!-- Section: শেখা -->
+      <div class="menu-section">
+        <div class="menu-section-title">শেখা</div>
+        <div class="menu-grid">
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">🎓</div>
+            <div class="menu-card-label">ক্লাসসমূহ</div>
+            <div class="menu-card-desc">৬ষ্ঠ থেকে ১০ম</div>
+          </a>
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">🎬</div>
+            <div class="menu-card-label">ভিডিও ক্লাস</div>
+            <div class="menu-card-desc">বিষয়ভিত্তিক ভিডিও</div>
+          </a>
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">📚</div>
+            <div class="menu-card-label">ডিজিটাল লাইব্রেরি</div>
+            <div class="menu-card-desc">বই, নোট, রেফারেন্স</div>
+          </a>
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">❓</div>
+            <div class="menu-card-label">প্রশ্ন ব্যাংক</div>
+            <div class="menu-card-desc">MCQ, CQ, SQ</div>
+          </a>
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">🗺️</div>
+            <div class="menu-card-label">শেখার পথ</div>
+            <div class="menu-card-desc">গাইডেড লার্নিং</div>
+          </a>
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">⭐</div>
+            <div class="menu-card-label">গুরুত্বপূর্ণ অধ্যায়</div>
+            <div class="menu-card-desc">পরীক্ষার জন্য জরুরি</div>
+          </a>
+        </div>
       </div>
+
+      <!-- Section: পরীক্ষা -->
+      <div class="menu-section">
+        <div class="menu-section-title">পরীক্ষা</div>
+        <div class="menu-grid">
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">📝</div>
+            <div class="menu-card-label">মডেল টেস্ট</div>
+            <div class="menu-card-desc">পরীক্ষা প্রস্তুতি</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: বিশেষ -->
+      <div class="menu-section">
+        <div class="menu-section-title">বিশেষ</div>
+        <div class="menu-grid">
+          <a href="cpb-ai.html" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">
+              <span style="font-family:'Inter',system-ui,sans-serif;font-weight:800;color:var(--primary);">AI</span>
+            </div>
+            <div class="menu-card-label">CPB AI</div>
+            <div class="menu-card-desc">স্টাডি অ্যাসিস্ট্যান্ট</div>
+          </a>
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">📢</div>
+            <div class="menu-card-label">নতুন আপডেট</div>
+            <div class="menu-card-desc">খবর ও সংযোজন</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: সহায়তা -->
+      <div class="menu-section">
+        <div class="menu-section-title">সহায়তা</div>
+        <div class="menu-grid">
+          <a href="#" class="menu-card">
+            <div class="menu-card-icon" style="background:var(--accent-light);">📞</div>
+            <div class="menu-card-label">সাহায্য ও যোগাযোগ</div>
+            <div class="menu-card-desc">সাপোর্ট</div>
+          </a>
+        </div>
+      </div>
+
     </div>
   </main>
 
