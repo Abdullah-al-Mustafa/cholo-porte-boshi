@@ -6,12 +6,21 @@
   <title>Admin Panel - চলো পড়তে বসি</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
-    :root { --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF; --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280; --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
+    :root { --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF; --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280; --success: #22C55E; --danger: #DC2626; --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--body); min-height: 100vh; }
     .admin-header { background: var(--primary); color: white; padding: var(--space-4); display: flex; justify-content: space-between; align-items: center; }
     .admin-header h1 { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
     .admin-header button { background: var(--accent); color: var(--primary); border: none; padding: var(--space-3) var(--space-5); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
+
+    /* Toast Notification */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 999; display: flex; align-items: center; gap: var(--space-3); min-width: 280px; animation: slideIn 0.3s ease-out; }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.error { border-left: 4px solid var(--danger); }
+    .toast-icon { font-size: 1.2rem; }
+    .toast-msg { flex: 1; font-size: 0.9rem; color: var(--heading); }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
     .login-container { max-width: 400px; margin: 100px auto; padding: var(--space-8); background: var(--surface); border-radius: var(--radius-lg); box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
     .login-container h2 { margin-bottom: var(--space-6); color: var(--heading); }
     .login-container input { width: 100%; padding: var(--space-3); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; }
@@ -96,11 +105,21 @@
 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script src="supabase-config.js"></script>
 
   <script>
+    const db = firebase.firestore();
+
+    // Toast notification
+    function showToast(msg, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      toast.innerHTML = `<span class="toast-icon">${type === 'success' ? '&#10003;' : '&#10007;'}</span><span class="toast-msg">${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
     auth.onAuthStateChanged(user => {
       if (user) {
         document.getElementById('loginBox').style.display = 'none';
@@ -118,6 +137,7 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       auth.signInWithEmailAndPassword(email, password)
+        .then(() => showToast('Login successful!', 'success'))
         .catch(err => {
           document.getElementById('loginError').style.display = 'block';
           document.getElementById('loginError').textContent = err.message;
@@ -135,64 +155,73 @@
 
     // Articles
     async function addArticle() {
-      const { error } = await supabase.from('articles').insert({
-        title: document.getElementById('articleTitle').value,
-        class: document.getElementById('articleClass').value,
-        subject: document.getElementById('articleSubject').value,
-        content: document.getElementById('articleContent').value
-      });
-      if (error) alert(error.message); else { alert('Added!'); loadArticles(); }
+      const title = document.getElementById('articleTitle').value;
+      const cls = document.getElementById('articleClass').value;
+      const subject = document.getElementById('articleSubject').value;
+      const content = document.getElementById('articleContent').value;
+      if (!title) return showToast('Please enter a title', 'error');
+      await db.collection('articles').add({ title, class: cls, subject, content, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      showToast('Article added successfully!', 'success');
+      document.getElementById('articleTitle').value = '';
+      document.getElementById('articleContent').value = '';
+      loadArticles();
     }
 
     async function loadArticles() {
-      const { data } = await supabase.from('articles').select('*').order('id', { ascending: false });
-      document.getElementById('articlesList').innerHTML = (data || []).map(item => `
-        <div class="list-item"><div><h4>${item.title}</h4><p>Class ${item.class} • ${item.subject}</p></div><div><button class="btn-danger" onclick="deleteItem('articles', ${item.id})">Delete</button></div></div>
+      const snapshot = await db.collection('articles').orderBy('createdAt', 'desc').get();
+      document.getElementById('articlesList').innerHTML = snapshot.docs.map(doc => `
+        <div class="list-item"><div><h4>${doc.data().title}</h4><p>Class ${doc.data().class} • ${doc.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('articles','${doc.id}')">Delete</button></div></div>
       `).join('');
     }
 
     // Videos
     async function addVideo() {
-      const { error } = await supabase.from('videos').insert({
-        title: document.getElementById('videoTitle').value,
-        class: document.getElementById('videoClass').value,
-        subject: document.getElementById('videoSubject').value,
-        url: document.getElementById('videoUrl').value
-      });
-      if (error) alert(error.message); else { alert('Added!'); loadVideos(); }
+      const title = document.getElementById('videoTitle').value;
+      const cls = document.getElementById('videoClass').value;
+      const subject = document.getElementById('videoSubject').value;
+      const url = document.getElementById('videoUrl').value;
+      if (!title) return showToast('Please enter a title', 'error');
+      await db.collection('videos').add({ title, class: cls, subject, url, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      showToast('Video added successfully!', 'success');
+      document.getElementById('videoTitle').value = '';
+      document.getElementById('videoUrl').value = '';
+      loadVideos();
     }
 
     async function loadVideos() {
-      const { data } = await supabase.from('videos').select('*').order('id', { ascending: false });
-      document.getElementById('videosList').innerHTML = (data || []).map(item => `
-        <div class="list-item"><div><h4>${item.title}</h4><p>Class ${item.class} • ${item.subject}</p></div><div><button class="btn-danger" onclick="deleteItem('videos', ${item.id})">Delete</button></div></div>
+      const snapshot = await db.collection('videos').orderBy('createdAt', 'desc').get();
+      document.getElementById('videosList').innerHTML = snapshot.docs.map(doc => `
+        <div class="list-item"><div><h4>${doc.data().title}</h4><p>Class ${doc.data().class} • ${doc.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('videos','${doc.id}')">Delete</button></div></div>
       `).join('');
     }
 
     // Questions
     async function addQuestion() {
-      const { error } = await supabase.from('questions').insert({
-        class: document.getElementById('qClass').value,
-        subject: document.getElementById('qSubject').value,
-        chapter: document.getElementById('qChapter').value,
-        type: document.getElementById('qType').value,
-        question: document.getElementById('qText').value,
-        options: document.getElementById('qOptions').value,
-        answer: document.getElementById('qAnswer').value
-      });
-      if (error) alert(error.message); else { alert('Added!'); loadQuestions(); }
+      const cls = document.getElementById('qClass').value;
+      const subject = document.getElementById('qSubject').value;
+      const chapter = document.getElementById('qChapter').value;
+      const type = document.getElementById('qType').value;
+      const question = document.getElementById('qText').value;
+      const options = document.getElementById('qOptions').value;
+      const answer = document.getElementById('qAnswer').value;
+      if (!question) return showToast('Please enter a question', 'error');
+      await db.collection('questions').add({ class: cls, subject, chapter, type, question, options, answer, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      showToast('Question added successfully!', 'success');
+      document.getElementById('qText').value = '';
+      loadQuestions();
     }
 
     async function loadQuestions() {
-      const { data } = await supabase.from('questions').select('*').order('id', { ascending: false }).limit(20);
-      document.getElementById('questionsList').innerHTML = (data || []).map(item => `
-        <div class="list-item"><div><h4>${(item.question || '').substring(0,60)}...</h4><p>${item.type?.toUpperCase()} • Class ${item.class} • ${item.subject}</p></div><div><button class="btn-danger" onclick="deleteItem('questions', ${item.id})">Delete</button></div></div>
+      const snapshot = await db.collection('questions').orderBy('createdAt', 'desc').limit(20).get();
+      document.getElementById('questionsList').innerHTML = snapshot.docs.map(doc => `
+        <div class="list-item"><div><h4>${(doc.data().question || '').substring(0,60)}...</h4><p>${doc.data().type?.toUpperCase()} • Class ${doc.data().class} • ${doc.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('questions','${doc.id}')">Delete</button></div></div>
       `).join('');
     }
 
-    async function deleteItem(table, id) {
-      if (confirm('Delete?')) {
-        await supabase.from(table).delete().eq('id', id);
+    async function deleteItem(collection, id) {
+      if (confirm('Delete this item?')) {
+        await db.collection(collection).doc(id).delete();
+        showToast('Deleted successfully!', 'error');
         loadAll();
       }
     }
