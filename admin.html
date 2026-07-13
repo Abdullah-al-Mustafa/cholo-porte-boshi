@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - চলো পড়তে বসি</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Panel - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     :root { --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF; --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280; --success: #22C55E; --danger: #DC2626; --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,8 +18,8 @@
     .login-container input { width: 100%; padding: var(--space-3); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; }
     .login-container button { width: 100%; padding: var(--space-3); background: var(--primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; }
     .dashboard { max-width: 1000px; margin: var(--space-8) auto; padding: 0 var(--space-4); display: none; }
-    .tabs { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
-    .tab { padding: var(--space-3) var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; font-weight: 500; }
+    .tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-6); flex-wrap: wrap; }
+    .tab { padding: var(--space-2) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; font-weight: 500; font-size: 0.85rem; }
     .tab.active { background: var(--accent); color: var(--primary); border-color: var(--accent); }
     .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-6); }
     .form-card h3 { margin-bottom: var(--space-4); color: var(--heading); }
@@ -41,46 +38,94 @@
   <div class="login-container" id="loginBox"><h2>Admin Login</h2><input type="email" id="email" placeholder="Email"><input type="password" id="password" placeholder="Password"><button onclick="login()">Login</button><p id="loginError" style="color:red;margin-top:var(--space-3);display:none;"></p></div>
   <div class="dashboard" id="dashboard">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('articles')">Articles</button>
-      <button class="tab" onclick="switchTab('videos')">Videos</button>
-      <button class="tab" onclick="switchTab('questions')">Questions</button>
+      <button class="tab active" onclick="switchTab('videos')">Videos</button>
+      <button class="tab" onclick="switchTab('articles')">Articles</button>
+      <button class="tab" onclick="switchTab('news')">News/Updates</button>
+      <button class="tab" onclick="switchTab('mcq')">MCQ</button>
+      <button class="tab" onclick="switchTab('cq')">CQ</button>
+      <button class="tab" onclick="switchTab('sq')">SQ</button>
     </div>
-    <div id="tab-articles">
-      <div class="form-card"><h3>Add Article</h3><input type="text" id="articleTitle" placeholder="Title"><select id="articleClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="articleSubject" placeholder="Subject"><input type="text" id="articleImage" placeholder="Image URL (optional)"><textarea id="articleContent" placeholder="Content"></textarea><button onclick="addArticle()">Add Article</button></div>
-      <div id="articlesList"></div>
-    </div>
-    <div id="tab-videos" style="display:none;">
+
+    <!-- Videos -->
+    <div id="tab-videos">
       <div class="form-card"><h3>Add Video</h3><input type="text" id="videoTitle" placeholder="Title"><select id="videoClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="videoSubject" placeholder="Subject"><input type="text" id="videoUrl" placeholder="YouTube URL"><button onclick="addVideo()">Add Video</button></div>
       <div id="videosList"></div>
     </div>
-    <div id="tab-questions" style="display:none;">
-      <div class="form-card"><h3>Add Question</h3><select id="qClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="qSubject" placeholder="Subject"><input type="text" id="qChapter" placeholder="Chapter"><select id="qType"><option value="mcq">MCQ</option><option value="cq">CQ</option><option value="sq">SQ</option></select><textarea id="qText" placeholder="Question"></textarea><input type="text" id="qOptions" placeholder="Options (comma separated, for MCQ)"><input type="text" id="qAnswer" placeholder="Correct Answer"><button onclick="addQuestion()">Add Question</button></div>
-      <div id="questionsList"></div>
+
+    <!-- Articles -->
+    <div id="tab-articles" style="display:none;">
+      <div class="form-card"><h3>Add Article</h3><input type="text" id="articleTitle" placeholder="Title"><select id="articleClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="articleSubject" placeholder="Subject"><input type="text" id="articleImage" placeholder="Image URL (optional)"><textarea id="articleContent" placeholder="Content"></textarea><button onclick="addArticle()">Add Article</button></div>
+      <div id="articlesList"></div>
+    </div>
+
+    <!-- News/Updates -->
+    <div id="tab-news" style="display:none;">
+      <div class="form-card"><h3>Add News/Update</h3><input type="text" id="newsTitle" placeholder="Title"><textarea id="newsContent" placeholder="Content"></textarea><button onclick="addNews()">Add News</button></div>
+      <div id="newsList"></div>
+    </div>
+
+    <!-- MCQ -->
+    <div id="tab-mcq" style="display:none;">
+      <div class="form-card"><h3>Add MCQ</h3><select id="mcqClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="mcqSubject" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter"><textarea id="mcqQuestion" placeholder="Question"></textarea><input type="text" id="mcqOptions" placeholder="Options (comma separated)"><input type="text" id="mcqAnswer" placeholder="Correct Answer"><button onclick="addMCQ()">Add MCQ</button></div>
+      <div id="mcqList"></div>
+    </div>
+
+    <!-- CQ -->
+    <div id="tab-cq" style="display:none;">
+      <div class="form-card"><h3>Add CQ</h3><select id="cqClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="cqSubject" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter"><textarea id="cqQuestion" placeholder="Question"></textarea><textarea id="cqAnswer" placeholder="Model Answer"></textarea><button onclick="addCQ()">Add CQ</button></div>
+      <div id="cqList"></div>
+    </div>
+
+    <!-- SQ -->
+    <div id="tab-sq" style="display:none;">
+      <div class="form-card"><h3>Add SQ</h3><select id="sqClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="sqSubject" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter"><textarea id="sqQuestion" placeholder="Question"></textarea><textarea id="sqAnswer" placeholder="Model Answer"></textarea><button onclick="addSQ()">Add SQ</button></div>
+      <div id="sqList"></div>
     </div>
   </div>
+
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '✓' : '✗') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-    auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
+    function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '&#10003;' : '&#10007;') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
+    function ts() { return firebase.firestore.FieldValue.serverTimestamp(); }
+
+    auth.onAuthStateChanged(user => {
+      if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); }
+      else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; }
+    });
     function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
     function logout() { auth.signOut(); }
     function switchTab(tab) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none'); document.getElementById('tab-' + tab).style.display = 'block'; }
-    async function addArticle() {
-      const title = document.getElementById('articleTitle').value; if (!title) return showToast('Title required', 'error');
-      await db.collection('articles').add({ title, class: document.getElementById('articleClass').value, subject: document.getElementById('articleSubject').value, image: document.getElementById('articleImage').value, content: document.getElementById('articleContent').value, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-      showToast('Article added!', 'success'); document.getElementById('articleTitle').value = ''; document.getElementById('articleContent').value = ''; document.getElementById('articleImage').value = ''; loadArticles();
-    }
-    async function loadArticles() { const s = await db.collection('articles').orderBy('createdAt', 'desc').get(); document.getElementById('articlesList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('articles','${d.id}')">Delete</button></div></div>`).join(''); }
-    async function addVideo() { const title = document.getElementById('videoTitle').value; if (!title) return showToast('Title required', 'error'); await db.collection('videos').add({ title, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, url: document.getElementById('videoUrl').value, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); showToast('Video added!', 'success'); document.getElementById('videoTitle').value = ''; document.getElementById('videoUrl').value = ''; loadVideos(); }
-    async function loadVideos() { const s = await db.collection('videos').orderBy('createdAt', 'desc').get(); document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('videos','${d.id}')">Delete</button></div></div>`).join(''); }
-    async function addQuestion() { const q = document.getElementById('qText').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('qClass').value, subject: document.getElementById('qSubject').value, chapter: document.getElementById('qChapter').value, type: document.getElementById('qType').value, question: q, options: document.getElementById('qOptions').value, answer: document.getElementById('qAnswer').value, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); showToast('Question added!', 'success'); document.getElementById('qText').value = ''; loadQuestions(); }
-    async function loadQuestions() { const s = await db.collection('questions').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('questionsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}...</h4><p>${d.data().type?.toUpperCase()} • Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('questions','${d.id}')">Delete</button></div></div>`).join(''); }
-    async function deleteItem(col, id) { if (confirm('Delete?')) { await db.collection(col).doc(id).delete(); showToast('Deleted!', 'error'); loadAll(); } }
-    function loadAll() { loadArticles(); loadVideos(); loadQuestions(); }
+
+    // Videos
+    async function addVideo() { const t = document.getElementById('videoTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('videos').add({ title: t, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, url: document.getElementById('videoUrl').value, createdAt: ts() }); showToast('Video added!', 'success'); loadVideos(); }
+    async function loadVideos() { const s = await db.collection('videos').orderBy('createdAt', 'desc').get(); document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('videos','${d.id}')">Delete</button></div></div>`).join(''); }
+
+    // Articles
+    async function addArticle() { const t = document.getElementById('articleTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('articles').add({ title: t, class: document.getElementById('articleClass').value, subject: document.getElementById('articleSubject').value, image: document.getElementById('articleImage').value, content: document.getElementById('articleContent').value, createdAt: ts() }); showToast('Article added!', 'success'); loadArticles(); }
+    async function loadArticles() { const s = await db.collection('articles').orderBy('createdAt', 'desc').get(); document.getElementById('articlesList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('articles','${d.id}')">Delete</button></div></div>`).join(''); }
+
+    // News
+    async function addNews() { const t = document.getElementById('newsTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('news').add({ title: t, content: document.getElementById('newsContent').value, createdAt: ts() }); showToast('News added!', 'success'); loadNews(); }
+    async function loadNews() { const s = await db.collection('news').orderBy('createdAt', 'desc').get(); document.getElementById('newsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4></div><div><button class="btn-danger" onclick="del('news','${d.id}')">Delete</button></div></div>`).join(''); }
+
+    // MCQ
+    async function addMCQ() { const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type: 'mcq', question: q, options: document.getElementById('mcqOptions').value, answer: document.getElementById('mcqAnswer').value, createdAt: ts() }); showToast('MCQ added!', 'success'); loadMCQ(); }
+    async function loadMCQ() { const s = await db.collection('questions').where('type', '==', 'mcq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('mcqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
+
+    // CQ
+    async function addCQ() { const q = document.getElementById('cqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('cqClass').value, subject: document.getElementById('cqSubject').value, chapter: document.getElementById('cqChapter').value, type: 'cq', question: q, answer: document.getElementById('cqAnswer').value, createdAt: ts() }); showToast('CQ added!', 'success'); loadCQ(); }
+    async function loadCQ() { const s = await db.collection('questions').where('type', '==', 'cq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('cqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
+
+    // SQ
+    async function addSQ() { const q = document.getElementById('sqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('sqClass').value, subject: document.getElementById('sqSubject').value, chapter: document.getElementById('sqChapter').value, type: 'sq', question: q, answer: document.getElementById('sqAnswer').value, createdAt: ts() }); showToast('SQ added!', 'success'); loadSQ(); }
+    async function loadSQ() { const s = await db.collection('questions').where('type', '==', 'sq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('sqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
+
+    async function del(col, id) { if (confirm('Delete?')) { await db.collection(col).doc(id).delete(); showToast('Deleted!', 'error'); loadAll(); } }
+    function loadAll() { loadVideos(); loadArticles(); loadNews(); loadMCQ(); loadCQ(); loadSQ(); }
   </script>
 </body>
 </html>
