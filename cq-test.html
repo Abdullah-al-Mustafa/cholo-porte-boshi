@@ -6,31 +6,36 @@
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
     .modal.show { display: flex; }
     .modal-box { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-6); max-width: 400px; width: 90%; }
-    .modal-box h3 { margin-bottom: var(--space-4); }
-    .class-option { display: block; width: 100%; padding: var(--space-3); margin-bottom: var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-align: center; font-size: var(--text-base); background: var(--surface); }
+    .class-option { display: block; width: 100%; padding: var(--space-3); margin-bottom: var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-align: center; background: var(--surface); }
     .class-option:hover { background: var(--accent-light); border-color: var(--accent); }
     .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: var(--space-6); margin-bottom: var(--space-4); }
-    .question-card h3 { color: var(--heading); margin-bottom: var(--space-4); }
-    .question-card textarea { width: 100%; padding: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: var(--text-base); min-height: 120px; resize: vertical; }
+    .q-meta { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-3); }
+    .q-badge { padding: 2px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
+    .q-badge.type { background: var(--accent); color: var(--primary); }
+    .q-badge.class { background: var(--accent-light); color: var(--primary); }
+    .q-badge.subject { background: var(--secondary); color: white; }
+    .question-card textarea { width: 100%; padding: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); min-height: 100px; font-family: inherit; }
     .answer-reveal { margin-top: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); display: none; }
-    .answer-reveal.correct { background: #DCFCE7; border: 1px solid #22C55E; color: #166534; display: block; }
-    .answer-reveal.wrong { background: #FEE2E2; border: 1px solid #DC2626; color: #991B1B; display: block; }
+    .answer-reveal.correct { background: #DCFCE7; border: 1px solid #22C55E; display: block; }
+    .answer-reveal.wrong { background: #FEE2E2; border: 1px solid #DC2626; display: block; }
     .btn-row { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
+    body.dark .question-card { background: var(--dark-card); }
   </style>
 </head>
 <body>
   <header class="header"><div class="header-inner"><a href="exam.html" class="icon-btn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:rgba(255,255,255,0.85);">CQ পরীক্ষা</span><span style="width:40px;"></span></div></header>
   <main class="main-content"><div class="test-page" id="testArea"><p class="text-center text-muted">ক্লাস সিলেক্ট করতে পপআপ আসছে...</p></div></main>
-  <div class="modal show" id="classModal"><div class="modal-box"><h3>ক্লাস সিলেক্ট করো</h3><button class="class-option" onclick="startTest('6')">৬ষ্ঠ শ্রেণি</button><button class="class-option" onclick="startTest('7')">৭ম শ্রেণি</button><button class="class-option" onclick="startTest('8')">৮ম শ্রেণি</button><button class="class-option" onclick="startTest('9')">৯ম শ্রেণি</button><button class="class-option" onclick="startTest('10')">১০ম শ্রেণি</button></div></div>
+  <div class="modal show" id="classModal"><div class="modal-box"><h3>ক্লাস সিলেক্ট করো</h3><button class="class-option" onclick="startTest('6')">৬ষ্ঠ শ্রেণি</button><button class="class-option" onclick="startTest('7')">৭ম শ্রেণি</button><button class="class-option" onclick="startTest('8')">৮ম শ্রেণি</button><button class="class-option" onclick="startTest('9-10')">৯ম-১০ম শ্রেণি</button></div></div>
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore(); let questions = [], current = 0, correctCount = 0;
+    function clsLabel(c) { return c === '9-10' ? '৯ম-১০ম শ্রেণি' : c + 'ম শ্রেণি'; }
     async function startTest(cls) { document.getElementById('classModal').classList.remove('show'); const s = await db.collection('questions').where('type','==','cq').where('class','==',cls).limit(10).get(); if (s.empty) { document.getElementById('testArea').innerHTML = '<p class="text-center text-muted">এই ক্লাসের কোনো CQ প্রশ্ন নেই</p>'; return; } questions = s.docs.map(d => ({ id: d.id, ...d.data() })); questions = questions.sort(() => Math.random() - 0.5); current = 0; correctCount = 0; renderQuestion(); }
-    function renderQuestion() { if (current >= questions.length) return showResult(); const q = questions[current]; document.getElementById('testArea').innerHTML = `<div class="question-card"><p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">প্রশ্ন ${current+1}/${questions.length}</p><h3>${q.question}</h3><p style="color:var(--muted);font-size:var(--text-xs);margin:var(--space-2) 0;">তোমার উত্তর লিখো:</p><textarea id="userAnswer" placeholder="এখানে উত্তর লিখো..."></textarea><div class="answer-reveal" id="revealArea">${q.answer || 'উত্তর নেই'}</div><div class="btn-row"><button class="btn btn-primary" onclick="checkAnswer()">জমা দাও</button><button class="btn btn-outline" id="nextBtn" style="display:none;" onclick="nextQuestion()">পরবর্তী</button></div></div>`; }
-    function checkAnswer() { const userAns = document.getElementById('userAnswer').value.trim(); const correctAns = questions[current].answer || ''; const reveal = document.getElementById('revealArea'); if (userAns.length > 10 && correctAns && userAns.toLowerCase().includes(correctAns.toLowerCase().substring(0,15))) { reveal.className = 'answer-reveal correct'; reveal.innerHTML = 'অভিনন্দন! তোমার উত্তর সঠিক!'; correctCount++; } else { reveal.className = 'answer-reveal wrong'; reveal.innerHTML = 'সঠিক উত্তর: ' + correctAns; } document.getElementById('nextBtn').style.display = 'inline-flex'; document.querySelector('.btn-primary').style.display = 'none'; }
+    function renderQuestion() { if (current >= questions.length) return showResult(); const q = questions[current]; document.getElementById('testArea').innerHTML = `<div class="question-card"><div class="q-meta"><span class="q-badge type">CQ</span><span class="q-badge class">${clsLabel(q.class)}</span>${q.subject?`<span class="q-badge subject">${q.subject}</span>`:''}</div><p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">প্রশ্ন ${current+1}/${questions.length}</p><h3>${q.question}</h3><textarea id="userAnswer" placeholder="এখানে উত্তর লিখো..."></textarea><div class="answer-reveal" id="revealArea"></div><div class="btn-row"><button class="btn btn-primary" onclick="checkAnswer()">জমা দাও</button><button class="btn btn-outline" id="nextBtn" style="display:none;" onclick="nextQuestion()">পরবর্তী</button></div></div>`; }
+    function checkAnswer() { const userAns = document.getElementById('userAnswer').value.trim(); const correctAns = questions[current].answer || ''; const reveal = document.getElementById('revealArea'); if (userAns.length > 10 && correctAns && userAns.toLowerCase().includes(correctAns.toLowerCase().substring(0,15))) { reveal.className = 'answer-reveal correct'; reveal.innerHTML = 'অভিনন্দন! সঠিক!'; correctCount++; } else { reveal.className = 'answer-reveal wrong'; reveal.innerHTML = 'সঠিক উত্তর: ' + correctAns; } document.getElementById('nextBtn').style.display = 'inline-flex'; document.querySelector('.btn-primary').style.display = 'none'; }
     function nextQuestion() { current++; renderQuestion(); }
-    function showResult() { document.getElementById('testArea').innerHTML = `<div class="question-card" style="text-align:center;"><h2>${correctCount}/${questions.length}</h2><p style="color:var(--muted);">তোমার স্কোর</p><button class="btn btn-primary" onclick="location.reload()" style="margin-top:var(--space-4);">আবার চেষ্টা করো</button></div>`; }
+    function showResult() { document.getElementById('testArea').innerHTML = `<div class="question-card" style="text-align:center;"><h2>${correctCount}/${questions.length}</h2><p style="color:var(--muted);">তোমার স্কোর</p><button class="btn btn-primary" onclick="location.reload()">আবার চেষ্টা</button></div>`; }
   </script>
 </body>
 </html>
