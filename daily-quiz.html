@@ -35,7 +35,7 @@
 
   <main class="main-content">
     <div class="quiz-page" id="quizContainer">
-      <p class="text-muted text-center">লোড হচ্ছে...</p>
+      <p class="text-muted text-center">Loading......</p>
     </div>
   </main>
 
@@ -51,7 +51,7 @@
     async function loadQuiz() {
       const snapshot = await db.collection('questions').where('type', '==', 'mcq').limit(5).get();
       if (snapshot.empty) {
-        document.getElementById('quizContainer').innerHTML = '<p class="text-muted text-center">কোনো প্রশ্ন নেই</p>';
+        document.getElementById('quizContainer').innerHTML = '<p class="text-muted text-center">কোনো Question নেই</p>';
         return;
       }
       questions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -65,7 +65,7 @@
       const opts = (q.options || '').split(',').filter(o => o.trim());
       document.getElementById('quizContainer').innerHTML = `
         <div class="quiz-card">
-          <p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">প্রশ্ন ${current + 1}/${questions.length}</p>
+          <p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">Question ${current + 1}/${questions.length}</p>
           <h3>${q.question}</h3>
           ${opts.map((opt, i) => `<div class="option" onclick="selectAnswer(${i}, '${q.answer?.trim()}', this)">${opt.trim()}</div>`).join('')}
         </div>
@@ -92,8 +92,8 @@
       document.getElementById('quizContainer').innerHTML = `
         <div class="score-card">
           <h2>${score}/${questions.length}</h2>
-          <p style="color:var(--muted);">তোমার স্কোর</p>
-          <button class="btn btn-primary" onclick="location.reload()" style="margin-top:var(--space-4);">আবার চেষ্টা করো</button>
+          <p style="color:var(--muted);">Your Score</p>
+          <button class="btn btn-primary" onclick="location.reload()" style="margin-top:var(--space-4);">Try Again</button>
         </div>
       `;
     }
