@@ -26,15 +26,12 @@
     .form-card textarea { min-height: 100px; resize: vertical; }
     .form-card button { padding: var(--space-3) var(--space-6); background: var(--accent); color: var(--primary); border: none; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
     .modern-select { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; background: var(--surface); color: var(--body); cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
-    .modern-select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.12); }
-    .file-upload-box { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: var(--space-6); text-align: center; cursor: pointer; margin-bottom: var(--space-3); transition: all 0.2s; }
-    .file-upload-box:hover { border-color: var(--accent); background: rgba(212,175,55,0.05); }
-    .file-upload-box p { color: var(--muted); margin-top: var(--space-2); }
+    .file-upload-box { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: var(--space-6); text-align: center; cursor: pointer; margin-bottom: var(--space-3); }
+    .file-upload-box:hover { border-color: var(--accent); }
     .preview-img { max-width: 200px; max-height: 120px; border-radius: var(--radius-md); margin-top: var(--space-3); display: none; }
     .option-row { display: flex; gap: var(--space-2); align-items: center; margin-bottom: var(--space-2); }
+    .option-row span { font-weight: 600; color: var(--muted); min-width: 20px; }
     .option-row input { flex: 1; margin-bottom: 0; }
-    .option-row .correct-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
-    .option-row .correct-dot.active { background: var(--accent); border-color: var(--accent); }
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--space-3); background: var(--surface); }
     .list-item h4 { color: var(--heading); }
     .list-item p { color: var(--muted); font-size: 0.9rem; }
@@ -71,12 +68,13 @@
         <input type="text" id="mcqSubject" placeholder="Subject">
         <input type="text" id="mcqChapter" placeholder="Chapter">
         <textarea id="mcqQuestion" placeholder="Question"></textarea>
-        <p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">৪টি অপশন দিন এবং সঠিক উত্তর সিলেক্ট করুন:</p>
-        <div class="option-row"><input type="text" id="mcqOpt1" placeholder="Option 1"><span class="correct-dot" onclick="selectCorrect(1)"></span></div>
-        <div class="option-row"><input type="text" id="mcqOpt2" placeholder="Option 2"><span class="correct-dot" onclick="selectCorrect(2)"></span></div>
-        <div class="option-row"><input type="text" id="mcqOpt3" placeholder="Option 3"><span class="correct-dot" onclick="selectCorrect(3)"></span></div>
-        <div class="option-row"><input type="text" id="mcqOpt4" placeholder="Option 4"><span class="correct-dot" onclick="selectCorrect(4)"></span></div>
-        <input type="hidden" id="mcqCorrect" value="">
+        <p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">৪টি অপশন লিখুন:</p>
+        <div class="option-row"><span>১.</span><input type="text" id="mcqOpt1" placeholder="Option 1"></div>
+        <div class="option-row"><span>২.</span><input type="text" id="mcqOpt2" placeholder="Option 2"></div>
+        <div class="option-row"><span>৩.</span><input type="text" id="mcqOpt3" placeholder="Option 3"></div>
+        <div class="option-row"><span>৪.</span><input type="text" id="mcqOpt4" placeholder="Option 4"></div>
+        <p style="color:var(--muted);font-size:var(--text-xs);margin:var(--space-3) 0 var(--space-2);">সঠিক উত্তর কোনটি? (নম্বর লিখুন)</p>
+        <input type="number" id="mcqCorrectNum" placeholder="যেমন: 2" min="1" max="4" style="max-width:100px;">
         <button onclick="addMCQ()">Add MCQ</button>
       </div>
       <div id="mcqList"></div>
@@ -93,8 +91,6 @@
     function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '&#10003;' : '&#10007;') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
     function ts() { return firebase.firestore.FieldValue.serverTimestamp(); }
     function previewImage(input, previewId, dataId) { const file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { document.getElementById(previewId).src = e.target.result; document.getElementById(previewId).style.display = 'block'; document.getElementById(dataId).value = e.target.result; }; reader.readAsDataURL(file); }
-    function selectCorrect(n) { document.querySelectorAll('.correct-dot').forEach(d => d.classList.remove('active')); document.querySelectorAll('.correct-dot')[n-1].classList.add('active'); document.getElementById('mcqCorrect').value = document.getElementById('mcqOpt'+n).value; }
-    document.querySelectorAll('#tab-mcq input[type=text]').forEach(inp => { inp.addEventListener('input', function() { if (document.querySelector('.correct-dot.active')) { document.getElementById('mcqCorrect').value = document.querySelector('.correct-dot.active').previousElementSibling.value; } }); });
 
     auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
     function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
@@ -110,7 +106,18 @@
     async function addNews() { const t = document.getElementById('newsTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('news').add({ title: t, content: document.getElementById('newsContent').value, image: document.getElementById('newsImageData').value, createdAt: ts() }); showToast('News added!', 'success'); loadNews(); }
     async function loadNews() { const s = await db.collection('news').orderBy('createdAt', 'desc').get(); document.getElementById('newsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4></div><div><button class="btn-danger" onclick="del('news','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    async function addMCQ() { const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error'); const correct = document.getElementById('mcqCorrect').value; if (!correct) return showToast('Select correct answer', 'error'); const options = [document.getElementById('mcqOpt1').value, document.getElementById('mcqOpt2').value, document.getElementById('mcqOpt3').value, document.getElementById('mcqOpt4').value].join(','); await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type: 'mcq', question: q, options: options, answer: correct, createdAt: ts() }); showToast('MCQ added!', 'success'); loadMCQ(); }
+    async function addMCQ() {
+      const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error');
+      const opt1 = document.getElementById('mcqOpt1').value, opt2 = document.getElementById('mcqOpt2').value, opt3 = document.getElementById('mcqOpt3').value, opt4 = document.getElementById('mcqOpt4').value;
+      const correctNum = parseInt(document.getElementById('mcqCorrectNum').value);
+      if (!opt1 || !opt2 || !opt3 || !opt4) return showToast('All 4 options required', 'error');
+      if (!correctNum || correctNum < 1 || correctNum > 4) return showToast('Correct answer number (1-4) required', 'error');
+      const options = [opt1, opt2, opt3, opt4].join(',');
+      const answer = [opt1, opt2, opt3, opt4][correctNum - 1];
+      await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type: 'mcq', question: q, options, answer, createdAt: ts() });
+      showToast('MCQ added!', 'success'); document.getElementById('mcqQuestion').value = ''; document.getElementById('mcqCorrectNum').value = '';
+      loadMCQ();
+    }
     async function loadMCQ() { const s = await db.collection('questions').where('type', '==', 'mcq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('mcqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
 
     async function addCQ() { const q = document.getElementById('cqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('cqClass').value, subject: document.getElementById('cqSubject').value, chapter: document.getElementById('cqChapter').value, type: 'cq', question: q, answer: document.getElementById('cqAnswer').value, createdAt: ts() }); showToast('CQ added!', 'success'); loadCQ(); }
