@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>মেনু - চলো পড়তে বসি</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Menu Page Specific Styles */
+    .menu-layout {
+      display: flex;
+      min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
+    }
+
+    .menu-sidebar {
+      display: none;
+      width: 280px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: var(--space-4);
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .menu-main {
+      flex: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      padding: var(--space-4);
+    }
+
+    @media (min-width: 1024px) {
+      .menu-sidebar { display: flex; flex-direction: column; }
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background: linear-gradient(135deg, var(--primary), #0F4C25);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      color: white;
+      margin-bottom: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    .profile-info {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .profile-info h2 {
+      color: white;
+      font-size: var(--text-xl);
+      margin-bottom: 4px;
+    }
+
+    .profile-info p {
+      color: rgba(255,255,255,0.8);
+      font-size: var(--text-sm);
+      margin-bottom: 2px;
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-2);
+    }
+
+    .profile-stat {
+      text-align: center;
+    }
+
+    .profile-stat .stat-num {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--primary-light);
+    }
+
+    .profile-stat .stat-label {
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Section Title */
+    .menu-section-title {
+      font-size: var(--text-xs);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+      margin-top: var(--space-6);
+      padding-left: var(--space-1);
+    }
+
+    .menu-section-title:first-child {
+      margin-top: 0;
+    }
+
+    /* Menu Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    @media (min-width: 768px) {
+      .menu-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (min-width: 1024px) {
+      .menu-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* Menu Card */
+    .menu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      color: var(--body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-3);
+    }
+
+    .menu-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .menu-card:focus {
+      outline: 3px solid var(--primary-light);
+      outline-offset: 2px;
+    }
+
+    .menu-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .menu-card-label {
+      font-weight: 600;
+      font-size: var(--text-sm);
+      color: var(--heading);
+    }
+
+    .menu-card-desc {
+      font-size: var(--text-xs);
+      color: var(--muted);
+    }
+
+    /* Highlighted Card (CPB AI) */
+    .menu-card.highlight {
+      border: 2px solid var(--primary);
+      background: var(--secondary);
+    }
+
+    .menu-card.highlight .menu-card-label {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--primary);
+    }
+
+    /* Sidebar Navigation */
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      margin-bottom: var(--space-6);
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: var(--text-lg);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      flex: 1;
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--body);
+      font-weight: 500;
+      font-size: var(--text-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .sidebar-nav-item:hover {
+      background: var(--secondary);
+    }
+
+    .sidebar-nav-item.active {
+      background: var(--secondary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .sidebar-nav-item .nav-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Dark Mode */
+    body.dark .menu-sidebar { background: var(--dark-surface); border-color: var(--dark-border); }
+    body.dark .menu-card { background: var(--dark-surface); border-color: var(--dark-border); }
+    body.dark .menu-card:hover { border-color: var(--primary-light); }
+    body.dark .menu-card.highlight { background: rgba(34,197,94,0.1); border-color: var(--primary); }
+    body.dark .menu-card-label { color: var(--dark-heading); }
+    body.dark .sidebar-nav-item { color: var(--dark-body); }
+    body.dark .sidebar-nav-item:hover { background: rgba(34,197,94,0.1); }
+    body.dark .sidebar-nav-item.active { background: rgba(34,197,94,0.15); color: var(--primary-light); }
+
+    /* TV */
+    @media (min-width: 2560px) {
+      .menu-grid { grid-template-columns: repeat(5, 1fr); gap: var(--space-6); }
+      .menu-card { padding: var(--space-8); }
+      .menu-card-icon { width: 72px; height: 72px; font-size: 2rem; }
+      .menu-card-label { font-size: var(--text-lg); }
+      .profile-card { padding: var(--space-10); }
+      .profile-avatar { width: 88px; height: 88px; font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
+      <span style="color:rgba(255,255,255,0.8);font-weight:500;">মেনু</span>
+      <div class="header-actions">
+        <a href="settings.html" class="icon-btn">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu Layout -->
+  <div class="menu-layout">
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="menu-sidebar">
+      <a href="index.html" class="sidebar-brand">
+        চলো পড়তে বসি
+      </a>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-nav-item">
+          <span class="nav-icon">🏠</span> হোম
+        </a>
+        <a href="menu.html" class="sidebar-nav-item active">
+          <span class="nav-icon">📋</span> মেনু
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="nav-icon">📚</span> আমার পড়াশোনা
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="nav-icon">🎓</span> ক্লাসসমূহ
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="nav-icon">📖</span> বিষয়সমূহ
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="nav-icon">🎬</span> ভিডিও ক্লাস
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="nav-icon">📘</span> ডিজিটাল বই
+        </a>
+        <a href="#" class="sidebar-nav-item">
+          <span class="nav-icon">📝</span> পরীক্ষা
+        </a>
+        <a href="cpb-ai.html" class="sidebar-nav-item">
+          <span class="nav-icon" style="font-family:'Inter',system-ui,sans-serif;font-weight:700;">AI</span> CPB AI
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="settings.html" class="sidebar-nav-item">
+          <span class="nav-icon">⚙️</span> সেটিংস
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Menu Content -->
+    <main class="menu-main">
+
+      <!-- Profile Card -->
+      <div class="profile-card">
+        <div class="profile-avatar">S</div>
+        <div class="profile-info">
+          <h2>শিক্ষার্থী</h2>
+          <p>নবম শ্রেণি • বিজ্ঞান বিভাগ</p>
+          <div class="profile-stats">
+            <div class="profile-stat">
+              <div class="stat-num">১২</div>
+              <div class="stat-label">ক্লাস সম্পন্ন</div>
+            </div>
+            <div class="profile-stat">
+              <div class="stat-num">৫</div>
+              <div class="stat-label">পরীক্ষা দেওয়া</div>
+            </div>
+            <div class="profile-stat">
+              <div class="stat-num">৩</div>
+              <div class="stat-label">বই পড়া</div>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-secondary" style="margin-left:auto;">প্রোফাইল দেখুন</a>
+      </div>
+
+      <!-- Main Menu Grid -->
+      <div class="menu-section-title">প্রধান নেভিগেশন</div>
+      <div class="menu-grid">
+        <a href="index.html" class="menu-card">
+          <div class="menu-card-icon" style="background:#DCFCE7;">🏠</div>
+          <div class="menu-card-label">হোম</div>
+          <div class="menu-card-desc">প্রধান পেজে ফিরুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#DBEAFE;">📚</div>
+          <div class="menu-card-label">আমার পড়াশোনা</div>
+          <div class="menu-card-desc">প্রগ্রেস দেখুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEF3C7;">🎓</div>
+          <div class="menu-card-label">ক্লাসসমূহ</div>
+          <div class="menu-card-desc">সব ক্লাস ব্রাউজ করুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEE2E2;">📖</div>
+          <div class="menu-card-label">বিষয়সমূহ</div>
+          <div class="menu-card-desc">বিষয় অনুযায়ী খুঁজুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#E0E7FF;">🎬</div>
+          <div class="menu-card-label">ভিডিও ক্লাস</div>
+          <div class="menu-card-desc">ভিডিও দেখে শিখুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#DCFCE7;">📘</div>
+          <div class="menu-card-label">ডিজিটাল বই</div>
+          <div class="menu-card-desc">অনলাইনে পড়ুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEF3C7;">📝</div>
+          <div class="menu-card-label">পরীক্ষা</div>
+          <div class="menu-card-desc">নিজেকে যাচাই করুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEE2E2;">📋</div>
+          <div class="menu-card-label">নোট</div>
+          <div class="menu-card-desc">সংরক্ষিত নোট</div>
+        </a>
+      </div>
+
+      <!-- CPB AI Highlight -->
+      <a href="cpb-ai.html" class="menu-card highlight" style="margin-top:var(--space-3);">
+        <div class="menu-card-icon" style="background:white;">
+          <span style="font-family:'Inter',system-ui,sans-serif;font-weight:800;color:var(--primary);font-size:1.2rem;">AI</span>
+        </div>
+        <div class="menu-card-label">CPB AI</div>
+        <div class="menu-card-desc">স্টাডি অ্যাসিস্ট্যান্ট</div>
+      </a>
+
+      <!-- Learning Tools -->
+      <div class="menu-section-title">শেখার সরঞ্জাম</div>
+      <div class="menu-grid">
+        <a href="search.html" class="menu-card">
+          <div class="menu-card-icon" style="background:#DCFCE7;">🔍</div>
+          <div class="menu-card-label">সার্চ</div>
+          <div class="menu-card-desc">কন্টেন্ট খুঁজুন</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#DBEAFE;">🔖</div>
+          <div class="menu-card-label">বুকমার্ক</div>
+          <div class="menu-card-desc">সংরক্ষিত কন্টেন্ট</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEF3C7;">🕐</div>
+          <div class="menu-card-label">ইতিহাস</div>
+          <div class="menu-card-desc">পূর্বের কার্যক্রম</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEE2E2;">⬇️</div>
+          <div class="menu-card-label">ডাউনলোড</div>
+          <div class="menu-card-desc">অফলাইন কন্টেন্ট</div>
+        </a>
+      </div>
+
+      <!-- Settings -->
+      <div class="menu-section-title">সেটিংস</div>
+      <div class="menu-grid">
+        <a href="settings.html" class="menu-card">
+          <div class="menu-card-icon" style="background:#E0E7FF;">⚙️</div>
+          <div class="menu-card-label">অ্যাকাউন্ট</div>
+          <div class="menu-card-desc">প্রোফাইল সেটিংস</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#DCFCE7;">🔔</div>
+          <div class="menu-card-label">নোটিফিকেশন</div>
+          <div class="menu-card-desc">আপডেট সেটিংস</div>
+        </a>
+        <a href="#" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEF3C7;">🌐</div>
+          <div class="menu-card-label">ভাষা</div>
+          <div class="menu-card-desc">বাংলা</div>
+        </a>
+        <a href="settings.html" class="menu-card">
+          <div class="menu-card-icon" style="background:#FEE2E2;">🎨</div>
+          <div class="menu-card-label">থিম</div>
+          <div class="menu-card-desc">ডার্ক / লাইট</div>
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div style="text-align:center;padding:var(--space-8) var(--space-4);">
+        <h4 style="color:var(--primary);margin-bottom:var(--space-1);">চলো পড়তে বসি</h4>
+        <p style="color:var(--muted);font-size:var(--text-sm);">বাংলাদেশের শিক্ষার্থীদের জন্য ডিজিটাল শিক্ষা প্ল্যাটফর্ম</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>হোম</span>
+    </a>
+    <a href="menu.html" class="nav-item active">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <span>মেনু</span>
+    </a>
+    <a href="search.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>সার্চ</span>
+    </a>
+    <a href="cpb-ai.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg>
+      <span>CPB AI</span>
+    </a>
+  </nav>
+
+</body>
+</html>
