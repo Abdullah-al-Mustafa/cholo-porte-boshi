@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Panel - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Panel - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     :root { --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF; --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280; --success: #22C55E; --danger: #DC2626; --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,19 +22,19 @@
     .tab.active { background: var(--accent); color: var(--primary); border-color: var(--accent); font-weight: 600; }
     .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-6); }
     .form-card h3 { margin-bottom: var(--space-4); color: var(--heading); }
-    .form-card input, .form-card textarea { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; }
+    .form-card input, .form-card textarea, .form-card select { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; }
     .form-card textarea { min-height: 100px; resize: vertical; }
     .form-card button { padding: var(--space-3) var(--space-6); background: var(--accent); color: var(--primary); border: none; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
-    
-    /* Modern Select */
     .modern-select { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; background: var(--surface); color: var(--body); cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
     .modern-select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.12); }
-    
     .file-upload-box { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: var(--space-6); text-align: center; cursor: pointer; margin-bottom: var(--space-3); transition: all 0.2s; }
     .file-upload-box:hover { border-color: var(--accent); background: rgba(212,175,55,0.05); }
     .file-upload-box p { color: var(--muted); margin-top: var(--space-2); }
     .preview-img { max-width: 200px; max-height: 120px; border-radius: var(--radius-md); margin-top: var(--space-3); display: none; }
-    
+    .option-row { display: flex; gap: var(--space-2); align-items: center; margin-bottom: var(--space-2); }
+    .option-row input { flex: 1; margin-bottom: 0; }
+    .option-row .correct-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
+    .option-row .correct-dot.active { background: var(--accent); border-color: var(--accent); }
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--space-3); background: var(--surface); }
     .list-item h4 { color: var(--heading); }
     .list-item p { color: var(--muted); font-size: 0.9rem; }
@@ -57,38 +56,45 @@
     </div>
 
     <!-- Videos -->
-    <div id="tab-videos">
-      <div class="form-card"><h3>Add Video</h3><input type="text" id="videoTitle" placeholder="Title"><select id="videoClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option><option value="10">Class 10</option></select><input type="text" id="videoSubject" placeholder="Subject"><input type="text" id="videoUrl" placeholder="YouTube URL"><button onclick="addVideo()">Add Video</button></div>
-      <div id="videosList"></div>
-    </div>
+    <div id="tab-videos"><div class="form-card"><h3>Add Video</h3><input type="text" id="videoTitle" placeholder="Title"><select id="videoClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="videoSubject" placeholder="Subject"><input type="text" id="videoUrl" placeholder="YouTube URL"><button onclick="addVideo()">Add Video</button></div><div id="videosList"></div></div>
 
     <!-- Articles -->
-    <div id="tab-articles" style="display:none;">
-      <div class="form-card"><h3>Add Article</h3><input type="text" id="articleTitle" placeholder="Title"><select id="articleClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option><option value="10">Class 10</option></select><input type="text" id="articleSubject" placeholder="Subject"><textarea id="articleContent" placeholder="Content"></textarea><div class="file-upload-box" onclick="document.getElementById('articleImageInput').click()"><p>Click to upload image</p><img id="articlePreview" class="preview-img"><input type="file" id="articleImageInput" accept="image/*" style="display:none;" onchange="previewImage(this, 'articlePreview', 'articleImageData')"><input type="hidden" id="articleImageData"></div><button onclick="addArticle()">Add Article</button></div>
-      <div id="articlesList"></div>
-    </div>
+    <div id="tab-articles" style="display:none;"><div class="form-card"><h3>Add Article</h3><input type="text" id="articleTitle" placeholder="Title"><select id="articleClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="articleSubject" placeholder="Subject"><textarea id="articleContent" placeholder="Content"></textarea><div class="file-upload-box" onclick="document.getElementById('articleImageInput').click()"><p>Click to upload image</p><img id="articlePreview" class="preview-img"><input type="file" id="articleImageInput" accept="image/*" style="display:none;" onchange="previewImage(this, 'articlePreview', 'articleImageData')"><input type="hidden" id="articleImageData"></div><button onclick="addArticle()">Add Article</button></div><div id="articlesList"></div></div>
 
     <!-- News -->
-    <div id="tab-news" style="display:none;">
-      <div class="form-card"><h3>Add News</h3><input type="text" id="newsTitle" placeholder="Title"><textarea id="newsContent" placeholder="Content"></textarea><div class="file-upload-box" onclick="document.getElementById('newsImageInput').click()"><p>Click to upload image</p><img id="newsPreview" class="preview-img"><input type="file" id="newsImageInput" accept="image/*" style="display:none;" onchange="previewImage(this, 'newsPreview', 'newsImageData')"><input type="hidden" id="newsImageData"></div><button onclick="addNews()">Add News</button></div>
-      <div id="newsList"></div>
+    <div id="tab-news" style="display:none;"><div class="form-card"><h3>Add News</h3><input type="text" id="newsTitle" placeholder="Title"><textarea id="newsContent" placeholder="Content"></textarea><div class="file-upload-box" onclick="document.getElementById('newsImageInput').click()"><p>Click to upload image</p><img id="newsPreview" class="preview-img"><input type="file" id="newsImageInput" accept="image/*" style="display:none;" onchange="previewImage(this, 'newsPreview', 'newsImageData')"><input type="hidden" id="newsImageData"></div><button onclick="addNews()">Add News</button></div><div id="newsList"></div></div>
+
+    <!-- MCQ -->
+    <div id="tab-mcq" style="display:none;">
+      <div class="form-card"><h3>Add MCQ</h3>
+        <select id="mcqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <input type="text" id="mcqSubject" placeholder="Subject">
+        <input type="text" id="mcqChapter" placeholder="Chapter">
+        <textarea id="mcqQuestion" placeholder="Question"></textarea>
+        <p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">৪টি অপশন দিন এবং সঠিক উত্তর সিলেক্ট করুন:</p>
+        <div class="option-row"><input type="text" id="mcqOpt1" placeholder="Option 1"><span class="correct-dot" onclick="selectCorrect(1)"></span></div>
+        <div class="option-row"><input type="text" id="mcqOpt2" placeholder="Option 2"><span class="correct-dot" onclick="selectCorrect(2)"></span></div>
+        <div class="option-row"><input type="text" id="mcqOpt3" placeholder="Option 3"><span class="correct-dot" onclick="selectCorrect(3)"></span></div>
+        <div class="option-row"><input type="text" id="mcqOpt4" placeholder="Option 4"><span class="correct-dot" onclick="selectCorrect(4)"></span></div>
+        <input type="hidden" id="mcqCorrect" value="">
+        <button onclick="addMCQ()">Add MCQ</button>
+      </div>
+      <div id="mcqList"></div>
     </div>
 
-    <!-- MCQ / CQ / SQ -->
-    <div id="tab-mcq" style="display:none;"><div class="form-card"><h3>Add MCQ</h3><select id="mcqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option><option value="10">Class 10</option></select><input type="text" id="mcqSubject" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter"><textarea id="mcqQuestion" placeholder="Question"></textarea><input type="text" id="mcqOptions" placeholder="Options (comma separated)"><input type="text" id="mcqAnswer" placeholder="Correct Answer"><button onclick="addMCQ()">Add MCQ</button></div><div id="mcqList"></div></div>
-    <div id="tab-cq" style="display:none;"><div class="form-card"><h3>Add CQ</h3><select id="cqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option><option value="10">Class 10</option></select><input type="text" id="cqSubject" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter"><textarea id="cqQuestion" placeholder="Question"></textarea><textarea id="cqAnswer" placeholder="Model Answer"></textarea><button onclick="addCQ()">Add CQ</button></div><div id="cqList"></div></div>
-    <div id="tab-sq" style="display:none;"><div class="form-card"><h3>Add SQ</h3><select id="sqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9">Class 9</option><option value="10">Class 10</option></select><input type="text" id="sqSubject" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter"><textarea id="sqQuestion" placeholder="Question"></textarea><textarea id="sqAnswer" placeholder="Model Answer"></textarea><button onclick="addSQ()">Add SQ</button></div><div id="sqList"></div></div>
+    <!-- CQ / SQ -->
+    <div id="tab-cq" style="display:none;"><div class="form-card"><h3>Add CQ</h3><select id="cqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="cqSubject" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter"><textarea id="cqQuestion" placeholder="Question"></textarea><textarea id="cqAnswer" placeholder="Model Answer"></textarea><button onclick="addCQ()">Add CQ</button></div><div id="cqList"></div></div>
+    <div id="tab-sq" style="display:none;"><div class="form-card"><h3>Add SQ</h3><select id="sqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="sqSubject" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter"><textarea id="sqQuestion" placeholder="Question"></textarea><textarea id="sqAnswer" placeholder="Model Answer"></textarea><button onclick="addSQ()">Add SQ</button></div><div id="sqList"></div></div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
     function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '&#10003;' : '&#10007;') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
     function ts() { return firebase.firestore.FieldValue.serverTimestamp(); }
     function previewImage(input, previewId, dataId) { const file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { document.getElementById(previewId).src = e.target.result; document.getElementById(previewId).style.display = 'block'; document.getElementById(dataId).value = e.target.result; }; reader.readAsDataURL(file); }
+    function selectCorrect(n) { document.querySelectorAll('.correct-dot').forEach(d => d.classList.remove('active')); document.querySelectorAll('.correct-dot')[n-1].classList.add('active'); document.getElementById('mcqCorrect').value = document.getElementById('mcqOpt'+n).value; }
+    document.querySelectorAll('#tab-mcq input[type=text]').forEach(inp => { inp.addEventListener('input', function() { if (document.querySelector('.correct-dot.active')) { document.getElementById('mcqCorrect').value = document.querySelector('.correct-dot.active').previousElementSibling.value; } }); });
 
     auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
     function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
@@ -104,10 +110,12 @@
     async function addNews() { const t = document.getElementById('newsTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('news').add({ title: t, content: document.getElementById('newsContent').value, image: document.getElementById('newsImageData').value, createdAt: ts() }); showToast('News added!', 'success'); loadNews(); }
     async function loadNews() { const s = await db.collection('news').orderBy('createdAt', 'desc').get(); document.getElementById('newsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4></div><div><button class="btn-danger" onclick="del('news','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    async function addMCQ() { const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type: 'mcq', question: q, options: document.getElementById('mcqOptions').value, answer: document.getElementById('mcqAnswer').value, createdAt: ts() }); showToast('MCQ added!', 'success'); loadMCQ(); }
+    async function addMCQ() { const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error'); const correct = document.getElementById('mcqCorrect').value; if (!correct) return showToast('Select correct answer', 'error'); const options = [document.getElementById('mcqOpt1').value, document.getElementById('mcqOpt2').value, document.getElementById('mcqOpt3').value, document.getElementById('mcqOpt4').value].join(','); await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type: 'mcq', question: q, options: options, answer: correct, createdAt: ts() }); showToast('MCQ added!', 'success'); loadMCQ(); }
     async function loadMCQ() { const s = await db.collection('questions').where('type', '==', 'mcq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('mcqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
+
     async function addCQ() { const q = document.getElementById('cqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('cqClass').value, subject: document.getElementById('cqSubject').value, chapter: document.getElementById('cqChapter').value, type: 'cq', question: q, answer: document.getElementById('cqAnswer').value, createdAt: ts() }); showToast('CQ added!', 'success'); loadCQ(); }
     async function loadCQ() { const s = await db.collection('questions').where('type', '==', 'cq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('cqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
+
     async function addSQ() { const q = document.getElementById('sqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('sqClass').value, subject: document.getElementById('sqSubject').value, chapter: document.getElementById('sqChapter').value, type: 'sq', question: q, answer: document.getElementById('sqAnswer').value, createdAt: ts() }); showToast('SQ added!', 'success'); loadSQ(); }
     async function loadSQ() { const s = await db.collection('questions').where('type', '==', 'sq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('sqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
 
