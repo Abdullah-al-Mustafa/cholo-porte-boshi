@@ -6,234 +6,332 @@
   <title>সেটিংস - চলো পড়তে বসি</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .settings-page { max-width: 700px; margin: 0 auto; width: 100%; }
+    .settings-section { margin-bottom: var(--space-6); }
+    .settings-section-title { font-size: var(--text-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: var(--space-3); padding-left: var(--space-1); }
+    .setting-card {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--space-4); background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); margin-bottom: var(--space-2);
+      transition: all var(--transition-fast); cursor: pointer;
+      min-height: 56px;
+    }
+    .setting-card:hover { box-shadow: var(--shadow-sm); border-color: var(--accent); }
+    .setting-left { display: flex; align-items: center; gap: var(--space-3); flex: 1; min-width: 0; }
+    .setting-icon { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; }
+    .setting-info { min-width: 0; }
+    .setting-label { font-weight: 500; font-size: var(--text-sm); color: var(--heading); }
+    .setting-desc { font-size: var(--text-xs); color: var(--muted); }
+    .setting-right { flex-shrink: 0; margin-left: var(--space-3); }
+    .toggle-switch { position: relative; width: 48px; height: 26px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #D1D5DB; border-radius: var(--radius-full); transition: var(--transition-fast); }
+    .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: var(--transition-fast); }
+    input:checked + .toggle-slider { background: var(--accent); }
+    input:checked + .toggle-slider:before { transform: translateX(22px); }
+    .theme-options { display: flex; gap: var(--space-1); }
+    .theme-opt { padding: var(--space-1) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; cursor: pointer; background: var(--surface); color: var(--body); transition: all var(--transition-fast); font-family: var(--font-family); }
+    .theme-opt.active { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+    .arrow-icon { color: var(--muted); }
+    .arrow-icon svg { width: 18px; height: 18px; stroke: var(--muted); fill: none; stroke-width: 2; }
+    .version-badge { font-size: var(--text-xs); color: var(--muted); font-weight: 500; }
+    body.dark .setting-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .setting-label { color: var(--dark-heading); }
+    body.dark .theme-opt { background: var(--dark-surface); border-color: var(--dark-border); color: var(--dark-body); }
+    body.dark .theme-opt.active { background: var(--accent); color: var(--primary); }
+    body.dark .toggle-slider { background: #475569; }
+  </style>
 </head>
 <body>
 
-  <header class="top-bar">
-    <a href="index.html" class="icon-btn" aria-label="Back to Home">
-      <svg viewBox="0 0 24 24">
-        <line x1="19" y1="12" x2="5" y2="12"/>
-        <polyline points="12 19 5 12 12 5"/>
-      </svg>
-    </a>
-    <a href="index.html" class="brand">চলো পড়তে বসি</a>
-    <span style="width:24px;"></span>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
+      <span style="color:rgba(255,255,255,0.8);font-weight:500;">সেটিংস</span>
+      <span style="width:40px;"></span>
+    </div>
   </header>
 
   <main class="main-content">
-    
-    <!-- Settings Header -->
-    <div class="settings-header">
-      <h1>সেটিংস</h1>
-      <p>আপনার পছন্দ অনুযায়ী অ্যাপ কাস্টমাইজ করুন</p>
-    </div>
+    <div class="settings-page">
 
-    <!-- Appearance Section -->
-    <div class="settings-section">
-      <div class="settings-section-title">অ্যাপিয়ারেন্স</div>
-
-      <!-- Theme Mode -->
-      <div class="setting-card">
-        <div class="setting-card-left">
-          <div class="setting-icon" style="background:#DCFCE7;">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
-              <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
+      <!-- Section: Appearance -->
+      <div class="settings-section">
+        <div class="settings-section-title">Appearance</div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">🎨</div>
+            <div class="setting-info">
+              <div class="setting-label">থিম</div>
+              <div class="setting-desc">লাইট, ডার্ক বা সিস্টেম ডিফল্ট</div>
+            </div>
           </div>
-          <div class="setting-info">
-            <span class="setting-label">থিম</span>
-            <span class="setting-description">লাইট, ডার্ক বা সিস্টেম ডিফল্ট</span>
+          <div class="setting-right">
+            <div class="theme-options">
+              <button class="theme-opt active" onclick="setTheme('light', this)">লাইট</button>
+              <button class="theme-opt" onclick="setTheme('dark', this)">ডার্ক</button>
+              <button class="theme-opt" onclick="setTheme('system', this)">সিস্টেম</button>
+            </div>
           </div>
         </div>
-        <div class="theme-options">
-          <button class="theme-option active" onclick="setTheme('light')">লাইট</button>
-          <button class="theme-option" onclick="setTheme('dark')">ডার্ক</button>
-          <button class="theme-option" onclick="setTheme('system')">সিস্টেম</button>
+      </div>
+
+      <!-- Section: Language -->
+      <div class="settings-section">
+        <div class="settings-section-title">Language</div>
+        <div class="setting-card" onclick="alert('ভাষা: বাংলা')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">🌐</div>
+            <div class="setting-info">
+              <div class="setting-label">ভাষা</div>
+              <div class="setting-desc">বাংলা</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Video Settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">Video Settings</div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">▶️</div>
+            <div class="setting-info">
+              <div class="setting-label">Auto Play</div>
+              <div class="setting-desc">পরবর্তী ভিডিও স্বয়ংক্রিয়ভাবে চালু</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+        <div class="setting-card" onclick="alert('ভিডিও কোয়ালিটি')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">🎥</div>
+            <div class="setting-info">
+              <div class="setting-label">ভিডিও কোয়ালিটি</div>
+              <div class="setting-desc">Auto (HD)</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Download & Storage -->
+      <div class="settings-section">
+        <div class="settings-section-title">Download & Storage</div>
+        <div class="setting-card" onclick="alert('0 MB ব্যবহৃত')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">💾</div>
+            <div class="setting-info">
+              <div class="setting-label">স্টোরেজ</div>
+              <div class="setting-desc">0 MB ব্যবহৃত</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+        <div class="setting-card" onclick="alert('ডাউনলোড ম্যানেজার')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">📥</div>
+            <div class="setting-info">
+              <div class="setting-label">ডাউনলোড ম্যানেজ করুন</div>
+              <div class="setting-desc">সংরক্ষিত কন্টেন্ট</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+        <div class="setting-card" onclick="alert('ডাউনলোড ক্লিয়ার করা হয়েছে')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">🗑️</div>
+            <div class="setting-info">
+              <div class="setting-label">ডাউনলোড ক্লিয়ার করুন</div>
+              <div class="setting-desc">সব ডাউনলোড মুছে ফেলুন</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Notifications -->
+      <div class="settings-section">
+        <div class="settings-section-title">Notifications</div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">📚</div>
+            <div class="setting-info">
+              <div class="setting-label">নতুন লেসন</div>
+              <div class="setting-desc">নতুন কন্টেন্ট যোগ হলে জানুন</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">📝</div>
+            <div class="setting-info">
+              <div class="setting-label">পরীক্ষার রিমাইন্ডার</div>
+              <div class="setting-desc">পরীক্ষার আগে জানিয়ে দিন</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">🔔</div>
+            <div class="setting-info">
+              <div class="setting-label">আপডেট</div>
+              <div class="setting-desc">নতুন ফিচার ও সংযোজন</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Accessibility -->
+      <div class="settings-section">
+        <div class="settings-section-title">Accessibility</div>
+        <div class="setting-card" onclick="alert('ফন্ট সাইজ')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">🔤</div>
+            <div class="setting-info">
+              <div class="setting-label">ফন্ট সাইজ</div>
+              <div class="setting-desc">মাঝারি</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">👁️</div>
+            <div class="setting-info">
+              <div class="setting-label">টেক্সট কনট্রাস্ট</div>
+              <div class="setting-desc">উচ্চ কনট্রাস্ট</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">✨</div>
+            <div class="setting-info">
+              <div class="setting-label">অ্যানিমেশন কমান</div>
+              <div class="setting-desc">কম গতি</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: About -->
+      <div class="settings-section">
+        <div class="settings-section-title">About</div>
+        <div class="setting-card" onclick="alert('চলো পড়তে বসি - সবার জন্য উন্মুক্ত ডিজিটাল শিক্ষা প্ল্যাটফর্ম')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">ℹ️</div>
+            <div class="setting-info">
+              <div class="setting-label">চলো পড়তে বসি সম্পর্কে</div>
+              <div class="setting-desc">আমাদের সম্পর্কে জানুন</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">📱</div>
+            <div class="setting-info">
+              <div class="setting-label">ভার্সন</div>
+              <div class="setting-desc">বর্তমান সংস্করণ</div>
+            </div>
+          </div>
+          <div class="setting-right">
+            <span class="version-badge">v1.0.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Help & Support -->
+      <div class="settings-section">
+        <div class="settings-section-title">Help & Support</div>
+        <div class="setting-card" onclick="alert('সাহায্য কেন্দ্র শীঘ্রই আসছে')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">❓</div>
+            <div class="setting-info">
+              <div class="setting-label">সাহায্য কেন্দ্র</div>
+              <div class="setting-desc">গাইড ও টিউটোরিয়াল</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+        <div class="setting-card" onclick="alert('letsconnectcpb@gmail.com')">
+          <div class="setting-left">
+            <div class="setting-icon" style="background:var(--accent-light);">⚠️</div>
+            <div class="setting-info">
+              <div class="setting-label">সমস্যা রিপোর্ট করুন</div>
+              <div class="setting-desc">আমাদের জানান</div>
+            </div>
+          </div>
+          <div class="setting-right arrow-icon">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
         </div>
       </div>
 
     </div>
-
-    <!-- General Section -->
-    <div class="settings-section">
-      <div class="settings-section-title">জেনারেল</div>
-
-      <!-- Language -->
-      <div class="setting-card" onclick="alert('ভাষা পরিবর্তন শীঘ্রই আসছে')">
-        <div class="setting-card-left">
-          <div class="setting-icon" style="background:#DBEAFE;">
-            <svg viewBox="0 0 24 24">
-              <path d="M5 8l6 6"/>
-              <path d="M4 14l6-6 2-3"/>
-              <path d="M2 5h12"/>
-              <path d="M7 2h1"/>
-              <path d="M22 22l-5-10-5 10"/>
-              <path d="M14 18h6"/>
-            </svg>
-          </div>
-          <div class="setting-info">
-            <span class="setting-label">ভাষা</span>
-            <span class="setting-description">বাংলা</span>
-          </div>
-        </div>
-        <span class="setting-arrow">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </span>
-      </div>
-
-      <!-- Notifications -->
-      <div class="setting-card">
-        <div class="setting-card-left">
-          <div class="setting-icon" style="background:#FEF3C7;">
-            <svg viewBox="0 0 24 24">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-          </div>
-          <div class="setting-info">
-            <span class="setting-label">নোটিফিকেশন</span>
-            <span class="setting-description">গুরুত্বপূর্ণ আপডেট জানতে পারবেন</span>
-          </div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <!-- Clear Cache -->
-      <div class="setting-card" onclick="alert('ক্যাশ ক্লিয়ার করা হয়েছে')">
-        <div class="setting-card-left">
-          <div class="setting-icon" style="background:#FEE2E2;">
-            <svg viewBox="0 0 24 24">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-            </svg>
-          </div>
-          <div class="setting-info">
-            <span class="setting-label">ক্যাশ ক্লিয়ার করুন</span>
-            <span class="setting-description">অস্থায়ী ডাটা মুছে ফেলুন</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- About Section -->
-    <div class="settings-section">
-      <div class="settings-section-title">সম্পর্কে</div>
-
-      <!-- Privacy Policy -->
-      <div class="setting-card" onclick="alert('প্রাইভেসি পলিসি')">
-        <div class="setting-card-left">
-          <div class="setting-info">
-            <span class="setting-label">প্রাইভেসি পলিসি</span>
-          </div>
-        </div>
-        <span class="setting-arrow">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </span>
-      </div>
-
-      <!-- Terms & Conditions -->
-      <div class="setting-card" onclick="alert('টার্মস এন্ড কন্ডিশনস')">
-        <div class="setting-card-left">
-          <div class="setting-info">
-            <span class="setting-label">টার্মস এন্ড কন্ডিশনস</span>
-          </div>
-        </div>
-        <span class="setting-arrow">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </span>
-      </div>
-
-      <!-- About CPB -->
-      <div class="setting-card" onclick="alert('চলো পড়তে বসি - একটি উন্মুক্ত শিক্ষামূলক প্ল্যাটফর্ম')">
-        <div class="setting-card-left">
-          <div class="setting-info">
-            <span class="setting-label">CPB সম্পর্কে</span>
-          </div>
-        </div>
-        <span class="setting-arrow">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </span>
-      </div>
-
-      <!-- Contact & Feedback -->
-      <div class="setting-card" onclick="alert('letsconnectcpb@gmail.com')">
-        <div class="setting-card-left">
-          <div class="setting-info">
-            <span class="setting-label">যোগাযোগ ও ফিডব্যাক</span>
-          </div>
-        </div>
-        <span class="setting-arrow">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-        </span>
-      </div>
-
-      <!-- Version -->
-      <div class="setting-card">
-        <div class="setting-card-left">
-          <div class="setting-info">
-            <span class="setting-label">ভার্সন</span>
-          </div>
-        </div>
-        <span class="version-badge">v1.0.0</span>
-      </div>
-    </div>
-
   </main>
 
-  <footer class="footer">
-    [C] 2026-present. All Rights Reserved.
-  </footer>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="settings.html" class="nav-item active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>সেটিংস</span></a>
+    <a href="cpb-ai.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg><span>CPB AI</span></a>
+    <a href="#" class="nav-item"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>পরীক্ষা</span></a>
+  </nav>
 
-  <script src="js/theme.js"></script>
+  <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
+
   <script>
-    // Theme switcher
-    function setTheme(mode) {
-      document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      
-      if (mode === 'dark') {
-        document.body.classList.add('dark');
-        localStorage.setItem('cpb-theme', 'dark');
-      } else if (mode === 'light') {
-        document.body.classList.remove('dark');
-        localStorage.setItem('cpb-theme', 'light');
-      } else {
-        // System default
+    function setTheme(mode, btn) {
+      document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (mode === 'dark') { document.body.classList.add('dark'); localStorage.setItem('cpb-theme', 'dark'); }
+      else if (mode === 'light') { document.body.classList.remove('dark'); localStorage.setItem('cpb-theme', 'light'); }
+      else {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-          document.body.classList.add('dark');
-        } else {
-          document.body.classList.remove('dark');
-        }
+        prefersDark ? document.body.classList.add('dark') : document.body.classList.remove('dark');
         localStorage.setItem('cpb-theme', 'system');
       }
     }
 
     // Init theme
-    const savedTheme = localStorage.getItem('cpb-theme') || 'light';
-    document.querySelectorAll('.theme-option').forEach(btn => {
-      btn.classList.remove('active');
-      if (btn.textContent.trim() === (savedTheme === 'system' ? 'সিস্টেম' : savedTheme === 'dark' ? 'ডার্ক' : 'লাইট')) {
-        btn.classList.add('active');
-      }
-    });
-    if (savedTheme === 'dark') {
-      document.body.classList.add('dark');
-    } else if (savedTheme === 'system') {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) document.body.classList.add('dark');
-    }
+    const saved = localStorage.getItem('cpb-theme') || 'light';
+    document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
+    if (saved === 'dark') { document.body.classList.add('dark'); document.querySelector('.theme-opt:nth-child(2)').classList.add('active'); }
+    else if (saved === 'system') { document.querySelector('.theme-opt:nth-child(3)').classList.add('active'); }
+    else { document.querySelector('.theme-opt:nth-child(1)').classList.add('active'); }
   </script>
 </body>
 </html>
