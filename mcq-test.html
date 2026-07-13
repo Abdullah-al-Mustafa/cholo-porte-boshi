@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQ পরীক্ষা - চলো পড়তে বসি</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .mcq-page { max-width: 700px; margin: 0 auto; width: 100%; }
+    .class-grid { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .class-chip { padding: var(--space-2) var(--space-4); border-radius: var(--radius-full); background: var(--surface); border: 1px solid var(--border); cursor: pointer; font-size: var(--text-sm); transition: all var(--transition-fast); }
+    .class-chip:hover, .class-chip.active { background: var(--accent); color: var(--primary); border-color: var(--accent); font-weight: 600; }
+    .subject-grid { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .quiz-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: var(--space-6); margin-bottom: var(--space-4); }
+    .quiz-card h3 { color: var(--heading); margin-bottom: var(--space-4); }
+    .option { display: block; padding: var(--space-3) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--space-2); cursor: pointer; transition: all var(--transition-fast); }
+    .option:hover { border-color: var(--accent); background: var(--accent-light); }
+    .option.selected { background: var(--accent); color: var(--primary); border-color: var(--accent); font-weight: 600; }
+    .option.correct { background: #DCFCE7; border-color: #22C55E; color: #166534; }
+    .option.wrong { background: #FEE2E2; border-color: #DC2626; color: #991B1B; }
+    .score-card { text-align: center; padding: var(--space-8); background: var(--accent-light); border-radius: var(--radius-xl); }
+    .score-card h2 { color: var(--primary); font-size: var(--text-3xl); }
+    body.dark .quiz-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .option { border-color: var(--dark-border); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="exam.html" class="icon-btn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a>
+      <span style="color:rgba(255,255,255,0.85);">MCQ পরীক্ষা</span>
+      <span style="width:40px;"></span>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="mcq-page">
+      <h3 style="margin-bottom:var(--space-3);">ক্লাস নির্বাচন করো</h3>
+      <div class="class-grid" id="classSelect">
+        <button class="class-chip" onclick="selectClass('6', this)">৬ষ্ঠ</button>
+        <button class="class-chip" onclick="selectClass('7', this)">৭ম</button>
+        <button class="class-chip" onclick="selectClass('8', this)">৮ম</button>
+        <button class="class-chip active" onclick="selectClass('9', this)">৯ম</button>
+        <button class="class-chip" onclick="selectClass('10', this)">১০ম</button>
+      </div>
+      <h3 style="margin-bottom:var(--space-3);">বিষয়</h3>
+      <div class="subject-grid" id="subjectSelect">
+        <button class="class-chip active" onclick="selectSubject('গণিত', this)">গণিত</button>
+        <button class="class-chip" onclick="selectSubject('পদার্থবিজ্ঞান', this)">পদার্থ</button>
+        <button class="class-chip" onclick="selectSubject('রসায়ন', this)">রসায়ন</button>
+        <button class="class-chip" onclick="selectSubject('জীববিজ্ঞান', this)">জীব</button>
+        <button class="class-chip" onclick="selectSubject('বাংলা', this)">বাংলা</button>
+        <button class="class-chip" onclick="selectSubject('ইংরেজি', this)">ইংরেজি</button>
+      </div>
+      <button class="btn btn-primary btn-lg" onclick="startMCQ()" style="width:100%;">শুরু করো</button>
+      <div id="quizArea" style="margin-top:var(--space-6);"></div>
+    </div>
+  </main>
+
+  <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    let selClass = '9', selSubject = 'গণিত', questions = [], current = 0, score = 0;
+
+    function selectClass(cls, el) {
+      selClass = cls;
+      document.querySelectorAll('#classSelect .class-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function selectSubject(sub, el) {
+      selSubject = sub;
+      document.querySelectorAll('#subjectSelect .class-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    async function startMCQ() {
+      const snapshot = await db.collection('questions').where('type', '==', 'mcq').where('class', '==', selClass).where('subject', '==', selSubject).limit(10).get();
+      if (snapshot.empty) { document.getElementById('quizArea').innerHTML = '<p class="text-muted">কোনো প্রশ্ন নেই</p>'; return; }
+      questions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      questions = questions.sort(() => Math.random() - 0.5);
+      current = 0; score = 0;
+      renderMCQ();
+    }
+
+    function renderMCQ() {
+      if (current >= questions.length) return showMCQScore();
+      const q = questions[current];
+      const opts = (q.options || '').split(',').filter(o => o.trim());
+      document.getElementById('quizArea').innerHTML = `
+        <div class="quiz-card"><p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">প্রশ্ন ${current + 1}/${questions.length}</p><h3>${q.question}</h3>${opts.map((opt, i) => `<div class="option" onclick="selectMCQ(${i}, '${q.answer?.trim()}', this)">${opt.trim()}</div>`).join('')}</div>
+      `;
+    }
+
+    function selectMCQ(index, correct, el) {
+      document.querySelectorAll('.option').forEach(o => o.style.pointerEvents = 'none');
+      const opts = (questions[current].options || '').split(',');
+      if (opts[index]?.trim() === correct) { el.classList.add('correct'); score++; }
+      else { el.classList.add('wrong'); document.querySelectorAll('.option').forEach(o => { if (o.textContent.trim() === correct) o.classList.add('correct'); }); }
+      current++;
+      setTimeout(renderMCQ, 1000);
+    }
+
+    function showMCQScore() {
+      document.getElementById('quizArea').innerHTML = `<div class="score-card"><h2>${score}/${questions.length}</h2><p style="color:var(--muted);">তোমার স্কোর</p><button class="btn btn-primary" onclick="startMCQ()" style="margin-top:var(--space-4);">আবার চেষ্টা করো</button></div>`;
+    }
+  </script>
+</body>
+</html>

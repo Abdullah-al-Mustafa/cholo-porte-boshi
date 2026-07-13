@@ -7,49 +7,24 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .exam-page { max-width: 900px; margin: 0 auto; width: 100%; }
-    .exam-hero { text-align: center; padding: var(--space-8) 0 var(--space-6); }
+    .exam-page { max-width: 800px; margin: 0 auto; width: 100%; }
+    .exam-hero { text-align: center; padding: var(--space-8) 0 var(--space-4); }
     .exam-hero h1 { font-size: var(--text-3xl); color: var(--heading); margin-bottom: var(--space-2); }
-    .exam-hero p { color: var(--muted); font-size: var(--text-base); }
-    .section { margin-bottom: var(--space-8); }
-    .section-title { font-size: var(--text-sm); color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: var(--space-3); padding-left: var(--space-1); }
-    .exam-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-3); }
+    .exam-hero p { color: var(--muted); }
+    .exam-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-3); margin: var(--space-6) 0; }
     @media (min-width: 600px) { .exam-grid { grid-template-columns: repeat(4,1fr); } }
     .exam-card {
       display: flex; flex-direction: column; align-items: center; text-align: center;
       padding: var(--space-5) var(--space-3); border-radius: var(--radius-xl);
       background: var(--surface); border: 1px solid var(--border);
-      text-decoration: none; color: var(--body); transition: all var(--transition-fast);
-      gap: var(--space-2); cursor: pointer;
+      text-decoration: none; color: var(--body); transition: all var(--transition-fast); gap: var(--space-2);
     }
     .exam-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); transform: translateY(-2px); }
     .exam-card-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
     .exam-card-label { font-weight: 600; font-size: var(--text-sm); color: var(--heading); }
     .exam-card-desc { font-size: var(--text-xs); color: var(--muted); }
-    .class-grid { display: flex; gap: var(--space-2); flex-wrap: wrap; }
-    .class-chip {
-      padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
-      background: var(--surface); border: 1px solid var(--border);
-      font-size: var(--text-sm); font-weight: 500; cursor: pointer;
-      transition: all var(--transition-fast); white-space: nowrap;
-      font-family: var(--font-family); color: var(--body);
-    }
-    .class-chip:hover, .class-chip.active { background: var(--accent); color: var(--primary); border-color: var(--accent); font-weight: 600; }
-    .continue-card {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: var(--space-5); border-radius: var(--radius-xl);
-      background: var(--accent-light); border: 1px solid var(--accent);
-      gap: var(--space-4); flex-wrap: wrap;
-    }
-    .continue-info h4 { font-size: var(--text-base); color: var(--heading); margin-bottom: 4px; }
-    .continue-info p { font-size: var(--text-sm); color: var(--muted); }
-    .progress-bar { width: 100%; height: 6px; background: var(--border); border-radius: var(--radius-full); margin-top: var(--space-2); }
-    .progress-fill { height: 100%; background: var(--accent); border-radius: var(--radius-full); transition: width var(--transition-base); }
     body.dark .exam-card { background: var(--dark-card); border-color: var(--dark-border); }
     body.dark .exam-card-label { color: var(--dark-heading); }
-    body.dark .class-chip { background: var(--dark-surface); border-color: var(--dark-border); color: var(--dark-body); }
-    body.dark .class-chip.active { background: var(--accent); color: var(--primary); }
-    body.dark .continue-card { background: rgba(212,175,55,0.1); border-color: var(--accent); }
   </style>
 </head>
 <body>
@@ -57,10 +32,8 @@
   <header class="header">
     <div class="header-inner">
       <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
-      <span style="color:rgba(255,255,255,0.85);font-weight:500;">পরীক্ষা</span>
-      <a href="settings.html" class="icon-btn">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-      </a>
+      <span style="color:rgba(255,255,255,0.85);">পরীক্ষা</span>
+      <a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
     </div>
   </header>
 
@@ -70,48 +43,30 @@
         <h1>পরীক্ষা</h1>
         <p>নিজেকে যাচাই করো, প্রস্তুতি আরও ভালো করো</p>
       </div>
-      <div class="section">
-        <div class="section-title">পরীক্ষার ধরন</div>
-        <div class="exam-grid">
-          <a href="#" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">📝</div><div class="exam-card-label">মডেল টেস্ট</div><div class="exam-card-desc">পূর্ণ সিলেবাস পরীক্ষা</div></a>
-          <a href="#" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">✅</div><div class="exam-card-label">MCQ পরীক্ষা</div><div class="exam-card-desc">বিষয়ভিত্তিক MCQ</div></a>
-          <a href="#" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">📖</div><div class="exam-card-label">অধ্যায়ভিত্তিক</div><div class="exam-card-desc">চ্যাপ্টার অনুশীলন</div></a>
-          <a href="#" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">📂</div><div class="exam-card-label">পূর্ববর্তী প্রশ্ন</div><div class="exam-card-desc">আগের বছরের প্রশ্ন</div></a>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">তোমার ক্লাস নির্বাচন করো</div>
-        <div class="class-grid">
-          <button class="class-chip">৬ষ্ঠ শ্রেণি</button><button class="class-chip">৭ম শ্রেণি</button><button class="class-chip">৮ম শ্রেণি</button><button class="class-chip active">নবম শ্রেণি</button><button class="class-chip">দশম শ্রেণি</button>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">বিষয়</div>
-        <div class="class-grid">
-          <button class="class-chip">বাংলা</button><button class="class-chip">ইংরেজি</button><button class="class-chip active">গণিত</button><button class="class-chip">পদার্থবিজ্ঞান</button><button class="class-chip">রসায়ন</button><button class="class-chip">জীববিজ্ঞান</button><button class="class-chip">আইসিটি</button>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">চলমান পরীক্ষা</div>
-        <div class="continue-card">
-          <div class="continue-info"><h4>নবম শ্রেণি • গণিত • অধ্যায় ৫</h4><p>২০/৫০ প্রশ্ন সম্পন্ন</p><div class="progress-bar"><div class="progress-fill" style="width:40%;"></div></div></div>
-          <a href="#" class="btn btn-primary">চালিয়ে যাও</a>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">সর্বশেষ ফলাফল</div>
-        <div class="continue-card">
-          <div class="continue-info"><h4>MCQ • গণিত • অধ্যায় ৩</h4><p>স্কোর: ১২/১৫ (৮০%)</p></div>
-          <span style="font-size:2rem;">🏆</span>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">নিজেকে চ্যালেঞ্জ করো</div>
-        <div class="exam-card" style="flex-direction:row;text-align:left;align-items:center;gap:var(--space-4);padding:var(--space-5);">
+
+      <!-- Exam Categories -->
+      <h3 style="font-size:var(--text-sm);color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:var(--space-3);">পরীক্ষার ধরন</h3>
+      <div class="exam-grid">
+        <a href="mcq-test.html" class="exam-card">
+          <div class="exam-card-icon" style="background:var(--accent-light);">✅</div>
+          <div class="exam-card-label">MCQ পরীক্ষা</div>
+          <div class="exam-card-desc">বিষয়ভিত্তিক MCQ</div>
+        </a>
+        <a href="daily-quiz.html" class="exam-card">
           <div class="exam-card-icon" style="background:var(--accent-light);">⚡</div>
-          <div style="flex:1;"><div class="exam-card-label">ডেইলি কুইজ</div><div class="exam-card-desc">আজকের ৫টি প্রশ্নের চ্যালেঞ্জ</div></div>
-          <button class="btn btn-primary" style="flex-shrink:0;">শুরু করো</button>
-        </div>
+          <div class="exam-card-label">ডেইলি কুইজ</div>
+          <div class="exam-card-desc">আজকের চ্যালেঞ্জ</div>
+        </a>
+        <a href="model-test.html" class="exam-card">
+          <div class="exam-card-icon" style="background:var(--accent-light);">📝</div>
+          <div class="exam-card-label">মডেল টেস্ট</div>
+          <div class="exam-card-desc">পূর্ণ সিলেবাস</div>
+        </a>
+        <a href="previous-questions.html" class="exam-card">
+          <div class="exam-card-icon" style="background:var(--accent-light);">📂</div>
+          <div class="exam-card-label">পূর্ববর্তী প্রশ্ন</div>
+          <div class="exam-card-desc">আগের বছরের</div>
+        </a>
       </div>
     </div>
   </main>
@@ -119,24 +74,10 @@
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
     <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
-    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;line-height:22px;">CPB</span><span>CPB AI</span></a>
-    <a href="exam.html" class="nav-item active">
-      <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
-        <rect x="5" y="2" width="14" height="20" rx="2"/>
-        <polyline points="9 11 11 13 15 9"/>
-      </svg>
-      <span>পরীক্ষা</span>
-    </a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
+    <a href="exam.html" class="nav-item active"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
   </nav>
 
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
-  <script>
-    document.querySelectorAll('.class-chip').forEach(chip => {
-      chip.addEventListener('click', function() {
-        this.parentElement.querySelectorAll('.class-chip').forEach(c => c.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-  </script>
 </body>
 </html>
