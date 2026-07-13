@@ -1,73 +1,39 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ভিডিও - চলো পড়তে বসি</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0D1B2A">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ভিডিও - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .videos-page { max-width: 900px; margin: 0 auto; width: 100%; }
     .video-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-4); }
     @media (min-width: 600px) { .video-grid { grid-template-columns: repeat(3,1fr); } }
     .video-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; cursor: pointer; transition: all var(--transition-fast); }
     .video-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
-    .video-thumb { height: 140px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; }
+    .video-thumb { height: 140px; background-color: var(--accent-light); display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; }
     .video-thumb .play-icon { width: 44px; height: 44px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .video-thumb .play-icon svg { width: 20px; height: 20px; fill: white; stroke: none; }
+    .video-thumb .play-icon svg { width: 20px; height: 20px; fill: white; }
     .video-info { padding: var(--space-4); }
     .video-info h4 { font-size: var(--text-sm); color: var(--heading); margin-bottom: 4px; }
     .video-info p { font-size: var(--text-xs); color: var(--muted); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; }
+    .badge.class { background: var(--secondary); color: white; }
+    .badge.all { background: var(--accent); color: var(--primary); }
     body.dark .video-card { background: var(--dark-card); border-color: var(--dark-border); }
     body.dark .video-info h4 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
-      <span style="color:rgba(255,255,255,0.85);">ভিডিও</span>
-      <a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    </div>
-  </header>
-  <main class="main-content">
-    <div class="videos-page">
-      <h2 style="margin-bottom:var(--space-6);">সব ভিডিও</h2>
-      <div class="video-grid" id="videosList"><p class="text-muted">লোড হচ্ছে...</p></div>
-    </div>
-  </main>
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
-    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
-    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
-    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
-  </nav>
+  <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:rgba(255,255,255,0.85);">ভিডিও</span><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
+  <main class="main-content"><div class="videos-page"><h2 style="margin-bottom:var(--space-6);">সব ভিডিও</h2><div class="video-grid" id="videosList"><p class="text-muted">লোড হচ্ছে...</p></div></div></main>
+  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    function getYouTubeThumb(url) {
-      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-      return match ? `https://img.youtube.com/vi/${match[1]}/mqdefault.jpg` : '';
-    }
-    async function loadVideos() {
-      const list = document.getElementById('videosList');
-      const snapshot = await db.collection('videos').orderBy('createdAt', 'desc').get();
-      if (snapshot.empty) { list.innerHTML = '<p class="text-muted">কোনো ভিডিও নেই</p>'; return; }
-      list.innerHTML = snapshot.docs.map(doc => {
-        const d = doc.data();
-        const thumb = getYouTubeThumb(d.url || '');
-        return `<div class="video-card" onclick="window.open('${d.url}','_blank')">
-          <div class="video-thumb" style="${thumb ? 'background-image:url('+thumb+');' : 'background:var(--accent-light);'}"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div></div>
-          <div class="video-info"><h4>${d.title}</h4><p>ক্লাস: ${d.class} • ${d.subject || ''}</p></div>
-        </div>`;
-      }).join('');
-    }
-    loadVideos();
+    function getThumb(url) { if(!url) return ''; const yt=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return yt ? 'https://img.youtube.com/vi/'+yt[1]+'/mqdefault.jpg' : ''; }
+    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map={'6':'Class 6','7':'Class 7','8':'Class 8','9':'Class 9','10':'Class 10','9-10':'Class 9-10'}; return `<span class="badge class">For ${map[c]||c}</span>`; }
+    (async () => {
+      const s = await db.collection('videos').orderBy('createdAt','desc').get();
+      document.getElementById('videosList').innerHTML = s.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : s.docs.map(d => { const t=getThumb(d.data().url||''); return `<div class="video-card" onclick="window.open('${d.data().url}','_blank')"><div class="video-thumb" style="${t?'background-image:url('+t+');':''}"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div></div><div class="video-info"><h4>${d.data().title}</h4><p>${clsBadge(d.data().class)} ${d.data().subject||''}</p></div></div>`; }).join('');
+    })();
   </script>
 </body>
 </html>
