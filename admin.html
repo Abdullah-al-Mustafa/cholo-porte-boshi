@@ -12,15 +12,10 @@
     .admin-header { background: var(--primary); color: white; padding: var(--space-4); display: flex; justify-content: space-between; align-items: center; }
     .admin-header h1 { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
     .admin-header button { background: var(--accent); color: var(--primary); border: none; padding: var(--space-3) var(--space-5); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
-
-    /* Toast Notification */
     .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 999; display: flex; align-items: center; gap: var(--space-3); min-width: 280px; animation: slideIn 0.3s ease-out; }
     .toast.success { border-left: 4px solid var(--success); }
     .toast.error { border-left: 4px solid var(--danger); }
-    .toast-icon { font-size: 1.2rem; }
-    .toast-msg { flex: 1; font-size: 0.9rem; color: var(--heading); }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
     .login-container { max-width: 400px; margin: 100px auto; padding: var(--space-8); background: var(--surface); border-radius: var(--radius-lg); box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
     .login-container h2 { margin-bottom: var(--space-6); color: var(--heading); }
     .login-container input { width: 100%; padding: var(--space-3); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; }
@@ -42,190 +37,49 @@
   </style>
 </head>
 <body>
-
-  <header class="admin-header">
-    <h1>CPB Admin Panel</h1>
-    <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
-  </header>
-
-  <div class="login-container" id="loginBox">
-    <h2>Admin Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="loginError" style="color:red;margin-top:var(--space-3);display:none;"></p>
-  </div>
-
+  <header class="admin-header"><h1>CPB Admin Panel</h1><button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button></header>
+  <div class="login-container" id="loginBox"><h2>Admin Login</h2><input type="email" id="email" placeholder="Email"><input type="password" id="password" placeholder="Password"><button onclick="login()">Login</button><p id="loginError" style="color:red;margin-top:var(--space-3);display:none;"></p></div>
   <div class="dashboard" id="dashboard">
     <div class="tabs">
       <button class="tab active" onclick="switchTab('articles')">Articles</button>
       <button class="tab" onclick="switchTab('videos')">Videos</button>
       <button class="tab" onclick="switchTab('questions')">Questions</button>
     </div>
-
     <div id="tab-articles">
-      <div class="form-card">
-        <h3>Add Article</h3>
-        <input type="text" id="articleTitle" placeholder="Title">
-        <select id="articleClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
-        <input type="text" id="articleSubject" placeholder="Subject">
-        <textarea id="articleContent" placeholder="Content"></textarea>
-        <button onclick="addArticle()">Add Article</button>
-      </div>
+      <div class="form-card"><h3>Add Article</h3><input type="text" id="articleTitle" placeholder="Title"><select id="articleClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="articleSubject" placeholder="Subject"><input type="text" id="articleImage" placeholder="Image URL (optional)"><textarea id="articleContent" placeholder="Content"></textarea><button onclick="addArticle()">Add Article</button></div>
       <div id="articlesList"></div>
     </div>
-
     <div id="tab-videos" style="display:none;">
-      <div class="form-card">
-        <h3>Add Video</h3>
-        <input type="text" id="videoTitle" placeholder="Title">
-        <select id="videoClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
-        <input type="text" id="videoSubject" placeholder="Subject">
-        <input type="text" id="videoUrl" placeholder="YouTube URL">
-        <button onclick="addVideo()">Add Video</button>
-      </div>
+      <div class="form-card"><h3>Add Video</h3><input type="text" id="videoTitle" placeholder="Title"><select id="videoClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="videoSubject" placeholder="Subject"><input type="text" id="videoUrl" placeholder="YouTube URL"><button onclick="addVideo()">Add Video</button></div>
       <div id="videosList"></div>
     </div>
-
     <div id="tab-questions" style="display:none;">
-      <div class="form-card">
-        <h3>Add Question</h3>
-        <select id="qClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
-        <input type="text" id="qSubject" placeholder="Subject">
-        <input type="text" id="qChapter" placeholder="Chapter">
-        <select id="qType"><option value="mcq">MCQ</option><option value="cq">CQ</option><option value="sq">SQ</option></select>
-        <textarea id="qText" placeholder="Question"></textarea>
-        <input type="text" id="qOptions" placeholder="Options (comma separated, for MCQ)">
-        <input type="text" id="qAnswer" placeholder="Correct Answer">
-        <button onclick="addQuestion()">Add Question</button>
-      </div>
+      <div class="form-card"><h3>Add Question</h3><select id="qClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select><input type="text" id="qSubject" placeholder="Subject"><input type="text" id="qChapter" placeholder="Chapter"><select id="qType"><option value="mcq">MCQ</option><option value="cq">CQ</option><option value="sq">SQ</option></select><textarea id="qText" placeholder="Question"></textarea><input type="text" id="qOptions" placeholder="Options (comma separated, for MCQ)"><input type="text" id="qAnswer" placeholder="Correct Answer"><button onclick="addQuestion()">Add Question</button></div>
       <div id="questionsList"></div>
     </div>
   </div>
-
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
-
   <script>
     const db = firebase.firestore();
-
-    // Toast notification
-    function showToast(msg, type = 'success') {
-      const toast = document.createElement('div');
-      toast.className = 'toast ' + type;
-      toast.innerHTML = `<span class="toast-icon">${type === 'success' ? '&#10003;' : '&#10007;'}</span><span class="toast-msg">${msg}</span>`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('loginBox').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        document.getElementById('logoutBtn').style.display = 'block';
-        loadAll();
-      } else {
-        document.getElementById('loginBox').style.display = 'block';
-        document.getElementById('dashboard').style.display = 'none';
-        document.getElementById('logoutBtn').style.display = 'none';
-      }
-    });
-
-    function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => showToast('Login successful!', 'success'))
-        .catch(err => {
-          document.getElementById('loginError').style.display = 'block';
-          document.getElementById('loginError').textContent = err.message;
-        });
-    }
-
+    function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '✓' : '✗') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
+    auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
+    function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
     function logout() { auth.signOut(); }
-
-    function switchTab(tab) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      event.target.classList.add('active');
-      document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none');
-      document.getElementById('tab-' + tab).style.display = 'block';
-    }
-
-    // Articles
+    function switchTab(tab) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none'); document.getElementById('tab-' + tab).style.display = 'block'; }
     async function addArticle() {
-      const title = document.getElementById('articleTitle').value;
-      const cls = document.getElementById('articleClass').value;
-      const subject = document.getElementById('articleSubject').value;
-      const content = document.getElementById('articleContent').value;
-      if (!title) return showToast('Please enter a title', 'error');
-      await db.collection('articles').add({ title, class: cls, subject, content, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-      showToast('Article added successfully!', 'success');
-      document.getElementById('articleTitle').value = '';
-      document.getElementById('articleContent').value = '';
-      loadArticles();
+      const title = document.getElementById('articleTitle').value; if (!title) return showToast('Title required', 'error');
+      await db.collection('articles').add({ title, class: document.getElementById('articleClass').value, subject: document.getElementById('articleSubject').value, image: document.getElementById('articleImage').value, content: document.getElementById('articleContent').value, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      showToast('Article added!', 'success'); document.getElementById('articleTitle').value = ''; document.getElementById('articleContent').value = ''; document.getElementById('articleImage').value = ''; loadArticles();
     }
-
-    async function loadArticles() {
-      const snapshot = await db.collection('articles').orderBy('createdAt', 'desc').get();
-      document.getElementById('articlesList').innerHTML = snapshot.docs.map(doc => `
-        <div class="list-item"><div><h4>${doc.data().title}</h4><p>Class ${doc.data().class} • ${doc.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('articles','${doc.id}')">Delete</button></div></div>
-      `).join('');
-    }
-
-    // Videos
-    async function addVideo() {
-      const title = document.getElementById('videoTitle').value;
-      const cls = document.getElementById('videoClass').value;
-      const subject = document.getElementById('videoSubject').value;
-      const url = document.getElementById('videoUrl').value;
-      if (!title) return showToast('Please enter a title', 'error');
-      await db.collection('videos').add({ title, class: cls, subject, url, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-      showToast('Video added successfully!', 'success');
-      document.getElementById('videoTitle').value = '';
-      document.getElementById('videoUrl').value = '';
-      loadVideos();
-    }
-
-    async function loadVideos() {
-      const snapshot = await db.collection('videos').orderBy('createdAt', 'desc').get();
-      document.getElementById('videosList').innerHTML = snapshot.docs.map(doc => `
-        <div class="list-item"><div><h4>${doc.data().title}</h4><p>Class ${doc.data().class} • ${doc.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('videos','${doc.id}')">Delete</button></div></div>
-      `).join('');
-    }
-
-    // Questions
-    async function addQuestion() {
-      const cls = document.getElementById('qClass').value;
-      const subject = document.getElementById('qSubject').value;
-      const chapter = document.getElementById('qChapter').value;
-      const type = document.getElementById('qType').value;
-      const question = document.getElementById('qText').value;
-      const options = document.getElementById('qOptions').value;
-      const answer = document.getElementById('qAnswer').value;
-      if (!question) return showToast('Please enter a question', 'error');
-      await db.collection('questions').add({ class: cls, subject, chapter, type, question, options, answer, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-      showToast('Question added successfully!', 'success');
-      document.getElementById('qText').value = '';
-      loadQuestions();
-    }
-
-    async function loadQuestions() {
-      const snapshot = await db.collection('questions').orderBy('createdAt', 'desc').limit(20).get();
-      document.getElementById('questionsList').innerHTML = snapshot.docs.map(doc => `
-        <div class="list-item"><div><h4>${(doc.data().question || '').substring(0,60)}...</h4><p>${doc.data().type?.toUpperCase()} • Class ${doc.data().class} • ${doc.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('questions','${doc.id}')">Delete</button></div></div>
-      `).join('');
-    }
-
-    async function deleteItem(collection, id) {
-      if (confirm('Delete this item?')) {
-        await db.collection(collection).doc(id).delete();
-        showToast('Deleted successfully!', 'error');
-        loadAll();
-      }
-    }
-
+    async function loadArticles() { const s = await db.collection('articles').orderBy('createdAt', 'desc').get(); document.getElementById('articlesList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('articles','${d.id}')">Delete</button></div></div>`).join(''); }
+    async function addVideo() { const title = document.getElementById('videoTitle').value; if (!title) return showToast('Title required', 'error'); await db.collection('videos').add({ title, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, url: document.getElementById('videoUrl').value, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); showToast('Video added!', 'success'); document.getElementById('videoTitle').value = ''; document.getElementById('videoUrl').value = ''; loadVideos(); }
+    async function loadVideos() { const s = await db.collection('videos').orderBy('createdAt', 'desc').get(); document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('videos','${d.id}')">Delete</button></div></div>`).join(''); }
+    async function addQuestion() { const q = document.getElementById('qText').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('qClass').value, subject: document.getElementById('qSubject').value, chapter: document.getElementById('qChapter').value, type: document.getElementById('qType').value, question: q, options: document.getElementById('qOptions').value, answer: document.getElementById('qAnswer').value, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); showToast('Question added!', 'success'); document.getElementById('qText').value = ''; loadQuestions(); }
+    async function loadQuestions() { const s = await db.collection('questions').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('questionsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}...</h4><p>${d.data().type?.toUpperCase()} • Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="deleteItem('questions','${d.id}')">Delete</button></div></div>`).join(''); }
+    async function deleteItem(col, id) { if (confirm('Delete?')) { await db.collection(col).doc(id).delete(); showToast('Deleted!', 'error'); loadAll(); } }
     function loadAll() { loadArticles(); loadVideos(); loadQuestions(); }
   </script>
 </body>

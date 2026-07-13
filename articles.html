@@ -1,69 +1,35 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>আর্টিকেল - চলো পড়তে বসি</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>আর্টিকেল - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .articles-page { max-width: 800px; margin: 0 auto; width: 100%; }
-    .article-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl);
-      padding: var(--space-5); margin-bottom: var(--space-4); cursor: pointer; transition: all var(--transition-fast);
-    }
+    .article-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; margin-bottom: var(--space-4); cursor: pointer; transition: all var(--transition-fast); }
     .article-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
-    .article-card h3 { color: var(--heading); margin-bottom: var(--space-2); }
-    .article-card .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--space-2); }
-    .article-card .preview { font-size: var(--text-sm); color: var(--body); line-height: 1.6; }
-    .article-tag { display: inline-block; padding: 2px 10px; background: var(--accent-light); color: var(--primary); border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
+    .article-img { height: 180px; background-size: cover; background-position: center; }
+    .article-body { padding: var(--space-5); }
+    .article-body h3 { color: var(--heading); margin-bottom: var(--space-2); }
+    .article-body .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--space-2); }
+    .article-tag { display: inline-block; padding: 2px 10px; background: var(--accent-light); color: var(--primary); border-radius: var(--radius-full); font-size: 11px; font-weight: 600; margin-bottom: var(--space-2); }
     body.dark .article-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .article-card h3 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
-
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
-      <span style="color:rgba(255,255,255,0.85);">আর্টিকেল</span>
-      <a href="search.html" class="icon-btn">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </a>
-    </div>
-  </header>
-
-  <main class="main-content">
-    <div class="articles-page">
-      <h2 style="margin-bottom:var(--space-6);">সব আর্টিকেল</h2>
-      <div id="articlesList"><p class="text-muted">লোড হচ্ছে...</p></div>
-    </div>
-  </main>
-
+  <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:rgba(255,255,255,0.85);">আর্টিকেল</span><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
+  <main class="main-content"><div class="articles-page"><h2 style="margin-bottom:var(--space-6);">সব আর্টিকেল</h2><div id="articlesList"><p class="text-muted">লোড হচ্ছে...</p></div></div></main>
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
     <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
     <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
     <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
   </nav>
-
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
-
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    async function loadArticles() {
-      const list = document.getElementById('articlesList');
-      const snapshot = await db.collection('articles').orderBy('createdAt', 'desc').get();
-      if (snapshot.empty) { list.innerHTML = '<p class="text-muted">কোনো আর্টিকেল পাওয়া যায়নি</p>'; return; }
-      list.innerHTML = snapshot.docs.map(doc => {
-        const d = doc.data();
-        return `<div class="article-card"><span class="article-tag">${d.subject || 'সাধারণ'}</span><h3>${d.title}</h3><div class="meta">ক্লাস: ${d.class || '-'}</div><div class="preview">${(d.content || '').substring(0, 150)}...</div></div>`;
-      }).join('');
-    }
-    loadArticles();
+    (async () => {
+      const s = await db.collection('articles').orderBy('createdAt','desc').get();
+      document.getElementById('articlesList').innerHTML = s.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : s.docs.map(d => { const img = d.data().image; return `<div class="article-card">${img?`<div class="article-img" style="background-image:url(${img});"></div>`:''}<div class="article-body"><span class="article-tag">${d.data().subject||'সাধারণ'}</span><h3>${d.data().title}</h3><div class="meta">ক্লাস: ${d.data().class||'-'}</div><p>${(d.data().content||'').substring(0,150)}...</p></div></div>`; }).join('');
+    })();
   </script>
 </body>
 </html>
