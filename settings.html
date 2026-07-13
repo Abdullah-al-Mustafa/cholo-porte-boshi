@@ -21,22 +21,24 @@
   </header>
 
   <main class="main-content">
-    <h2 style="margin-bottom:1.5rem;">সেটিংস</h2>
+    <div class="settings-section">
+      <h2>সেটিংস</h2>
 
-    <div class="setting-row">
-      <span class="setting-label">ডার্ক মোড</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="darkModeToggle" onchange="cpbTheme.toggleDarkMode()">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
+      <div class="setting-card">
+        <span class="setting-label">ডার্ক মোড</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle" onchange="cpbTheme.toggleDarkMode()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
 
-    <div class="setting-row">
-      <span class="setting-label">ফন্ট সাইজ</span>
-      <div class="font-size-group">
-        <button class="font-btn" data-size="14" onclick="setFontSize(14)">ছোট</button>
-        <button class="font-btn active" data-size="16" onclick="setFontSize(16)">মাঝারি</button>
-        <button class="font-btn" data-size="18" onclick="setFontSize(18)">বড়</button>
+      <div class="setting-card">
+        <span class="setting-label">ফন্ট সাইজ</span>
+        <div class="segmented-control">
+          <button class="segmented-btn" data-size="14" onclick="setFontSize(14)">ছোট</button>
+          <button class="segmented-btn active" data-size="16" onclick="setFontSize(16)">মাঝারি</button>
+          <button class="segmented-btn" data-size="18" onclick="setFontSize(18)">বড়</button>
+        </div>
       </div>
     </div>
   </main>
@@ -51,13 +53,13 @@
 
     function setFontSize(size) {
       cpbTheme.setFontSize(size);
-      document.querySelectorAll('.font-btn').forEach(btn => {
+      document.querySelectorAll('.segmented-btn').forEach(btn => {
         btn.classList.toggle('active', parseInt(btn.dataset.size) === size);
       });
     }
 
     const currentSize = cpbTheme.getFontSize();
-    document.querySelectorAll('.font-btn').forEach(btn => {
+    document.querySelectorAll('.segmented-btn').forEach(btn => {
       btn.classList.toggle('active', parseInt(btn.dataset.size) === currentSize);
     });
   </script>
