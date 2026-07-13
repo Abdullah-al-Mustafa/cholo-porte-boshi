@@ -9,13 +9,15 @@
 </head>
 <body>
 
+  <!-- Top Bar -->
   <header class="top-bar">
-    <a href="settings.html" class="icon-btn" aria-label="Settings">
+    <button class="icon-btn" aria-label="Menu" id="menuBtn">
       <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
       </svg>
-    </a>
+    </button>
     <a href="index.html" class="brand">চলো পড়তে বসি</a>
     <a href="search.html" class="icon-btn" aria-label="Search">
       <svg viewBox="0 0 24 24">
@@ -25,17 +27,106 @@
     </a>
   </header>
 
+  <!-- Main Content -->
   <main class="main-content">
-    <div class="coming-soon">
-      <h1>শীঘ্রই আসছে...</h1>
-      <p>আমাদের সাথে যুক্ত থাকুন। সুন্দর কিছু অপেক্ষা করছে।</p>
-    </div>
+
+    <!-- Videos Section -->
+    <section class="content-section">
+      <h2 class="section-title">ভিডিও</h2>
+      <div class="horizontal-scroll">
+        <div class="video-card">
+          <div class="thumbnail-placeholder">▶</div>
+          <div class="card-info">
+            <h3>আলোর প্রতিফলন</h3>
+            <p>পদার্থবিজ্ঞান • ক্লাস ৯</p>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="thumbnail-placeholder">▶</div>
+          <div class="card-info">
+            <h3>জীবকোষ ও এর গঠন</h3>
+            <p>জীববিজ্ঞান • ক্লাস ৯</p>
+          </div>
+        </div>
+        <div class="video-card">
+          <div class="thumbnail-placeholder">▶</div>
+          <div class="card-info">
+            <h3>রাসায়নিক বিক্রিয়া</h3>
+            <p>রসায়ন • ক্লাস ১০</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="content-section">
+      <h2 class="section-title">আর্টিকেল</h2>
+      <div class="horizontal-scroll">
+        <div class="article-card">
+          <div class="card-info">
+            <span class="tag">গণিত</span>
+            <h3>বীজগণিতের প্রাথমিক ধারণা</h3>
+            <p>ক্লাস ৬ • বীজগণিত</p>
+          </div>
+        </div>
+        <div class="article-card">
+          <div class="card-info">
+            <span class="tag">বাংলা</span>
+            <h3>বাংলা সাহিত্যের ইতিহাস</h3>
+            <p>ক্লাস ১০ • সাহিত্য</p>
+          </div>
+        </div>
+        <div class="article-card">
+          <div class="card-info">
+            <span class="tag">ইংরেজি</span>
+            <h3>English Grammar: Tense</h3>
+            <p>ক্লাস ৮ • Grammar</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item" onclick="alert('পরীক্ষা শীঘ্রই আসছে')">
+      <svg viewBox="0 0 24 24">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      <span>Exams</span>
+    </a>
+    <a href="#" class="nav-item" onclick="alert('CPB AI শীঘ্রই আসছে')">
+      <svg viewBox="0 0 24 24">
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+        <line x1="9" y1="9" x2="15" y2="9"/>
+        <line x1="9" y1="13" x2="15" y2="13"/>
+        <line x1="9" y1="17" x2="12" y2="17"/>
+      </svg>
+      <span>CPB AI</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
   <footer class="footer">
     [C] 2026-present. All Rights Reserved.
   </footer>
 
   <script src="js/theme.js"></script>
+  <script>
+    // Menu button
+    document.getElementById('menuBtn').addEventListener('click', function() {
+      window.location.href = 'settings.html';
+    });
+  </script>
 </body>
 </html>
