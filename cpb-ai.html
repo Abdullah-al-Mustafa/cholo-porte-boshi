@@ -42,19 +42,10 @@
       text-align: center;
     }
 
-    @media (min-width: 2560px) {
-      .ai-empty-text { font-size: var(--text-5xl); }
-    }
+    @media (min-width: 2560px) { .ai-empty-text { font-size: var(--text-5xl); } }
 
-    .ai-message-block {
-      animation: fadeIn var(--transition-base);
-      max-width: 100%;
-    }
-
-    .ai-message-block.user {
-      display: flex;
-      justify-content: flex-end;
-    }
+    .ai-message-block { animation: fadeIn var(--transition-base); max-width: 100%; }
+    .ai-message-block.user { display: flex; justify-content: flex-end; }
 
     .ai-message-content {
       padding: var(--space-5) var(--space-6);
@@ -88,20 +79,85 @@
     .ai-message-content pre { background: #1E293B; color: #E2E8F0; padding: var(--space-4); border-radius: var(--radius-md); overflow-x: auto; font-family: monospace; font-size: var(--text-sm); }
     .ai-message-content code { background: var(--secondary); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: var(--text-sm); }
 
-    .ai-input-area { padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border); background: var(--surface); }
-    .ai-input-container { display: flex; align-items: center; gap: var(--space-3); max-width: 800px; margin: 0 auto; width: 100%; }
-    .ai-input-wrapper { flex: 1; display: flex; align-items: center; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius-2xl); padding: var(--space-2) var(--space-4); transition: all var(--transition-fast); }
-    .ai-input-wrapper:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21,128,61,0.1); }
-    .ai-input-wrapper input { flex: 1; border: none; outline: none; background: transparent; font-size: var(--text-base); font-family: var(--font-family); padding: var(--space-2); color: var(--body); }
-    .ai-input-wrapper input::placeholder { color: var(--muted); }
-    .ai-send-btn { width: 44px; height: 44px; border-radius: var(--radius-full); border: none; background: var(--primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); flex-shrink: 0; }
-    .ai-send-btn:hover { background: var(--primary-hover); transform: scale(1.05); }
-    .ai-send-btn svg { width: 20px; height: 20px; }
-    .ai-disclaimer { text-align: center; padding: var(--space-2) var(--space-4); font-size: var(--text-xs); color: var(--muted); }
+    /* Input Section */
+    .ai-input-section {
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
 
+    .ai-input-container {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .ai-input-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-2) var(--space-5);
+      transition: all var(--transition-fast);
+    }
+
+    .ai-input-wrapper:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(21,128,61,0.08);
+    }
+
+    .ai-input-wrapper input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: var(--text-base);
+      font-family: var(--font-family);
+      padding: var(--space-3) 0;
+      color: var(--body);
+    }
+
+    .ai-input-wrapper input::placeholder { color: var(--muted); }
+
+    .ai-send-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .ai-send-btn:hover {
+      background: var(--primary-hover);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(21,128,61,0.3);
+    }
+
+    .ai-send-btn svg { width: 20px; height: 20px; }
+
+    .ai-disclaimer {
+      text-align: center;
+      padding: var(--space-2) var(--space-4) 0;
+      font-size: var(--text-xs);
+      color: var(--muted);
+    }
+
+    /* Dark Mode */
     body.dark .ai-message-block.user .ai-message-content { background: rgba(34,197,94,0.12); }
     body.dark .ai-message-block.bot .ai-message-content { background: var(--dark-surface); border-color: var(--dark-border); }
-    body.dark .ai-input-area { background: var(--dark-surface); border-color: var(--dark-border); }
+    body.dark .ai-input-section { background: var(--dark-surface); border-color: var(--dark-border); }
     body.dark .ai-input-wrapper { background: var(--dark-bg); border-color: var(--dark-border); }
     body.dark .ai-input-wrapper input { color: var(--dark-body); }
     body.dark .ai-message-content pre { background: #0F172A; }
@@ -111,13 +167,14 @@
 </head>
 <body>
 
-  <!-- Header - Clean CPB AI branding only -->
+  <!-- Header -->
   <header class="header">
     <div class="header-inner" style="justify-content:center;">
       <span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;letter-spacing:4px;color:white;font-size:var(--text-lg);">CPB AI</span>
     </div>
   </header>
 
+  <!-- AI Workspace -->
   <div class="ai-workspace">
     <div class="ai-conversation" id="aiConversation">
       <div class="ai-empty-state" id="aiEmptyState">
@@ -125,7 +182,8 @@
       </div>
     </div>
 
-    <div class="ai-input-area">
+    <!-- Input Section -->
+    <div class="ai-input-section">
       <div class="ai-input-container">
         <div class="ai-input-wrapper">
           <input type="text" placeholder="Ask anything..." id="aiInput" onkeydown="if(event.key==='Enter')sendMessage()">
@@ -134,11 +192,17 @@
           <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
-      <div class="ai-disclaimer">AI can make mistakes. Please double-check.</div>
+      <div class="ai-disclaimer">CPB AI can make mistakes. Please double-check.</div>
     </div>
   </div>
 
-  <footer class="footer">[C] 2026-present. All Rights Reserved.</footer>
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>সেটিংস</span></a>
+    <a href="cpb-ai.html" class="nav-item active"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg><span>CPB AI</span></a>
+    <a href="#" class="nav-item"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>পরীক্ষা</span></a>
+  </nav>
 
   <script>
     function sendMessage() {
