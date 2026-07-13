@@ -21,26 +21,174 @@
   </header>
 
   <main class="main-content">
-    <div class="settings-section">
-      <h2>সেটিংস</h2>
+    
+    <!-- Settings Header -->
+    <div class="settings-header">
+      <h1>সেটিংস</h1>
+      <p>আপনার পছন্দ অনুযায়ী অ্যাপ কাস্টমাইজ করুন</p>
+    </div>
 
+    <!-- Appearance Section -->
+    <div class="settings-section">
+      <div class="settings-section-title">অ্যাপিয়ারেন্স</div>
+
+      <!-- Theme Mode -->
       <div class="setting-card">
-        <span class="setting-label">ডার্ক মোড</span>
+        <div class="setting-card-left">
+          <div class="setting-icon" style="background:#DCFCE7;">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </div>
+          <div class="setting-info">
+            <span class="setting-label">থিম</span>
+            <span class="setting-description">লাইট, ডার্ক বা সিস্টেম ডিফল্ট</span>
+          </div>
+        </div>
+        <div class="theme-options">
+          <button class="theme-option active" onclick="setTheme('light')">লাইট</button>
+          <button class="theme-option" onclick="setTheme('dark')">ডার্ক</button>
+          <button class="theme-option" onclick="setTheme('system')">সিস্টেম</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- General Section -->
+    <div class="settings-section">
+      <div class="settings-section-title">জেনারেল</div>
+
+      <!-- Language -->
+      <div class="setting-card" onclick="alert('ভাষা পরিবর্তন শীঘ্রই আসছে')">
+        <div class="setting-card-left">
+          <div class="setting-icon" style="background:#DBEAFE;">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 8l6 6"/>
+              <path d="M4 14l6-6 2-3"/>
+              <path d="M2 5h12"/>
+              <path d="M7 2h1"/>
+              <path d="M22 22l-5-10-5 10"/>
+              <path d="M14 18h6"/>
+            </svg>
+          </div>
+          <div class="setting-info">
+            <span class="setting-label">ভাষা</span>
+            <span class="setting-description">বাংলা</span>
+          </div>
+        </div>
+        <span class="setting-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </div>
+
+      <!-- Notifications -->
+      <div class="setting-card">
+        <div class="setting-card-left">
+          <div class="setting-icon" style="background:#FEF3C7;">
+            <svg viewBox="0 0 24 24">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <div class="setting-info">
+            <span class="setting-label">নোটিফিকেশন</span>
+            <span class="setting-description">গুরুত্বপূর্ণ আপডেট জানতে পারবেন</span>
+          </div>
+        </div>
         <label class="toggle-switch">
-          <input type="checkbox" id="darkModeToggle" onchange="cpbTheme.toggleDarkMode()">
+          <input type="checkbox" checked>
           <span class="toggle-slider"></span>
         </label>
       </div>
 
-      <div class="setting-card">
-        <span class="setting-label">ফন্ট সাইজ</span>
-        <div class="segmented-control">
-          <button class="segmented-btn" data-size="14" onclick="setFontSize(14)">ছোট</button>
-          <button class="segmented-btn active" data-size="16" onclick="setFontSize(16)">মাঝারি</button>
-          <button class="segmented-btn" data-size="18" onclick="setFontSize(18)">বড়</button>
+      <!-- Clear Cache -->
+      <div class="setting-card" onclick="alert('ক্যাশ ক্লিয়ার করা হয়েছে')">
+        <div class="setting-card-left">
+          <div class="setting-icon" style="background:#FEE2E2;">
+            <svg viewBox="0 0 24 24">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </div>
+          <div class="setting-info">
+            <span class="setting-label">ক্যাশ ক্লিয়ার করুন</span>
+            <span class="setting-description">অস্থায়ী ডাটা মুছে ফেলুন</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- About Section -->
+    <div class="settings-section">
+      <div class="settings-section-title">সম্পর্কে</div>
+
+      <!-- Privacy Policy -->
+      <div class="setting-card" onclick="alert('প্রাইভেসি পলিসি')">
+        <div class="setting-card-left">
+          <div class="setting-info">
+            <span class="setting-label">প্রাইভেসি পলিসি</span>
+          </div>
+        </div>
+        <span class="setting-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </div>
+
+      <!-- Terms & Conditions -->
+      <div class="setting-card" onclick="alert('টার্মস এন্ড কন্ডিশনস')">
+        <div class="setting-card-left">
+          <div class="setting-info">
+            <span class="setting-label">টার্মস এন্ড কন্ডিশনস</span>
+          </div>
+        </div>
+        <span class="setting-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </div>
+
+      <!-- About CPB -->
+      <div class="setting-card" onclick="alert('চলো পড়তে বসি - একটি উন্মুক্ত শিক্ষামূলক প্ল্যাটফর্ম')">
+        <div class="setting-card-left">
+          <div class="setting-info">
+            <span class="setting-label">CPB সম্পর্কে</span>
+          </div>
+        </div>
+        <span class="setting-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </div>
+
+      <!-- Contact & Feedback -->
+      <div class="setting-card" onclick="alert('letsconnectcpb@gmail.com')">
+        <div class="setting-card-left">
+          <div class="setting-info">
+            <span class="setting-label">যোগাযোগ ও ফিডব্যাক</span>
+          </div>
+        </div>
+        <span class="setting-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </div>
+
+      <!-- Version -->
+      <div class="setting-card">
+        <div class="setting-card-left">
+          <div class="setting-info">
+            <span class="setting-label">ভার্সন</span>
+          </div>
+        </div>
+        <span class="version-badge">v1.0.0</span>
+      </div>
+    </div>
+
   </main>
 
   <footer class="footer">
@@ -49,19 +197,43 @@
 
   <script src="js/theme.js"></script>
   <script>
-    document.getElementById('darkModeToggle').checked = cpbTheme.isDarkMode();
-
-    function setFontSize(size) {
-      cpbTheme.setFontSize(size);
-      document.querySelectorAll('.segmented-btn').forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.size) === size);
-      });
+    // Theme switcher
+    function setTheme(mode) {
+      document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      if (mode === 'dark') {
+        document.body.classList.add('dark');
+        localStorage.setItem('cpb-theme', 'dark');
+      } else if (mode === 'light') {
+        document.body.classList.remove('dark');
+        localStorage.setItem('cpb-theme', 'light');
+      } else {
+        // System default
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          document.body.classList.add('dark');
+        } else {
+          document.body.classList.remove('dark');
+        }
+        localStorage.setItem('cpb-theme', 'system');
+      }
     }
 
-    const currentSize = cpbTheme.getFontSize();
-    document.querySelectorAll('.segmented-btn').forEach(btn => {
-      btn.classList.toggle('active', parseInt(btn.dataset.size) === currentSize);
+    // Init theme
+    const savedTheme = localStorage.getItem('cpb-theme') || 'light';
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.textContent.trim() === (savedTheme === 'system' ? 'সিস্টেম' : savedTheme === 'dark' ? 'ডার্ক' : 'লাইট')) {
+        btn.classList.add('active');
+      }
     });
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+    } else if (savedTheme === 'system') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) document.body.classList.add('dark');
+    }
   </script>
 </body>
 </html>
