@@ -18,9 +18,9 @@
     .login-container input { width: 100%; padding: var(--space-3); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; }
     .login-container button { width: 100%; padding: var(--space-3); background: var(--primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; }
     .dashboard { max-width: 1000px; margin: var(--space-8) auto; padding: 0 var(--space-4); display: none; }
-    .tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-6); flex-wrap: wrap; }
-    .tab { padding: var(--space-2) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; font-weight: 500; font-size: 0.85rem; }
-    .tab.active { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+    .tabs { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
+    .tab { padding: var(--space-3) var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; font-weight: 500; font-size: 0.9rem; white-space: nowrap; transition: all var(--transition-fast); }
+    .tab.active { background: var(--accent); color: var(--primary); border-color: var(--accent); font-weight: 600; }
     .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-6); }
     .form-card h3 { margin-bottom: var(--space-4); color: var(--heading); }
     .form-card input, .form-card textarea, .form-card select { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; }
@@ -91,36 +91,26 @@
     const db = firebase.firestore();
     function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '&#10003;' : '&#10007;') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
     function ts() { return firebase.firestore.FieldValue.serverTimestamp(); }
-
-    auth.onAuthStateChanged(user => {
-      if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); }
-      else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; }
-    });
+    auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
     function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
     function logout() { auth.signOut(); }
     function switchTab(tab) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none'); document.getElementById('tab-' + tab).style.display = 'block'; }
 
-    // Videos
     async function addVideo() { const t = document.getElementById('videoTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('videos').add({ title: t, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, url: document.getElementById('videoUrl').value, createdAt: ts() }); showToast('Video added!', 'success'); loadVideos(); }
     async function loadVideos() { const s = await db.collection('videos').orderBy('createdAt', 'desc').get(); document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('videos','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    // Articles
     async function addArticle() { const t = document.getElementById('articleTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('articles').add({ title: t, class: document.getElementById('articleClass').value, subject: document.getElementById('articleSubject').value, image: document.getElementById('articleImage').value, content: document.getElementById('articleContent').value, createdAt: ts() }); showToast('Article added!', 'success'); loadArticles(); }
     async function loadArticles() { const s = await db.collection('articles').orderBy('createdAt', 'desc').get(); document.getElementById('articlesList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('articles','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    // News
     async function addNews() { const t = document.getElementById('newsTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('news').add({ title: t, content: document.getElementById('newsContent').value, createdAt: ts() }); showToast('News added!', 'success'); loadNews(); }
     async function loadNews() { const s = await db.collection('news').orderBy('createdAt', 'desc').get(); document.getElementById('newsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4></div><div><button class="btn-danger" onclick="del('news','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    // MCQ
     async function addMCQ() { const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type: 'mcq', question: q, options: document.getElementById('mcqOptions').value, answer: document.getElementById('mcqAnswer').value, createdAt: ts() }); showToast('MCQ added!', 'success'); loadMCQ(); }
     async function loadMCQ() { const s = await db.collection('questions').where('type', '==', 'mcq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('mcqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    // CQ
     async function addCQ() { const q = document.getElementById('cqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('cqClass').value, subject: document.getElementById('cqSubject').value, chapter: document.getElementById('cqChapter').value, type: 'cq', question: q, answer: document.getElementById('cqAnswer').value, createdAt: ts() }); showToast('CQ added!', 'success'); loadCQ(); }
     async function loadCQ() { const s = await db.collection('questions').where('type', '==', 'cq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('cqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    // SQ
     async function addSQ() { const q = document.getElementById('sqQuestion').value; if (!q) return showToast('Question required', 'error'); await db.collection('questions').add({ class: document.getElementById('sqClass').value, subject: document.getElementById('sqSubject').value, chapter: document.getElementById('sqChapter').value, type: 'sq', question: q, answer: document.getElementById('sqAnswer').value, createdAt: ts() }); showToast('SQ added!', 'success'); loadSQ(); }
     async function loadSQ() { const s = await db.collection('questions').where('type', '==', 'sq').orderBy('createdAt', 'desc').limit(20).get(); document.getElementById('sqList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||'').substring(0,60)}</h4><p>Class ${d.data().class} • ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join(''); }
 
