@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPB AI - চলো পড়তে বসি</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-brand">← চলো পড়তে বসি</a>
+      <span style="color:white;font-weight:600;">CPB AI</span>
+      <span style="width:44px;"></span>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="ai-chat-container">
+      <div class="ai-messages" id="aiMessages">
+        <div class="ai-message bot">
+          <p><strong>CPB AI</strong>-তে স্বাগতম! আপনার পড়ার বিষয়ে যেকোনো প্রশ্ন করুন।</p>
+        </div>
+      </div>
+      <div class="ai-input-area">
+        <select class="input" style="max-width:120px;">
+          <option>ক্লাস ৬</option>
+          <option>ক্লাস ৭</option>
+          <option>ক্লাস ৮</option>
+          <option selected>ক্লাস ৯</option>
+          <option>ক্লাস ১০</option>
+        </select>
+        <select class="input" style="max-width:140px;">
+          <option>গণিত</option>
+          <option>পদার্থবিজ্ঞান</option>
+          <option>রসায়ন</option>
+          <option>জীববিজ্ঞান</option>
+          <option>বাংলা</option>
+          <option>ইংরেজি</option>
+        </select>
+        <input type="text" class="input" placeholder="আপনার প্রশ্ন লিখুন..." id="aiInput" style="flex:1;">
+        <button class="btn btn-primary" onclick="sendMessage()">পাঠান</button>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>হোম</span>
+    </a>
+    <a href="#" class="nav-item">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span>পরীক্ষা</span>
+    </a>
+    <a href="cpb-ai.html" class="nav-item active">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg>
+      <span>CPB AI</span>
+    </a>
+  </nav>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('aiInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      const container = document.getElementById('aiMessages');
+      container.innerHTML += `<div class="ai-message user"><p>${msg}</p></div>`;
+      container.innerHTML += `<div class="ai-message bot"><p>এটি একটি দারুণ প্রশ্ন! বিস্তারিত উত্তর শীঘ্রই আসছে।</p></div>`;
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+    }
+  </script>
+</body>
+</html>
