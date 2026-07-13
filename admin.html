@@ -6,34 +6,25 @@
   <title>Admin Panel - চলো পড়তে বসি</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
-    :root {
-      --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF;
-      --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280;
-      --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem;
-    }
+    :root { --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF; --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280; --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--body); min-height: 100vh; }
-    
     .admin-header { background: var(--primary); color: white; padding: var(--space-4); display: flex; justify-content: space-between; align-items: center; }
     .admin-header h1 { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
     .admin-header button { background: var(--accent); color: var(--primary); border: none; padding: var(--space-3) var(--space-5); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
-    
     .login-container { max-width: 400px; margin: 100px auto; padding: var(--space-8); background: var(--surface); border-radius: var(--radius-lg); box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
     .login-container h2 { margin-bottom: var(--space-6); color: var(--heading); }
     .login-container input { width: 100%; padding: var(--space-3); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; }
     .login-container button { width: 100%; padding: var(--space-3); background: var(--primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; }
-    
     .dashboard { max-width: 1000px; margin: var(--space-8) auto; padding: 0 var(--space-4); display: none; }
     .tabs { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
     .tab { padding: var(--space-3) var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; font-weight: 500; }
     .tab.active { background: var(--accent); color: var(--primary); border-color: var(--accent); }
-    
     .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-6); }
     .form-card h3 { margin-bottom: var(--space-4); color: var(--heading); }
     .form-card input, .form-card textarea, .form-card select { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; font-family: inherit; }
     .form-card textarea { min-height: 100px; resize: vertical; }
     .form-card button { padding: var(--space-3) var(--space-6); background: var(--accent); color: var(--primary); border: none; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
-    
     .list-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--space-3); background: var(--surface); }
     .list-item h4 { color: var(--heading); }
     .list-item p { color: var(--muted); font-size: 0.9rem; }
@@ -48,7 +39,6 @@
     <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
   </header>
 
-  <!-- Login -->
   <div class="login-container" id="loginBox">
     <h2>Admin Login</h2>
     <input type="email" id="email" placeholder="Email">
@@ -57,7 +47,6 @@
     <p id="loginError" style="color:red;margin-top:var(--space-3);display:none;"></p>
   </div>
 
-  <!-- Dashboard -->
   <div class="dashboard" id="dashboard">
     <div class="tabs">
       <button class="tab active" onclick="switchTab('articles')">Articles</button>
@@ -65,15 +54,11 @@
       <button class="tab" onclick="switchTab('questions')">Questions</button>
     </div>
 
-    <!-- Articles Tab -->
     <div id="tab-articles">
       <div class="form-card">
         <h3>Add Article</h3>
         <input type="text" id="articleTitle" placeholder="Title">
-        <select id="articleClass">
-          <option value="">Select Class</option>
-          <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-        </select>
+        <select id="articleClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
         <input type="text" id="articleSubject" placeholder="Subject">
         <textarea id="articleContent" placeholder="Content"></textarea>
         <button onclick="addArticle()">Add Article</button>
@@ -81,15 +66,11 @@
       <div id="articlesList"></div>
     </div>
 
-    <!-- Videos Tab -->
     <div id="tab-videos" style="display:none;">
       <div class="form-card">
         <h3>Add Video</h3>
         <input type="text" id="videoTitle" placeholder="Title">
-        <select id="videoClass">
-          <option value="">Select Class</option>
-          <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-        </select>
+        <select id="videoClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
         <input type="text" id="videoSubject" placeholder="Subject">
         <input type="text" id="videoUrl" placeholder="YouTube URL">
         <button onclick="addVideo()">Add Video</button>
@@ -97,21 +78,13 @@
       <div id="videosList"></div>
     </div>
 
-    <!-- Questions Tab -->
     <div id="tab-questions" style="display:none;">
       <div class="form-card">
         <h3>Add Question</h3>
-        <select id="qClass">
-          <option value="">Select Class</option>
-          <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-        </select>
+        <select id="qClass"><option value="">Select Class</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
         <input type="text" id="qSubject" placeholder="Subject">
         <input type="text" id="qChapter" placeholder="Chapter">
-        <select id="qType">
-          <option value="mcq">MCQ</option>
-          <option value="cq">CQ</option>
-          <option value="sq">SQ</option>
-        </select>
+        <select id="qType"><option value="mcq">MCQ</option><option value="cq">CQ</option><option value="sq">SQ</option></select>
         <textarea id="qText" placeholder="Question"></textarea>
         <input type="text" id="qOptions" placeholder="Options (comma separated, for MCQ)">
         <input type="text" id="qAnswer" placeholder="Correct Answer">
@@ -121,14 +94,13 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="firebase-config.js"></script>
+  <script src="supabase-config.js"></script>
 
   <script>
-    // Auth State
     auth.onAuthStateChanged(user => {
       if (user) {
         document.getElementById('loginBox').style.display = 'none';
@@ -161,96 +133,71 @@
       document.getElementById('tab-' + tab).style.display = 'block';
     }
 
-    // Articles CRUD
+    // Articles
     async function addArticle() {
-      const data = {
+      const { error } = await supabase.from('articles').insert({
         title: document.getElementById('articleTitle').value,
         class: document.getElementById('articleClass').value,
         subject: document.getElementById('articleSubject').value,
-        content: document.getElementById('articleContent').value,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      await db.collection('articles').add(data);
-      alert('Article added!');
-      loadArticles();
+        content: document.getElementById('articleContent').value
+      });
+      if (error) alert(error.message); else { alert('Added!'); loadArticles(); }
     }
 
     async function loadArticles() {
-      const list = document.getElementById('articlesList');
-      const snapshot = await db.collection('articles').orderBy('createdAt', 'desc').get();
-      list.innerHTML = snapshot.docs.map(doc => `
-        <div class="list-item">
-          <div><h4>${doc.data().title}</h4><p>Class ${doc.data().class} • ${doc.data().subject}</p></div>
-          <div><button class="btn-danger" onclick="deleteItem('articles', '${doc.id}')">Delete</button></div>
-        </div>
+      const { data } = await supabase.from('articles').select('*').order('id', { ascending: false });
+      document.getElementById('articlesList').innerHTML = (data || []).map(item => `
+        <div class="list-item"><div><h4>${item.title}</h4><p>Class ${item.class} • ${item.subject}</p></div><div><button class="btn-danger" onclick="deleteItem('articles', ${item.id})">Delete</button></div></div>
       `).join('');
     }
 
-    // Videos CRUD
+    // Videos
     async function addVideo() {
-      const data = {
+      const { error } = await supabase.from('videos').insert({
         title: document.getElementById('videoTitle').value,
         class: document.getElementById('videoClass').value,
         subject: document.getElementById('videoSubject').value,
-        url: document.getElementById('videoUrl').value,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      await db.collection('videos').add(data);
-      alert('Video added!');
-      loadVideos();
+        url: document.getElementById('videoUrl').value
+      });
+      if (error) alert(error.message); else { alert('Added!'); loadVideos(); }
     }
 
     async function loadVideos() {
-      const list = document.getElementById('videosList');
-      const snapshot = await db.collection('videos').orderBy('createdAt', 'desc').get();
-      list.innerHTML = snapshot.docs.map(doc => `
-        <div class="list-item">
-          <div><h4>${doc.data().title}</h4><p>Class ${doc.data().class} • ${doc.data().subject}</p></div>
-          <div><button class="btn-danger" onclick="deleteItem('videos', '${doc.id}')">Delete</button></div>
-        </div>
+      const { data } = await supabase.from('videos').select('*').order('id', { ascending: false });
+      document.getElementById('videosList').innerHTML = (data || []).map(item => `
+        <div class="list-item"><div><h4>${item.title}</h4><p>Class ${item.class} • ${item.subject}</p></div><div><button class="btn-danger" onclick="deleteItem('videos', ${item.id})">Delete</button></div></div>
       `).join('');
     }
 
-    // Questions CRUD
+    // Questions
     async function addQuestion() {
-      const data = {
+      const { error } = await supabase.from('questions').insert({
         class: document.getElementById('qClass').value,
         subject: document.getElementById('qSubject').value,
         chapter: document.getElementById('qChapter').value,
         type: document.getElementById('qType').value,
         question: document.getElementById('qText').value,
         options: document.getElementById('qOptions').value,
-        answer: document.getElementById('qAnswer').value,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      await db.collection('questions').add(data);
-      alert('Question added!');
-      loadQuestions();
+        answer: document.getElementById('qAnswer').value
+      });
+      if (error) alert(error.message); else { alert('Added!'); loadQuestions(); }
     }
 
     async function loadQuestions() {
-      const list = document.getElementById('questionsList');
-      const snapshot = await db.collection('questions').orderBy('createdAt', 'desc').limit(20).get();
-      list.innerHTML = snapshot.docs.map(doc => `
-        <div class="list-item">
-          <div><h4>${doc.data().question?.substring(0,60)}...</h4><p>${doc.data().type?.toUpperCase()} • Class ${doc.data().class} • ${doc.data().subject}</p></div>
-          <div><button class="btn-danger" onclick="deleteItem('questions', '${doc.id}')">Delete</button></div>
-        </div>
+      const { data } = await supabase.from('questions').select('*').order('id', { ascending: false }).limit(20);
+      document.getElementById('questionsList').innerHTML = (data || []).map(item => `
+        <div class="list-item"><div><h4>${(item.question || '').substring(0,60)}...</h4><p>${item.type?.toUpperCase()} • Class ${item.class} • ${item.subject}</p></div><div><button class="btn-danger" onclick="deleteItem('questions', ${item.id})">Delete</button></div></div>
       `).join('');
     }
 
-    async function deleteItem(collection, id) {
-      if (confirm('Delete this item?')) {
-        await db.collection(collection).doc(id).delete();
+    async function deleteItem(table, id) {
+      if (confirm('Delete?')) {
+        await supabase.from(table).delete().eq('id', id);
         loadAll();
       }
     }
 
-    function loadAll() {
-      loadArticles();
-      loadVideos();
-      loadQuestions();
-    }
+    function loadAll() { loadArticles(); loadVideos(); loadQuestions(); }
   </script>
 </body>
 </html>

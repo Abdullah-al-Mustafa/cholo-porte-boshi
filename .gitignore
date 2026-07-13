@@ -4,3 +4,5 @@ Thumbs.db
 .idea/
 config.js
 firebase-config.js
+firebase-config.js
+supabase-config.js
