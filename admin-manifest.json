@@ -1,0 +1,16 @@
+{
+  "name": "CPB Admin Panel",
+  "short_name": "CPB Admin",
+  "description": "Admin Panel for চলো পড়তে বসি",
+  "start_url": "/cholo-porte-boshi/admin.html",
+  "display": "standalone",
+  "background_color": "#0D1B2A",
+  "theme_color": "#0D1B2A",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
