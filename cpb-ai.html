@@ -3,267 +3,200 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CPB AI - চলো পড়তে বসি</title>
+  <title>CPB AI</title>
   <link rel="icon" type="image/svg+xml" href="cpb-ai-icon.svg">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* CPB AI Brand Typography */
-    .cpb-ai-wordmark {
-      font-family: 'Inter', 'Noto Sans Bengali', system-ui, sans-serif;
-      font-weight: 700;
-      letter-spacing: 4px;
-      color: white;
-      font-size: var(--text-xl);
-    }
-
-    .cpb-ai-wordmark .ai-suffix {
-      font-weight: 400;
-      letter-spacing: 2px;
-      font-size: var(--text-sm);
-      color: rgba(255,255,255,0.7);
-    }
-
-    .cpb-ai-header {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-
-    .cpb-ai-header .brand-accent {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--primary-light);
-    }
-
-    /* Layout */
-    .ai-layout {
-      display: flex;
-      min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
-    }
-
-    .ai-sidebar {
-      display: none;
-      width: 280px;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      padding: var(--space-4);
-      overflow-y: auto;
-    }
-
-    .ai-main {
-      flex: 1;
+    /* CPB AI Universal Workspace */
+    .ai-workspace {
       display: flex;
       flex-direction: column;
-      max-width: 900px;
+      height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
+      max-width: 800px;
       margin: 0 auto;
       width: 100%;
-      padding: var(--space-4);
     }
 
-    .ai-tools-panel {
-      display: none;
-      width: 280px;
-      background: var(--surface);
-      border-left: 1px solid var(--border);
-      padding: var(--space-4);
-      overflow-y: auto;
+    @media (min-width: 1024px) {
+      .ai-workspace { max-width: 850px; }
     }
 
-    @media (min-width: 1024px) { .ai-sidebar { display: block; } }
-    @media (min-width: 1280px) { .ai-tools-panel { display: block; } }
-
-    /* Context Selector */
-    .context-selector {
-      display: flex;
-      gap: var(--space-2);
-      padding: var(--space-3) var(--space-4);
-      background: var(--secondary);
-      border-radius: var(--radius-xl);
-      margin-bottom: var(--space-4);
-      flex-wrap: wrap;
-      align-items: center;
+    @media (min-width: 1440px) {
+      .ai-workspace { max-width: 900px; }
     }
 
-    .context-selector select {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-2) var(--space-3);
-      font-family: var(--font-family);
-      font-size: var(--text-sm);
-      background: white;
-      color: var(--body);
-      cursor: pointer;
-      min-height: 40px;
+    @media (min-width: 2560px) {
+      .ai-workspace { max-width: 1200px; }
     }
 
-    .context-indicator {
-      font-size: var(--text-xs);
-      color: var(--primary);
-      font-weight: 600;
-      padding: var(--space-1) var(--space-3);
-      background: white;
-      border-radius: var(--radius-full);
-    }
-
-    /* Welcome Card */
-    .welcome-card {
-      background: white;
-      border: 2px solid var(--secondary);
-      border-radius: var(--radius-2xl);
-      padding: var(--space-8);
-      text-align: center;
-      margin-bottom: var(--space-4);
-    }
-
-    .welcome-card h2 {
-      color: var(--primary);
-      margin-bottom: var(--space-2);
-      font-family: 'Inter', 'Noto Sans Bengali', system-ui, sans-serif;
-      font-weight: 700;
-    }
-
-    .suggested-questions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2);
-      justify-content: center;
-      margin-top: var(--space-4);
-    }
-
-    .suggested-q {
-      padding: var(--space-2) var(--space-4);
-      background: var(--secondary);
-      border: none;
-      border-radius: var(--radius-full);
-      cursor: pointer;
-      font-family: var(--font-family);
-      font-size: var(--text-sm);
-      color: var(--primary);
-      font-weight: 500;
-      transition: all var(--transition-fast);
-    }
-
-    .suggested-q:hover {
-      background: var(--secondary-hover);
-    }
-
-    /* Chat Messages */
-    .ai-messages {
+    /* Conversation Area */
+    .ai-conversation {
       flex: 1;
       overflow-y: auto;
-      padding: var(--space-4) 0;
+      padding: var(--space-6) var(--space-4);
       display: flex;
       flex-direction: column;
-      gap: var(--space-4);
+      gap: var(--space-6);
     }
 
-    .ai-message { max-width: 85%; animation: fadeIn var(--transition-base); }
-    .ai-message.user { align-self: flex-end; }
-    .ai-message.bot { align-self: flex-start; }
+    /* Empty State */
+    .ai-empty-state {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    .message-bubble {
-      padding: var(--space-4) var(--space-5);
+    .ai-empty-text {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (min-width: 2560px) {
+      .ai-empty-text { font-size: var(--text-5xl); }
+    }
+
+    /* Message Blocks */
+    .ai-message-block {
+      animation: fadeIn var(--transition-base);
+      max-width: 100%;
+    }
+
+    .ai-message-block.user {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ai-message-content {
+      padding: var(--space-5) var(--space-6);
       border-radius: var(--radius-xl);
-      line-height: 1.7;
+      line-height: 1.8;
+      font-size: var(--text-base);
     }
 
-    .ai-message.user .message-bubble {
+    .ai-message-block.user .ai-message-content {
       background: var(--secondary);
+      color: var(--body);
+      max-width: 80%;
       border-bottom-right-radius: var(--radius-sm);
     }
 
-    .ai-message.bot .message-bubble {
-      background: white;
+    .ai-message-block.bot .ai-message-content {
+      background: var(--surface);
       border: 1px solid var(--border);
+      color: var(--body);
+      max-width: 100%;
       border-bottom-left-radius: var(--radius-sm);
     }
 
-    .message-bubble h4 {
-      color: var(--primary);
+    .ai-message-content h3 {
+      font-size: var(--text-lg);
+      color: var(--heading);
+      margin-bottom: var(--space-3);
+      font-weight: 600;
+    }
+
+    .ai-message-content p {
+      margin-bottom: var(--space-3);
+    }
+
+    .ai-message-content ul,
+    .ai-message-content ol {
+      margin: var(--space-3) 0;
+      padding-left: var(--space-6);
+    }
+
+    .ai-message-content li {
       margin-bottom: var(--space-2);
-      font-size: var(--text-sm);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-family: 'Inter', system-ui, sans-serif;
     }
 
-    .message-bubble ul {
-      margin: var(--space-2) 0;
-      padding-left: var(--space-4);
+    .ai-message-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-3) 0;
     }
 
-    .message-bubble li { margin-bottom: var(--space-1); }
-
-    .message-actions {
-      display: flex;
-      gap: var(--space-2);
-      margin-top: var(--space-3);
-    }
-
-    .message-actions button {
-      padding: var(--space-1) var(--space-3);
+    .ai-message-content th,
+    .ai-message-content td {
       border: 1px solid var(--border);
-      background: white;
-      border-radius: var(--radius-full);
-      cursor: pointer;
-      font-size: var(--text-xs);
-      font-family: var(--font-family);
-      color: var(--body);
-      transition: all var(--transition-fast);
+      padding: var(--space-2) var(--space-3);
+      text-align: left;
+      font-size: var(--text-sm);
     }
 
-    .message-actions button:hover {
+    .ai-message-content th {
       background: var(--secondary);
-      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .ai-message-content pre {
+      background: #1E293B;
+      color: #E2E8F0;
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: var(--text-sm);
+    }
+
+    .ai-message-content code {
+      background: var(--secondary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: var(--text-sm);
     }
 
     /* Input Area */
     .ai-input-area {
-      padding: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .ai-input-container {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .ai-input-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: var(--bg);
       border: 2px solid var(--border);
       border-radius: var(--radius-2xl);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      background: white;
-      transition: border-color var(--transition-fast);
-    }
-
-    .ai-input-area:focus-within {
-      border-color: var(--primary);
-      box-shadow: var(--shadow-focus);
-    }
-
-    .ai-input-area input {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-size: var(--text-base);
-      font-family: var(--font-family);
-      padding: var(--space-2);
-      background: transparent;
-    }
-
-    .ai-input-area input::placeholder { color: var(--muted); }
-
-    .input-action-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-full);
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
+      padding: var(--space-2) var(--space-4);
       transition: all var(--transition-fast);
     }
 
-    .input-action-btn:hover { background: var(--secondary); color: var(--primary); }
+    .ai-input-wrapper:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(21,128,61,0.1);
+    }
 
-    .send-btn {
+    .ai-input-wrapper input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: var(--text-base);
+      font-family: var(--font-family);
+      padding: var(--space-2);
+      color: var(--body);
+    }
+
+    .ai-input-wrapper input::placeholder {
+      color: var(--muted);
+    }
+
+    .ai-send-btn {
       width: 44px;
       height: 44px;
       border-radius: var(--radius-full);
@@ -275,211 +208,114 @@
       align-items: center;
       justify-content: center;
       transition: all var(--transition-fast);
+      flex-shrink: 0;
     }
 
-    .send-btn:hover { background: var(--primary-hover); transform: scale(1.05); }
-    .send-btn svg { width: 20px; height: 20px; }
-
-    /* Smart Tools */
-    .tool-card {
-      padding: var(--space-3) var(--space-4);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      margin-bottom: var(--space-2);
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
+    .ai-send-btn:hover {
+      background: var(--primary-hover);
+      transform: scale(1.05);
     }
 
-    .tool-card:hover { background: var(--secondary); border-color: var(--primary); }
-
-    .tool-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
+    .ai-send-btn svg {
+      width: 20px;
+      height: 20px;
     }
 
-    .tool-label { font-weight: 600; font-size: var(--text-sm); color: var(--heading); }
-    .tool-desc { font-size: var(--text-xs); color: var(--muted); }
-
-    /* History */
-    .history-item {
-      padding: var(--space-3);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      margin-bottom: var(--space-1);
+    /* Disclaimer */
+    .ai-disclaimer {
+      text-align: center;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-xs);
+      color: var(--muted);
     }
-
-    .history-item:hover { background: var(--secondary); }
-    .history-item h5 { font-size: var(--text-sm); margin-bottom: 2px; }
-    .history-item span { font-size: var(--text-xs); color: var(--muted); }
 
     /* Dark Mode */
-    body.dark .ai-sidebar,
-    body.dark .ai-tools-panel { background: var(--dark-surface); border-color: var(--dark-border); }
-    body.dark .context-selector { background: rgba(34,197,94,0.1); }
-    body.dark .context-selector select { background: var(--dark-surface); color: var(--dark-body); border-color: var(--dark-border); }
-    body.dark .context-indicator { background: var(--dark-surface); }
-    body.dark .welcome-card { background: var(--dark-surface); border-color: rgba(34,197,94,0.2); }
-    body.dark .suggested-q { background: rgba(34,197,94,0.1); }
-    body.dark .message-bubble { background: var(--dark-surface); border-color: var(--dark-border); }
-    body.dark .ai-message.user .message-bubble { background: rgba(34,197,94,0.15); }
+    body.dark .ai-message-block.user .ai-message-content { background: rgba(34,197,94,0.12); }
+    body.dark .ai-message-block.bot .ai-message-content { background: var(--dark-surface); border-color: var(--dark-border); }
     body.dark .ai-input-area { background: var(--dark-surface); border-color: var(--dark-border); }
-    body.dark .ai-input-area input { color: var(--dark-body); }
-    body.dark .message-actions button { background: var(--dark-surface); border-color: var(--dark-border); color: var(--dark-body); }
-    body.dark .message-actions button:hover { background: rgba(34,197,94,0.1); }
-    body.dark .tool-card { border-color: var(--dark-border); }
-    body.dark .tool-card:hover { background: rgba(34,197,94,0.1); }
-    body.dark .history-item:hover { background: rgba(34,197,94,0.1); }
-
-    @media (min-width: 2560px) {
-      .ai-main { max-width: 1200px; }
-      .ai-message { max-width: 70%; }
-      .message-bubble { padding: var(--space-6) var(--space-8); font-size: var(--text-xl); }
-    }
+    body.dark .ai-input-wrapper { background: var(--dark-bg); border-color: var(--dark-border); }
+    body.dark .ai-input-wrapper input { color: var(--dark-body); }
+    body.dark .ai-message-content pre { background: #0F172A; }
+    body.dark .ai-message-content th { background: rgba(34,197,94,0.1); }
+    body.dark .ai-message-content th,
+    body.dark .ai-message-content td { border-color: var(--dark-border); }
   </style>
 </head>
 <body>
 
-  <!-- Header with Typography Branding -->
+  <!-- Header -->
   <header class="header">
     <div class="header-inner">
       <a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:var(--text-sm);">← চলো পড়তে বসি</a>
-      <div class="cpb-ai-header">
-        <span class="cpb-ai-wordmark">CPB<span class="ai-suffix">AI</span></span>
-        <span class="brand-accent"></span>
-      </div>
-      <span style="width:44px;"></span>
+      <span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;letter-spacing:3px;color:white;font-size:var(--text-lg);">CPB AI</span>
+      <a href="settings.html" class="icon-btn" aria-label="Settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </a>
     </div>
   </header>
 
-  <!-- AI Layout -->
-  <div class="ai-layout">
-
-    <aside class="ai-sidebar">
-      <h4 style="margin-bottom:var(--space-4);color:var(--heading);font-family:'Inter',system-ui,sans-serif;font-weight:600;">শেখার ইতিহাস</h4>
-      <div class="history-item"><h5>বীজগণিত - সহজ ব্যাখ্যা</h5><span>২ ঘন্টা আগে</span></div>
-      <div class="history-item"><h5>আলোর প্রতিফলন - সারাংশ</h5><span>গতকাল</span></div>
-      <div class="history-item"><h5>রাসায়নিক বিক্রিয়া - MCQ</h5><span>২ দিন আগে</span></div>
-      <div style="margin-top:var(--space-6);">
-        <h4 style="margin-bottom:var(--space-3);color:var(--heading);font-family:'Inter',system-ui,sans-serif;font-weight:600;">সংরক্ষিত</h4>
-        <div class="history-item"><h5>পদার্থবিজ্ঞান - গুরুত্বপূর্ণ সূত্র</h5><span>সংরক্ষিত</span></div>
+  <!-- AI Workspace -->
+  <div class="ai-workspace">
+    
+    <!-- Conversation / Empty State -->
+    <div class="ai-conversation" id="aiConversation">
+      <div class="ai-empty-state" id="aiEmptyState">
+        <span class="ai-empty-text">Write something to start...</span>
       </div>
-    </aside>
+    </div>
 
-    <main class="ai-main">
-      <div class="context-selector">
-        <select><option>ক্লাস ৬</option><option>ক্লাস ৭</option><option>ক্লাস ৮</option><option selected>ক্লাস ৯</option><option>ক্লাস ১০</option></select>
-        <select><option>গণিত</option><option>পদার্থবিজ্ঞান</option><option>রসায়ন</option><option selected>জীববিজ্ঞান</option><option>বাংলা</option><option>ইংরেজি</option></select>
-        <select><option>অধ্যায় নির্বাচন করুন</option><option selected>কোষ ও এর গঠন</option><option>জীবনের জন্য পানি</option></select>
-        <span class="context-indicator">নবম শ্রেণি • জীববিজ্ঞান</span>
-      </div>
-
-      <div class="ai-messages" id="aiMessages">
-        <div class="welcome-card">
-          <h2>আজ কী শিখতে চাও?</h2>
-          <p style="color:var(--muted);">CPB AI তোমার সিলেবাস অনুযায়ী সাহায্য করবে</p>
-          <div class="suggested-questions">
-            <button class="suggested-q" onclick="askQuestion('কোষের গঠন সহজভাবে বুঝিয়ে দাও')">কোষের গঠন সহজভাবে বুঝিয়ে দাও</button>
-            <button class="suggested-q" onclick="askQuestion('এই অধ্যায়ের সারাংশ দাও')">এই অধ্যায়ের সারাংশ দাও</button>
-            <button class="suggested-q" onclick="askQuestion('পরীক্ষার গুরুত্বপূর্ণ প্রশ্ন দেখাও')">পরীক্ষার গুরুত্বপূর্ণ প্রশ্ন দেখাও</button>
-          </div>
+    <!-- Input Area -->
+    <div class="ai-input-area">
+      <div class="ai-input-container">
+        <div class="ai-input-wrapper">
+          <input type="text" placeholder="Ask anything..." id="aiInput" onkeydown="if(event.key==='Enter')sendMessage()">
         </div>
-      </div>
-
-      <div class="ai-input-area">
-        <button class="input-action-btn" title="ভয়েস ইনপুট">
-          <svg viewBox="0 0 24 24" style="width:20px;height:20px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="currentColor" fill="none" stroke-width="2"/><line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" stroke-width="2"/></svg>
-        </button>
-        <input type="text" placeholder="তোমার প্রশ্ন লিখো..." id="aiInput" onkeydown="if(event.key==='Enter')sendMessage()">
-        <button class="send-btn" onclick="sendMessage()" aria-label="পাঠান">
+        <button class="ai-send-btn" onclick="sendMessage()" aria-label="Send">
           <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
+      <div class="ai-disclaimer">AI can make mistakes. Please double-check.</div>
+    </div>
 
-      <div style="display:flex;gap:var(--space-2);margin-top:var(--space-3);overflow-x:auto;padding-bottom:var(--space-2);">
-        <button class="suggested-q" onclick="askQuestion('সহজ ব্যাখ্যা দাও')">সহজ ব্যাখ্যা</button>
-        <button class="suggested-q" onclick="askQuestion('সারাংশ তৈরি করো')">সারাংশ</button>
-        <button class="suggested-q" onclick="askQuestion('গুরুত্বপূর্ণ প্রশ্ন দেখাও')">গুরুত্বপূর্ণ প্রশ্ন</button>
-        <button class="suggested-q" onclick="askQuestion('MCQ তৈরি করো')">MCQ</button>
-        <button class="suggested-q" onclick="askQuestion('পরীক্ষা প্রস্তুতি দাও')">পরীক্ষা</button>
-      </div>
-    </main>
-
-    <aside class="ai-tools-panel">
-      <h4 style="margin-bottom:var(--space-4);color:var(--heading);font-family:'Inter',system-ui,sans-serif;font-weight:600;">শেখার টুলস</h4>
-      <div class="tool-card" onclick="askQuestion('সহজ ব্যাখ্যা দাও')"><div class="tool-icon" style="background:#DCFCE7;">📖</div><div><div class="tool-label">সহজ ব্যাখ্যা</div><div class="tool-desc">যেকোনো টপিক সহজে বুঝুন</div></div></div>
-      <div class="tool-card" onclick="askQuestion('সারাংশ তৈরি করো')"><div class="tool-icon" style="background:#DBEAFE;">📝</div><div><div class="tool-label">সারাংশ তৈরি</div><div class="tool-desc">অধ্যায়ের সারসংক্ষেপ</div></div></div>
-      <div class="tool-card" onclick="askQuestion('গুরুত্বপূর্ণ প্রশ্ন দেখাও')"><div class="tool-icon" style="background:#FEF3C7;">⭐</div><div><div class="tool-label">গুরুত্বপূর্ণ প্রশ্ন</div><div class="tool-desc">পরীক্ষার জন্য প্রস্তুতি</div></div></div>
-      <div class="tool-card" onclick="askQuestion('MCQ তৈরি করো')"><div class="tool-icon" style="background:#FEE2E2;">📋</div><div><div class="tool-label">MCQ তৈরি</div><div class="tool-desc">অনুশীলনের জন্য MCQ</div></div></div>
-      <div class="tool-card" onclick="askQuestion('পরীক্ষা প্রস্তুতি দাও')"><div class="tool-icon" style="background:#E0E7FF;">🎯</div><div><div class="tool-label">পরীক্ষা প্রস্তুতি</div><div class="tool-desc">পূর্ণাঙ্গ প্রস্তুতি গাইড</div></div></div>
-    </aside>
   </div>
 
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>হোম</span>
-    </a>
-    <a href="#" class="nav-item">
-      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <span>পরীক্ষা</span>
-    </a>
-    <a href="cpb-ai.html" class="nav-item active">
-      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg>
-      <span>CPB AI</span>
-    </a>
-  </nav>
+  <!-- Footer -->
+  <footer class="footer">[C] 2026-present. All Rights Reserved.</footer>
 
   <script>
-    function askQuestion(question) {
-      document.getElementById('aiInput').value = question;
-      sendMessage();
-    }
-
     function sendMessage() {
       const input = document.getElementById('aiInput');
       const msg = input.value.trim();
       if (!msg) return;
-      
-      const container = document.getElementById('aiMessages');
-      const welcome = container.querySelector('.welcome-card');
-      if (welcome) welcome.remove();
 
-      container.innerHTML += `
-        <div class="ai-message user">
-          <div class="message-bubble"><p>${msg}</p></div>
+      const conversation = document.getElementById('aiConversation');
+      const emptyState = document.getElementById('aiEmptyState');
+      if (emptyState) emptyState.remove();
+
+      // User message
+      conversation.innerHTML += `
+        <div class="ai-message-block user">
+          <div class="ai-message-content"><p>${msg}</p></div>
         </div>`;
 
-      container.innerHTML += `
-        <div class="ai-message bot">
-          <div class="message-bubble">
-            <h4>জীববিজ্ঞান • কোষ ও এর গঠন</h4>
-            <p><strong>সহজ ব্যাখ্যা:</strong></p>
-            <p>কোষ হলো জীবনের মৌলিক একক। সব জীবিত প্রাণী কোষ দিয়ে গঠিত।</p>
-            <p><strong>গুরুত্বপূর্ণ পয়েন্ট:</strong></p>
+      // AI response
+      conversation.innerHTML += `
+        <div class="ai-message-block bot">
+          <div class="ai-message-content">
+            <p>I understand you're asking about <strong>"${msg}"</strong>.</p>
+            <p>Here's a helpful response structure:</p>
+            <h3>Key Points</h3>
             <ul>
-              <li>কোষ আবিষ্কার করেন রবার্ট হুক</li>
-              <li>দুই ধরনের কোষ: প্রোক্যারিওটিক ও ইউক্যারিওটিক</li>
-              <li>উদ্ভিদ কোষে কোষপ্রাচীর থাকে</li>
+              <li>Important concept explained clearly</li>
+              <li>Supporting details with examples</li>
+              <li>Practical applications where relevant</li>
             </ul>
-            <div class="message-actions">
-              <button onclick="askQuestion('MCQ তৈরি করো')">MCQ শুরু করুন</button>
-              <button onclick="alert('সংরক্ষিত!')">সংরক্ষণ করুন</button>
-              <button onclick="alert('কপি করা হয়েছে')">কপি করুন</button>
-            </div>
+            <p>This is a <strong>universal AI workspace</strong> — you can ask anything and receive structured, professional responses.</p>
           </div>
         </div>`;
 
       input.value = '';
-      container.scrollTop = container.scrollHeight;
+      conversation.scrollTop = conversation.scrollHeight;
     }
   </script>
 </body>
