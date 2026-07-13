@@ -1,42 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <!-- Background rounded square -->
-  <rect 
-    x="4" 
-    y="4" 
-    width="92" 
-    height="92" 
-    rx="22" 
-    fill="#16A34A" />
-  
-  <!-- Subtle open book arcs (bottom portion of the letter) -->
-  <path 
-    d="M24 74 
-      C 28 68, 34 65, 42 66 
-      C 46 66, 50 69, 54 66 
-      C 58 63, 64 64, 68 70 
-      L 64 74 
-      C 60 69, 54 67, 50 70 
-      C 46 73, 38 74, 32 74 
-      Z" 
-    fill="#DCFCE7" />
-  
-  <path 
-    d="M50 70 
-      C 54 73, 62 74, 68 74 
-      L 70 78 
-      C 64 78, 56 76, 50 73 
-      Z" 
-    fill="#DCFCE7" />
-
-  <!-- Main Bengali letter "চ" -->
-  <text 
-    x="50" 
-    y="50" 
-    text-anchor="middle" 
-    dominant-baseline="central" 
-    font-family="'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif" 
-    font-size="58" 
-    font-weight="700" 
-    fill="#FFFFFF">চ</text>
+  <rect x="4" y="4" width="92" height="92" rx="22" fill="#15803D"/>
+  <text x="50" y="52" text-anchor="middle" font-family="'Noto Sans Bengali', 'Hind Siliguri', system-ui, sans-serif" font-size="36" font-weight="700" fill="#FFFFFF">চ</text>
 </svg>
