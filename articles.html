@@ -5,30 +5,29 @@
     .articles-page { max-width: 800px; margin: 0 auto; width: 100%; }
     .article-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; margin-bottom: var(--space-4); cursor: pointer; transition: all var(--transition-fast); }
     .article-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
-    .article-img { height: 180px; background-size: cover; background-position: center; }
+    .article-img { height: 180px; background-size: cover; background-position: center; background-color: var(--accent-light); }
     .article-body { padding: var(--space-5); }
     .article-body h3 { color: var(--heading); margin-bottom: var(--space-2); }
-    .article-body .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--space-2); }
-    .article-tag { display: inline-block; padding: 2px 10px; background: var(--accent-light); color: var(--primary); border-radius: var(--radius-full); font-size: 11px; font-weight: 600; margin-bottom: var(--space-2); }
+    .article-body .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--space-2); display: flex; gap: 4px; flex-wrap: wrap; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; }
+    .badge.subject { background: var(--accent-light); color: var(--primary); }
+    .badge.class { background: var(--secondary); color: white; }
+    .badge.all { background: var(--accent); color: var(--primary); }
     body.dark .article-card { background: var(--dark-card); border-color: var(--dark-border); }
   </style>
 </head>
 <body>
   <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:rgba(255,255,255,0.85);">আর্টিকেল</span><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
   <main class="main-content"><div class="articles-page"><h2 style="margin-bottom:var(--space-6);">সব আর্টিকেল</h2><div id="articlesList"><p class="text-muted">লোড হচ্ছে...</p></div></div></main>
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
-    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
-    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
-    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
-  </nav>
+  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
+    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9': 'Class 9', '10': 'Class 10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
     (async () => {
       const s = await db.collection('articles').orderBy('createdAt','desc').get();
-      document.getElementById('articlesList').innerHTML = s.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : s.docs.map(d => { const img = d.data().image; return `<div class="article-card">${img?`<div class="article-img" style="background-image:url(${img});"></div>`:''}<div class="article-body"><span class="article-tag">${d.data().subject||'সাধারণ'}</span><h3>${d.data().title}</h3><div class="meta">ক্লাস: ${d.data().class||'-'}</div><p>${(d.data().content||'').substring(0,150)}...</p></div></div>`; }).join('');
+      document.getElementById('articlesList').innerHTML = s.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : s.docs.map(d => { const img = d.data().image; return `<div class="article-card" onclick="location.href='article.html?id=${d.id}'">${img?`<div class="article-img" style="background-image:url(${img});"></div>`:''}<div class="article-body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h3>${d.data().title}</h3><div class="meta">${clsBadge(d.data().class)}</div><p>${(d.data().content||'').substring(0,150)}...</p></div></div>`; }).join('');
     })();
   </script>
 </body>
