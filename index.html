@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0D1B2A">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .section { margin-bottom: var(--space-6); }
     .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
@@ -48,5 +50,6 @@
       document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="mini-card" onclick="location.href='article.html?id=${d.id}'"><div class="thumb" style="${img?'background-image:url('+img+');':''}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)}</div></div></div>`; }).join('');
     })();
   </script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/cholo-porte-boshi/sw.js");}</script>
 </body>
 </html>
