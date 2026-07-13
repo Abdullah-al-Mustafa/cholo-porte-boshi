@@ -1,45 +1,102 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .article-thumb { height: 120px; border-radius: var(--radius-lg); background-size: cover; background-position: center; margin-bottom: var(--space-3); }
-    .video-thumb { height: 130px; border-radius: var(--radius-lg); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-3); }
-    .video-thumb .play-icon { width: 40px; height: 40px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .video-thumb .play-icon svg { width: 18px; height: 18px; fill: white; stroke: none; }
+    .section { margin-bottom: var(--space-6); }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+    .section-title { font-size: clamp(1rem,3vw,1.3rem); font-weight: 700; color: var(--heading); }
+    .section-link { color: var(--secondary); font-weight: 600; text-decoration: none; font-size: var(--text-sm); }
+    .video-thumb { height: 120px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; background-color: var(--accent-light); }
+    .video-thumb .play-icon { width: 36px; height: 36px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .video-thumb .play-icon svg { width: 16px; height: 16px; fill: white; }
+    .article-thumb { height: 110px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background-size: cover; background-position: center; background-color: var(--accent-light); }
+    .card-body { padding: var(--space-3) var(--space-4); }
+    .q-mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); min-width: 260px; cursor: pointer; transition: all 0.2s; }
+    .q-mini-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+    .q-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: var(--space-2); }
+    .q-badge { padding: 2px 8px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; }
+    .q-badge.type { background: var(--accent); color: var(--primary); }
+    .q-badge.class { background: var(--accent-light); color: var(--primary); }
+    .q-badge.subject { background: var(--secondary); color: white; }
+    .answer-area { margin-top: var(--space-3); display: none; }
+    .answer-area.show { display: block; }
+    .answer-area textarea { width: 100%; padding: var(--space-2); border: 2px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: var(--text-sm); min-height: 60px; }
+    .answer-feedback { margin-top: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); font-size: var(--text-xs); display: none; }
+    .answer-feedback.correct { background: #DCFCE7; color: #166534; display: block; }
+    .answer-feedback.wrong { background: #FEE2E2; color: #991B1B; display: block; }
+    .btn-xs { padding: var(--space-1) var(--space-3); font-size: var(--text-xs); border-radius: var(--radius-md); border: none; cursor: pointer; font-weight: 600; min-height: 32px; }
+    .btn-xs.primary { background: var(--accent); color: var(--primary); }
+    body.dark .q-mini-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .q-mini-card h4 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <a href="menu.html" class="icon-btn mobile-only"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></a>
-      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
-      <nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav>
-      <a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    </div>
-  </header>
+  <header class="header"><div class="header-inner"><a href="menu.html" class="icon-btn mobile-only"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></a><a href="index.html" class="header-brand">চলো পড়তে বসি</a><nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
   <main class="main-content">
-    <section class="hero"><h1>চলো পড়তে বসি</h1><p>A Bangladesh Curriculum-Based Learning Platform</p><div class="hero-actions"><a href="cpb-ai.html" class="btn btn-primary btn-lg">CPB AI</a><a href="exam.html" class="btn btn-outline btn-lg" style="border-color:white; color:white; display:inline-flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg> পরীক্ষা</a></div></section>
-    <section class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও</a></div><div id="homeVideos" class="horizontal-scroll"><p class="text-muted">লোড হচ্ছে...</p></div></section>
-    <section class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল</a></div><div id="homeArticles" class="horizontal-scroll"><p class="text-muted">লোড হচ্ছে...</p></div></section>
+    <section class="hero"><h1>চলো পড়তে বসি</h1><p>A Bangladesh Curriculum-Based Learning Platform</p><div class="hero-actions"><a href="cpb-ai.html" class="btn btn-primary btn-lg">CPB AI</a><a href="exam.html" class="btn btn-outline btn-lg" style="border-color:white; color:white; display:inline-flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:white;stroke-width:2;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg> পরীক্ষা</a></div></section>
+
+    <!-- Videos -->
+    <div class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও</a></div><div id="homeVideos" class="horizontal-scroll"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+
+    <!-- Articles -->
+    <div class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল</a></div><div id="homeArticles" class="horizontal-scroll"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+
+    <!-- Quick Practice -->
+    <div class="section"><div class="section-header"><h2 class="section-title">ঝটপট প্র্যাকটিস</h2><a href="exam.html" class="section-link">সব পরীক্ষা</a></div><div id="homeQuestions" class="horizontal-scroll"><p class="text-muted">লোড হচ্ছে...</p></div></div>
   </main>
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
-    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
-    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
-    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
-  </nav>
+  <nav class="bottom-nav"><a href="index.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
     function yt(url) { const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m ? 'https://img.youtube.com/vi/'+m[1]+'/mqdefault.jpg' : ''; }
+    function clsLabel(c) { return c === '9-10' ? '৯ম-১০ম' : (c||'') + 'ম'; }
+
     (async () => {
-      const v = await db.collection('videos').orderBy('createdAt','desc').limit(4).get();
-      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = yt(d.data().url||''); return `<div class="card card-clickable" style="min-width:260px;padding:0;overflow:hidden;" onclick="window.open('${d.data().url}','_blank')"><div class="video-thumb" style="${t?'background-image:url('+t+');':'background:var(--accent-light);'}"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div></div><div style="padding:var(--space-4);"><h4>${d.data().title}</h4><p class="text-muted">ক্লাস ${d.data().class} • ${d.data().subject||''}</p></div></div>`; }).join('');
-      const a = await db.collection('articles').orderBy('createdAt','desc').limit(4).get();
-      document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="card card-clickable" style="min-width:280px;padding:0;overflow:hidden;">${img?`<div class="article-thumb" style="background-image:url(${img});"></div>`:''}<div style="padding:var(--space-4);"><span style="display:inline-block;padding:2px 10px;background:var(--accent-light);color:var(--primary);border-radius:var(--radius-full);font-size:11px;font-weight:600;margin-bottom:var(--space-2);">${d.data().subject||''}</span><h4>${d.data().title}</h4><p class="text-muted">ক্লাস ${d.data().class}</p></div></div>`; }).join('');
+      // Videos (max 5)
+      const v = await db.collection('videos').orderBy('createdAt','desc').limit(5).get();
+      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = yt(d.data().url||''); return `<div class="card card-clickable" style="min-width:240px;padding:0;overflow:hidden;" onclick="window.open('${d.data().url}','_blank')"><div class="video-thumb" style="${t?'background-image:url('+t+');':''}">${t?'':'<div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>'}</div><div class="card-body"><h4>${d.data().title}</h4><p class="text-muted">ক্লাস ${clsLabel(d.data().class)} • ${d.data().subject||''}</p></div></div>`; }).join('');
+
+      // Articles (max 5)
+      const a = await db.collection('articles').orderBy('createdAt','desc').limit(5).get();
+      document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="card card-clickable" style="min-width:240px;padding:0;overflow:hidden;">${img?`<div class="article-thumb" style="background-image:url(${img});"></div>`:''}<div class="card-body"><span style="display:inline-block;padding:2px 8px;background:var(--accent-light);color:var(--primary);border-radius:var(--radius-full);font-size:10px;font-weight:600;margin-bottom:4px;">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><p class="text-muted">ক্লাস ${clsLabel(d.data().class)}</p></div></div>`; }).join('');
+
+      // Questions (max 5, mixed MCQ/CQ/SQ)
+      const q = await db.collection('questions').orderBy('createdAt','desc').limit(5).get();
+      document.getElementById('homeQuestions').innerHTML = q.empty ? '<p class="text-muted">কোনো প্রশ্ন নেই</p>' : q.docs.map((d,i) => { const data = d.data(); const typeLabel = data.type?.toUpperCase() || 'MCQ'; return `<div class="q-mini-card" id="qcard${i}"><div class="q-meta"><span class="q-badge type">${typeLabel}</span><span class="q-badge class">${clsLabel(data.class)}</span>${data.subject?`<span class="q-badge subject">${data.subject}</span>`:''}</div><h4 style="font-size:var(--text-sm);margin-bottom:var(--space-2);">${data.question?.substring(0,80)}...</h4><div id="qbody${i}"><button class="btn-xs primary" onclick="openAnswer(${i},'${data.type}','${(data.answer||'').replace(/'/g,"\\'")}','${(data.options||'').replace(/'/g,"\\'")}')">উত্তর দাও</button></div></div>`; }).join('');
     })();
+
+    function openAnswer(i, type, answer, options) {
+      const body = document.getElementById('qbody'+i);
+      if (type === 'mcq') {
+        const opts = options.split(',').filter(o => o.trim());
+        body.innerHTML = `<div style="margin-top:var(--space-2);">${opts.map((opt,j) => `<button class="btn-xs" style="display:block;width:100%;text-align:left;margin-bottom:4px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:6px 10px;cursor:pointer;" onclick="checkMCQ(${i},'${opt.trim().replace(/'/g,"\\'")}','${answer.replace(/'/g,"\\'")}',this)">${opt.trim()}</button>`).join('')}</div>`;
+      } else {
+        body.innerHTML = `<div class="answer-area show"><textarea id="ans${i}" placeholder="উত্তর লিখো..." style="width:100%;padding:var(--space-2);border:2px solid var(--border);border-radius:var(--radius-md);min-height:60px;font-family:inherit;"></textarea><button class="btn-xs primary" onclick="checkSQ(${i},'${answer.replace(/'/g,"\\'")}')" style="margin-top:6px;">জমা দাও</button><div class="answer-feedback" id="fb${i}"></div></div>`;
+      }
+    }
+
+    function checkMCQ(i, selected, correct, el) {
+      const parent = el.parentElement;
+      parent.querySelectorAll('button').forEach(b => { b.style.pointerEvents = 'none'; if (b.textContent.trim() === correct) { b.style.background = '#DCFCE7'; b.style.borderColor = '#22C55E'; } });
+      if (selected === correct) {
+        el.style.background = '#DCFCE7'; el.style.borderColor = '#22C55E';
+        document.getElementById('qcard'+i).insertAdjacentHTML('beforeend','<div class="answer-feedback correct" style="margin-top:8px;">অভিনন্দন! সঠিক উত্তর!</div>');
+      } else {
+        el.style.background = '#FEE2E2'; el.style.borderColor = '#DC2626';
+        document.getElementById('qcard'+i).insertAdjacentHTML('beforeend','<div class="answer-feedback wrong" style="margin-top:8px;">ভুল! সঠিক উত্তর: '+correct+'</div>');
+      }
+    }
+
+    function checkSQ(i, answer) {
+      const userAns = document.getElementById('ans'+i).value.trim();
+      const fb = document.getElementById('fb'+i);
+      if (userAns.length > 5 && answer && userAns.toLowerCase().includes(answer.toLowerCase().substring(0,10))) {
+        fb.className = 'answer-feedback correct'; fb.textContent = 'অভিনন্দন! সঠিক উত্তর!';
+      } else {
+        fb.className = 'answer-feedback wrong'; fb.textContent = 'সঠিক উত্তর: ' + answer;
+      }
+    }
   </script>
 </body>
 </html>
