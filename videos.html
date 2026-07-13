@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ভিডিও - চলো পড়তে বসি</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .videos-page { max-width: 900px; margin: 0 auto; width: 100%; }
+    .video-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-4); }
+    @media (min-width: 600px) { .video-grid { grid-template-columns: repeat(3,1fr); } }
+    .video-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; cursor: pointer; transition: all var(--transition-fast); }
+    .video-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
+    .video-thumb { height: 140px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; }
+    .video-thumb svg { width: 40px; height: 40px; fill: var(--primary); stroke: none; }
+    .video-info { padding: var(--space-4); }
+    .video-info h4 { font-size: var(--text-sm); color: var(--heading); margin-bottom: 4px; }
+    .video-info p { font-size: var(--text-xs); color: var(--muted); }
+    body.dark .video-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .video-info h4 { color: var(--dark-heading); }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
+      <span style="color:rgba(255,255,255,0.85);">ভিডিও</span>
+      <a href="search.html" class="icon-btn">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="videos-page">
+      <h2 style="margin-bottom:var(--space-6);">সব ভিডিও</h2>
+      <div class="video-grid" id="videosList"><p class="text-muted">লোড হচ্ছে...</p></div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
+    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+  </nav>
+
+  <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    async function loadVideos() {
+      const list = document.getElementById('videosList');
+      const snapshot = await db.collection('videos').orderBy('createdAt', 'desc').get();
+      if (snapshot.empty) { list.innerHTML = '<p class="text-muted">কোনো ভিডিও পাওয়া যায়নি</p>'; return; }
+      list.innerHTML = snapshot.docs.map(doc => {
+        const d = doc.data();
+        return `<div class="video-card" onclick="window.open('${d.url}','_blank')"><div class="video-thumb"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div><div class="video-info"><h4>${d.title}</h4><p>ক্লাস: ${d.class} • ${d.subject || ''}</p></div></div>`;
+      }).join('');
+    }
+    loadVideos();
+  </script>
+</body>
+</html>
