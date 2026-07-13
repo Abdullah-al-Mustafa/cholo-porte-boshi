@@ -1,83 +1,39 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>পরীক্ষা - চলো পড়তে বসি</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>পরীক্ষা - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .exam-page { max-width: 800px; margin: 0 auto; width: 100%; }
     .exam-hero { text-align: center; padding: var(--space-8) 0 var(--space-4); }
     .exam-hero h1 { font-size: var(--text-3xl); color: var(--heading); margin-bottom: var(--space-2); }
     .exam-hero p { color: var(--muted); }
-    .exam-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-3); margin: var(--space-6) 0; }
-    @media (min-width: 600px) { .exam-grid { grid-template-columns: repeat(4,1fr); } }
+    .exam-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-4); margin: var(--space-6) 0; }
+    @media (max-width: 500px) { .exam-grid { grid-template-columns: repeat(3,1fr); gap: var(--space-2); } }
     .exam-card {
       display: flex; flex-direction: column; align-items: center; text-align: center;
-      padding: var(--space-5) var(--space-3); border-radius: var(--radius-xl);
+      padding: var(--space-6) var(--space-4); border-radius: var(--radius-xl);
       background: var(--surface); border: 1px solid var(--border);
-      text-decoration: none; color: var(--body); transition: all var(--transition-fast); gap: var(--space-2);
+      text-decoration: none; color: var(--body); transition: all var(--transition-fast); gap: var(--space-3);
     }
-    .exam-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); transform: translateY(-2px); }
-    .exam-card-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-    .exam-card-label { font-weight: 600; font-size: var(--text-sm); color: var(--heading); }
+    .exam-card:hover { box-shadow: var(--shadow-lg); border-color: var(--accent); transform: translateY(-3px); }
+    .exam-card-icon { width: 56px; height: 56px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+    .exam-card-label { font-weight: 700; font-size: var(--text-lg); color: var(--heading); }
     .exam-card-desc { font-size: var(--text-xs); color: var(--muted); }
     body.dark .exam-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .exam-card-label { color: var(--dark-heading); }
   </style>
 </head>
 <body>
-
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="header-brand">চলো পড়তে বসি</a>
-      <span style="color:rgba(255,255,255,0.85);">পরীক্ষা</span>
-      <a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    </div>
-  </header>
-
+  <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:rgba(255,255,255,0.85);">পরীক্ষা</span><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
   <main class="main-content">
     <div class="exam-page">
-      <div class="exam-hero">
-        <h1>পরীক্ষা</h1>
-        <p>নিজেকে যাচাই করো, প্রস্তুতি আরও ভালো করো</p>
-      </div>
-
-      <!-- Exam Categories -->
-      <h3 style="font-size:var(--text-sm);color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:var(--space-3);">পরীক্ষার ধরন</h3>
+      <div class="exam-hero"><h1>পরীক্ষা</h1><p>নিজেকে যাচাই করো, প্রস্তুতি আরও ভালো করো</p></div>
       <div class="exam-grid">
-        <a href="mcq-test.html" class="exam-card">
-          <div class="exam-card-icon" style="background:var(--accent-light);">✅</div>
-          <div class="exam-card-label">MCQ পরীক্ষা</div>
-          <div class="exam-card-desc">বিষয়ভিত্তিক MCQ</div>
-        </a>
-        <a href="daily-quiz.html" class="exam-card">
-          <div class="exam-card-icon" style="background:var(--accent-light);">⚡</div>
-          <div class="exam-card-label">ডেইলি কুইজ</div>
-          <div class="exam-card-desc">আজকের চ্যালেঞ্জ</div>
-        </a>
-        <a href="model-test.html" class="exam-card">
-          <div class="exam-card-icon" style="background:var(--accent-light);">📝</div>
-          <div class="exam-card-label">মডেল টেস্ট</div>
-          <div class="exam-card-desc">পূর্ণ সিলেবাস</div>
-        </a>
-        <a href="previous-questions.html" class="exam-card">
-          <div class="exam-card-icon" style="background:var(--accent-light);">📂</div>
-          <div class="exam-card-label">পূর্ববর্তী প্রশ্ন</div>
-          <div class="exam-card-desc">আগের বছরের</div>
-        </a>
+        <a href="mcq-test.html" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">✅</div><div class="exam-card-label">MCQ</div><div class="exam-card-desc">বহুনির্বাচনি</div></a>
+        <a href="cq-test.html" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">📝</div><div class="exam-card-label">CQ</div><div class="exam-card-desc">সৃজনশীল</div></a>
+        <a href="sq-test.html" class="exam-card"><div class="exam-card-icon" style="background:var(--accent-light);">📋</div><div class="exam-card-label">SQ</div><div class="exam-card-desc">সংক্ষিপ্ত</div></a>
       </div>
     </div>
   </main>
-
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
-    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a>
-    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
-    <a href="exam.html" class="nav-item active"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
-  </nav>
-
+  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item active"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
 </body>
 </html>
