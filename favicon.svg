@@ -6,7 +6,7 @@
     width="92" 
     height="92" 
     rx="22" 
-    fill="#49FA35" />
+    fill="#16A34A" />
   <path 
     d="M26 76 
       C 29 69, 35 66, 44 68 
@@ -15,7 +15,7 @@
       L 72 80 
       C 65 73, 55 71, 48 75 
       C 40 78, 33 79, 26 80 Z" 
-    fill="#FFFFFF" />
+    fill="#DCFCE7" />
   <text 
     x="50" 
     y="51.5" 
@@ -24,8 +24,5 @@
     font-family="'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif" 
     font-size="64" 
     font-weight="700" 
-    fill="#0A3D2E" 
-    stroke="#0A3D2E" 
-    stroke-width="3" 
-    paint-order="stroke fill">চ</text>
+    fill="#FFFFFF">চ</text>
 </svg>

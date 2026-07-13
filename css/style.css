@@ -1,10 +1,15 @@
 :root {
-  --primary: #2D6A4F;
-  --primary-dark: #1B4332;
-  --accent: #A8D5BA;
-  --accent-hover: #8BC4A0;
-  --white: #ffffff;
-  --light-gray: #f5f5f5;
+  --primary: #16A34A;
+  --primary-hover: #15803D;
+  --primary-dark: #14532D;
+  --accent: #4ADE80;
+  --accent-light: #DCFCE7;
+  --bg: #F8FAFC;
+  --bg-soft: #F0FDF4;
+  --card: #FFFFFF;
+  --heading: #111827;
+  --body-text: #374151;
+  --white: #FFFFFF;
   --dark-bg: #1a1a1a;
   --dark-surface: #2d2d2d;
   --dark-text: #e0e0e0;
@@ -19,8 +24,8 @@
 
 body {
   font-family: 'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif;
-  background-color: var(--white);
-  color: var(--primary-dark);
+  background-color: var(--bg);
+  color: var(--body-text);
   font-size: var(--font-size);
   min-height: 100vh;
   display: flex;
@@ -39,7 +44,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .top-bar a {
@@ -49,25 +54,23 @@ body {
   align-items: center;
 }
 
-/* Typographic Logo */
 .top-bar .brand {
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--accent);
+  color: var(--white);
   font-family: 'Noto Sans Bengali', 'SolaimanLipi', system-ui, sans-serif;
-  text-transform: none;
   transition: color 0.3s ease;
 }
 
 .top-bar .brand:hover {
-  color: var(--white);
+  color: var(--accent-light);
 }
 
 .top-bar .icon-btn svg {
   width: 24px;
   height: 24px;
-  stroke: var(--accent);
+  stroke: var(--accent-light);
   fill: none;
   stroke-width: 2;
   transition: stroke 0.3s ease;
@@ -90,8 +93,8 @@ body {
 .footer {
   text-align: center;
   padding: 1rem;
-  background-color: var(--primary);
-  color: var(--accent);
+  background-color: var(--primary-dark);
+  color: var(--accent-light);
   font-size: 0.8rem;
   letter-spacing: 0.3px;
 }
@@ -100,18 +103,19 @@ body {
 .search-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid var(--primary);
+  border: 2px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.3s ease;
-  background-color: var(--white);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--card);
+  color: var(--body-text);
 }
 
 .search-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(168, 213, 186, 0.3);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
 }
 
 .results-area {
@@ -120,13 +124,14 @@ body {
 
 .result-item {
   padding: 0.75rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
   cursor: pointer;
   transition: background-color 0.2s;
+  color: var(--body-text);
 }
 
 .result-item:hover {
-  background-color: rgba(168, 213, 186, 0.2);
+  background-color: var(--bg-soft);
 }
 
 /* ---------- Settings ---------- */
@@ -135,12 +140,12 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
 }
 
 .setting-label {
   font-weight: 600;
-  color: var(--primary-dark);
+  color: var(--heading);
 }
 
 .toggle-switch {
@@ -191,13 +196,13 @@ input:checked + .toggle-slider:before {
 
 .font-btn {
   padding: 0.4rem 0.8rem;
-  border: 1px solid var(--primary);
-  background: transparent;
+  border: 1px solid #ddd;
+  background: var(--card);
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: 0.2s;
-  color: var(--primary-dark);
+  color: var(--body-text);
 }
 
 .font-btn.active {
@@ -215,12 +220,12 @@ input:checked + .toggle-slider:before {
 
 .coming-soon h1 {
   font-size: 2rem;
-  color: var(--primary);
+  color: var(--heading);
   margin-bottom: 0.5rem;
 }
 
 .coming-soon p {
-  color: #555;
+  color: var(--body-text);
   font-size: 1.1rem;
 }
 
