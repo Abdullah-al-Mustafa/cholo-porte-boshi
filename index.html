@@ -2,47 +2,44 @@
 <html lang="bn">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .feed { max-width: 600px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: var(--space-4); }
-    .post { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; }
-    .post-header { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-4) 0; }
-    .post-badge { padding: 3px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 700; }
-    .post-badge.video { background: #FEE2E2; color: #DC2626; }
-    .post-badge.article { background: #DBEAFE; color: #2563EB; }
-    .post-badge.mcq { background: #DCFCE7; color: #166534; }
-    .post-badge.cq { background: #FEF3C7; color: #92400E; }
-    .post-badge.sq { background: #E0E7FF; color: #4338CA; }
-    .post-meta { font-size: var(--text-xs); color: var(--muted); }
-    .post-title { padding: var(--space-3) var(--space-4); font-size: var(--text-lg); font-weight: 700; color: var(--heading); cursor: pointer; }
-    .post-title:hover { color: var(--accent); }
-    .post-body { padding: 0 var(--space-4) var(--space-4); font-size: var(--text-sm); color: var(--body); line-height: 1.6; }
-    .post-body p { margin-bottom: var(--space-2); }
-    .post-thumb { width: 100%; height: 200px; object-fit: cover; background: var(--accent-light); }
-    .post-video { position: relative; }
-    .post-video .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 50px; height: 50px; background: rgba(0,0,0,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .post-video .play-btn svg { width: 22px; height: 22px; fill: white; }
-    .post-options { display: flex; flex-direction: column; gap: 6px; padding: 0 var(--space-4) var(--space-4); }
-    .post-opt { display: block; width: 100%; text-align: left; padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; background: var(--bg); transition: all 0.2s; font-family: inherit; font-size: var(--text-sm); }
-    .post-opt:hover { border-color: var(--accent); }
-    .post-opt.correct { background: #DCFCE7; border-color: #22C55E; color: #166534; font-weight: 600; }
-    .post-opt.wrong { background: #FEE2E2; border-color: #DC2626; color: #991B1B; }
-    .post-answer { padding: 0 var(--space-4) var(--space-4); display: none; }
-    .post-answer.show { display: block; }
-    .post-answer textarea { width: 100%; padding: var(--space-2); border: 2px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: var(--text-sm); min-height: 70px; resize: vertical; }
-    .post-feedback { margin-top: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); font-size: var(--text-xs); display: none; }
-    .post-feedback.correct { background: #DCFCE7; color: #166534; display: block; }
-    .post-feedback.wrong { background: #FEE2E2; color: #991B1B; display: block; }
-    .post-btn { display: inline-block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); font-weight: 600; font-size: var(--text-xs); cursor: pointer; border: none; margin-top: var(--space-2); }
-    .post-btn.submit { background: var(--accent); color: var(--primary); }
-    body.dark .post { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .post-title { color: var(--dark-heading); }
-    body.dark .post-body { color: var(--dark-body); }
-    body.dark .post-opt { background: var(--dark-surface); border-color: var(--dark-border); color: var(--dark-body); }
+    .section { margin-bottom: var(--space-6); }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+    .section-title { font-size: clamp(1.1rem,3vw,1.4rem); font-weight: 700; color: var(--heading); }
+    .section-link { color: var(--secondary); font-weight: 600; text-decoration: none; font-size: var(--text-sm); }
+    .card-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-3); }
+    @media (min-width: 600px) { .card-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (min-width: 1024px) { .card-grid { grid-template-columns: repeat(4,1fr); } }
+    .mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; cursor: pointer; transition: all var(--transition-fast); }
+    .mini-card:hover { box-shadow: var(--shadow-md); border-color: var(--accent); transform: translateY(-2px); }
+    .mini-card .thumb { height: 120px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; background-color: var(--accent-light); }
+    .mini-card .thumb .play-icon { width: 36px; height: 36px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .mini-card .thumb .play-icon svg { width: 16px; height: 16px; fill: white; }
+    .mini-card .body { padding: var(--space-3); }
+    .mini-card .body h4 { font-size: var(--text-sm); color: var(--heading); margin-bottom: 2px; }
+    .mini-card .body .meta { font-size: var(--text-xs); color: var(--muted); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; margin-bottom: 4px; }
+    .badge.subject { background: var(--accent-light); color: var(--primary); }
+    .badge.class { background: var(--secondary); color: white; }
+    body.dark .mini-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .mini-card .body h4 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
   <header class="header"><div class="header-inner"><a href="menu.html" class="icon-btn mobile-only"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></a><a href="index.html" class="header-brand">চলো পড়তে বসি</a><nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
   <main class="main-content">
-    <div class="feed" id="feed"><p class="text-muted text-center">লোড হচ্ছে...</p></div>
+
+    <!-- Hero -->
+    <section class="hero"><h1>চলো পড়তে বসি</h1><p>A Bangladesh Curriculum-Based Learning Platform</p><div class="hero-actions"><a href="cpb-ai.html" class="btn btn-primary btn-lg">CPB AI</a><a href="exam.html" class="btn btn-outline btn-lg" style="border-color:white; color:white; display:inline-flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:white;stroke-width:2;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg> পরীক্ষা</a></div></section>
+
+    <!-- Videos Section -->
+    <div class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও</a></div><div class="card-grid" id="homeVideos"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+
+    <!-- Articles Section -->
+    <div class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল</a></div><div class="card-grid" id="homeArticles"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+
+    <!-- Practice Section -->
+    <div class="section"><div class="section-header"><h2 class="section-title">ঝটপট প্র্যাকটিস</h2><a href="exam.html" class="section-link">সব পরীক্ষা</a></div><div class="card-grid" id="homeQuestions"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+
   </main>
   <nav class="bottom-nav"><a href="index.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <footer class="footer">[C] 2026-present. All Rights Reserved. চলো পড়তে বসি</footer>
@@ -50,69 +47,45 @@
   <script>
     const db = firebase.firestore();
     function yt(url) { const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m ? 'https://img.youtube.com/vi/'+m[1]+'/mqdefault.jpg' : ''; }
-    function clsLabel(c) { return c === '9-10' ? '৯ম-১০ম শ্রেণি' : c + 'ম শ্রেণি'; }
-    function typeBadge(type) { const map = { video: 'ভিডিও', article: 'আর্টিকেল', mcq: 'MCQ', cq: 'CQ', sq: 'SQ' }; return map[type] || type?.toUpperCase(); }
-    function badgeClass(type) { return 'post-badge ' + (type === 'video' ? 'video' : type === 'article' ? 'article' : type === 'mcq' ? 'mcq' : type === 'cq' ? 'cq' : 'sq'); }
+    function clsLabel(c) { return c === '9-10' ? '৯ম-১০ম' : c + 'ম'; }
 
     (async () => {
-      const feed = document.getElementById('feed');
-      // Fetch all content
-      const [videos, articles, questions] = await Promise.all([
-        db.collection('videos').orderBy('createdAt','desc').limit(5).get(),
-        db.collection('articles').orderBy('createdAt','desc').limit(5).get(),
-        db.collection('questions').orderBy('createdAt','desc').limit(10).get()
-      ]);
+      // Videos
+      const v = await db.collection('videos').orderBy('createdAt','desc').limit(6).get();
+      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = yt(d.data().url||''); return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="thumb" style="${t?'background-image:url('+t+');':''}">${t?'':'<div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>'}</div><div class="body"><h4>${d.data().title}</h4><div class="meta"><span class="badge class">${clsLabel(d.data().class)}</span> ${d.data().subject||''}</div></div></div>`; }).join('');
 
-      let posts = [];
-      videos.forEach(d => { const data = d.data(); posts.push({ id: d.id, type: 'video', title: data.title, class: data.class, subject: data.subject, url: data.url, createdAt: data.createdAt }); });
-      articles.forEach(d => { const data = d.data(); posts.push({ id: d.id, type: 'article', title: data.title, class: data.class, subject: data.subject, content: data.content, image: data.image, createdAt: data.createdAt }); });
-      questions.forEach(d => { const data = d.data(); posts.push({ id: d.id, type: data.type, class: data.class, subject: data.subject, question: data.question, options: data.options, answer: data.answer, createdAt: data.createdAt }); });
+      // Articles
+      const a = await db.collection('articles').orderBy('createdAt','desc').limit(6).get();
+      document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="mini-card"><div class="thumb" style="${img?'background-image:url('+img+');':''}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta"><span class="badge class">${clsLabel(d.data().class)}</span></div></div></div>`; }).join('');
 
-      posts.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-      if (!posts.length) { feed.innerHTML = '<p class="text-muted text-center">কোনো পোস্ট নেই</p>'; return; }
-
-      feed.innerHTML = posts.map((p,i) => {
-        const header = `<div class="post-header"><span class="${badgeClass(p.type)}">${typeBadge(p.type)}</span><span class="post-meta">${clsLabel(p.class)}${p.subject ? ' • '+p.subject : ''}</span></div>`;
-        let body = '';
-
-        if (p.type === 'video') {
-          const thumb = yt(p.url||'');
-          body = `<div class="post-title" onclick="window.open('${p.url}','_blank')">${p.title}</div>${thumb ? `<div class="post-video" onclick="window.open('${p.url}','_blank')"><img class="post-thumb" src="${thumb}" alt=""><div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div></div>` : ''}`;
-        } else if (p.type === 'article') {
-          body = `<div class="post-title">${p.title}</div>${p.image ? `<img class="post-thumb" src="${p.image}" alt="">` : ''}<div class="post-body"><p>${(p.content||'').substring(0,200)}...</p></div>`;
-        } else if (p.type === 'mcq') {
-          const opts = (p.options||'').split(',').filter(o => o.trim());
-          body = `<div class="post-title">${p.question}</div><div class="post-options">${opts.map((opt,j) => `<button class="post-opt" id="opt${i}_${j}" onclick="checkMCQ(${i},'${opt.trim().replace(/'/g,"\\'")}','${(p.answer||'').replace(/'/g,"\\'")}')">${opt.trim()}</button>`).join('')}</div>`;
-        } else {
-          body = `<div class="post-title">${p.question}</div><div class="post-answer show" id="ansArea${i}"><textarea id="ans${i}" placeholder="তোমার উত্তর লিখো..."></textarea><button class="post-btn submit" onclick="checkSQ(${i},'${(p.answer||'').replace(/'/g,"\\'")}')">জমা দাও</button><div class="post-feedback" id="fb${i}"></div></div>`;
-        }
-
-        return `<div class="post" id="post${i}">${header}${body}</div>`;
-      }).join('');
+      // Questions (MCQ/CQ/SQ mixed)
+      const q = await db.collection('questions').orderBy('createdAt','desc').limit(6).get();
+      document.getElementById('homeQuestions').innerHTML = q.empty ? '<p class="text-muted">কোনো প্রশ্ন নেই</p>' : q.docs.map((d,i) => { const data = d.data(); return `<div class="mini-card" id="qcard${i}"><div class="thumb" style="background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">❓</div><div class="body"><span class="badge subject">${data.type?.toUpperCase()}</span><h4>${(data.question||'').substring(0,50)}...</h4><div class="meta"><span class="badge class">${clsLabel(data.class)}</span> ${data.subject||''}</div><button class="btn btn-primary" style="margin-top:6px;padding:4px 12px;font-size:11px;" onclick="openAnswer(${i},'${data.type}','${(data.answer||'').replace(/'/g,"\\'")}','${(data.options||'').replace(/'/g,"\\'")}')">উত্তর দাও</button><div id="qbody${i}"></div></div></div>`; }).join('');
     })();
 
-    function checkMCQ(i, selected, correct) {
-      const post = document.getElementById('post'+i);
-      const buttons = post.querySelectorAll('.post-opt');
-      buttons.forEach(b => { b.style.pointerEvents = 'none'; if (b.textContent.trim() === correct) b.classList.add('correct'); });
-      if (selected !== correct) {
-        buttons.forEach(b => { if (b.textContent.trim() === selected) b.classList.add('wrong'); });
-      }
-      if (selected === correct) {
-        post.insertAdjacentHTML('beforeend', '<div class="post-feedback correct" style="display:block;padding:var(--space-3) var(--space-4);">অভিনন্দন! সঠিক উত্তর!</div>');
+    function openAnswer(i, type, answer, options) {
+      const body = document.getElementById('qbody'+i);
+      if (type === 'mcq') {
+        const opts = options.split(',').filter(o => o.trim());
+        body.innerHTML = `<div style="margin-top:8px;">${opts.map((opt,j) => `<button style="display:block;width:100%;text-align:left;margin-bottom:3px;padding:4px 8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;" onclick="checkMCQ(${i},'${opt.trim().replace(/'/g,"\\'")}','${answer.replace(/'/g,"\\'")}',this)">${opt.trim()}</button>`).join('')}</div>`;
       } else {
-        post.insertAdjacentHTML('beforeend', '<div class="post-feedback wrong" style="display:block;padding:var(--space-3) var(--space-4);">ভুল! সঠিক উত্তর: '+correct+'</div>');
+        body.innerHTML = `<div style="margin-top:8px;"><textarea id="ans${i}" placeholder="উত্তর লিখো..." style="width:100%;padding:6px;border:1px solid var(--border);border-radius:6px;font-size:12px;min-height:50px;"></textarea><button class="btn btn-primary" style="margin-top:4px;padding:4px 12px;font-size:11px;" onclick="checkSQ(${i},'${answer.replace(/'/g,"\\'")}')">জমা দাও</button><div id="fb${i}" style="margin-top:4px;font-size:11px;display:none;padding:4px 8px;border-radius:6px;"></div></div>`;
       }
+    }
+
+    function checkMCQ(i, selected, correct, el) {
+      const parent = el.parentElement;
+      parent.querySelectorAll('button').forEach(b => { b.style.pointerEvents = 'none'; if (b.textContent.trim() === correct) { b.style.background = '#DCFCE7'; b.style.borderColor = '#22C55E'; } });
+      if (selected === correct) { el.style.background = '#DCFCE7'; el.style.borderColor = '#22C55E'; document.getElementById('qcard'+i).insertAdjacentHTML('beforeend','<div style="background:#DCFCE7;color:#166534;padding:4px 8px;border-radius:6px;font-size:11px;margin-top:4px;">অভিনন্দন! সঠিক!</div>'); }
+      else { el.style.background = '#FEE2E2'; el.style.borderColor = '#DC2626'; document.getElementById('qcard'+i).insertAdjacentHTML('beforeend','<div style="background:#FEE2E2;color:#991B1B;padding:4px 8px;border-radius:6px;font-size:11px;margin-top:4px;">সঠিক: '+correct+'</div>'); }
     }
 
     function checkSQ(i, answer) {
       const userAns = document.getElementById('ans'+i).value.trim();
       const fb = document.getElementById('fb'+i);
-      if (userAns.length > 5 && answer && userAns.toLowerCase().includes(answer.toLowerCase().substring(0,10))) {
-        fb.className = 'post-feedback correct'; fb.textContent = 'অভিনন্দন! সঠিক উত্তর!';
-      } else {
-        fb.className = 'post-feedback wrong'; fb.textContent = 'সঠিক উত্তর: ' + answer;
-      }
+      fb.style.display = 'block';
+      if (userAns.length > 5 && answer && userAns.toLowerCase().includes(answer.toLowerCase().substring(0,10))) { fb.style.background = '#DCFCE7'; fb.style.color = '#166534'; fb.textContent = 'অভিনন্দন! সঠিক!'; }
+      else { fb.style.background = '#FEE2E2'; fb.style.color = '#991B1B'; fb.textContent = 'সঠিক উত্তর: ' + answer; }
     }
   </script>
 </body>
