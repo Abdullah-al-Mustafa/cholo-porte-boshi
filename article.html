@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>আর্টিকেল - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0D1B2A">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>আর্টিকেল - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .article-page { max-width: 750px; margin: 0 auto; width: 100%; }
     .article-page img { width: 100%; border-radius: var(--radius-xl); margin-bottom: var(--space-6); }
     .article-page h1 { font-size: var(--text-3xl); color: var(--heading); margin-bottom: var(--space-3); }
-    .article-page .meta { display: flex; gap: var(--space-2); margin-bottom: var(--space-6); flex-wrap: wrap; }
+    .article-page .meta { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; align-items: center; }
     .article-page .content { font-size: var(--text-base); line-height: 2; color: var(--body); }
     .article-page .content p { margin-bottom: var(--space-4); }
     .badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
     .badge.subject { background: var(--accent-light); color: var(--primary); }
     .badge.class { background: var(--secondary); color: white; }
     .badge.all { background: var(--accent); color: var(--primary); }
+    .voice-btn { display: inline-flex; align-items: center; gap: 6px; padding: var(--space-2) var(--space-4); background: var(--accent); color: var(--primary); border: none; border-radius: var(--radius-full); font-weight: 600; font-size: var(--text-sm); cursor: pointer; transition: all 0.2s; }
+    .voice-btn:hover { background: var(--accent-hover); }
+    .voice-btn.playing { background: var(--primary); color: white; }
     body.dark .article-page h1 { color: var(--dark-heading); }
     body.dark .article-page .content { color: var(--dark-body); }
   </style>
@@ -32,6 +33,22 @@
     const id = params.get('id');
     function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9': 'Class 9', '10': 'Class 10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
 
+    let isPlaying = false;
+    function toggleVoice() {
+      const btn = document.getElementById('voiceBtn');
+      if (isPlaying) { window.speechSynthesis.cancel(); btn.textContent = '🔊 শুনুন'; btn.classList.remove('playing'); isPlaying = false; return; }
+      const content = document.getElementById('articleText');
+      if (!content) return;
+      const text = content.textContent.trim();
+      if (!text) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'bn-BD';
+      utterance.rate = 0.9;
+      utterance.onstart = () => { btn.textContent = '⏸️ থামান'; btn.classList.add('playing'); isPlaying = true; };
+      utterance.onend = () => { btn.textContent = '🔊 শুনুন'; btn.classList.remove('playing'); isPlaying = false; };
+      window.speechSynthesis.speak(utterance);
+    }
+
     (async () => {
       if (!id) { document.getElementById('articleContent').innerHTML = '<p class="text-muted">আর্টিকেল পাওয়া যায়নি</p>'; return; }
       const doc = await db.collection('articles').doc(id).get();
@@ -40,8 +57,8 @@
       document.getElementById('articleContent').innerHTML = `
         ${d.image ? `<img src="${d.image}" alt="${d.title}">` : ''}
         <h1>${d.title}</h1>
-        <div class="meta"><span class="badge subject">${d.subject||'সাধারণ'}</span>${clsBadge(d.class)}</div>
-        <div class="content">${(d.content||'').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('')}</div>
+        <div class="meta"><span class="badge subject">${d.subject||'সাধারণ'}</span>${clsBadge(d.class)}<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊 শুনুন</button></div>
+        <div class="content" id="articleText">${(d.content||'').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('')}</div>
       `;
     })();
   </script>
