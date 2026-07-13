@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Panel - চলো পড়তে বসি</title><link rel="manifest" href="admin-manifest.json">
-  <meta name="theme-color" content="#0D1B2A">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Panel - চলো পড়তে বসি</title><link rel="manifest" href="admin-manifest.json"><meta name="theme-color" content="#0D1B2A"><link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     :root { --primary: #0D1B2A; --accent: #D4AF37; --bg: #F8F9FA; --surface: #FFFFFF; --border: #E2E8F0; --heading: #1A1A1A; --body: #374151; --muted: #6B7280; --success: #22C55E; --danger: #DC2626; --radius-md: 12px; --radius-lg: 16px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,31 +44,27 @@
   <div class="login-container" id="loginBox"><h2>Admin Login</h2><input type="email" id="email" placeholder="Email"><input type="password" id="password" placeholder="Password"><button onclick="login()">Login</button><p id="loginError" style="color:red;margin-top:var(--space-3);display:none;"></p></div>
   <div class="dashboard" id="dashboard">
     <div class="tabs"><button class="tab active" onclick="switchTab('videos')">Videos</button><button class="tab" onclick="switchTab('articles')">Articles</button><button class="tab" onclick="switchTab('news')">News</button><button class="tab" onclick="switchTab('mcq')">MCQ</button><button class="tab" onclick="switchTab('cq')">CQ</button><button class="tab" onclick="switchTab('sq')">SQ</button></div>
-
     <div id="tab-videos"><div class="form-card"><h3>Add Video</h3><input type="text" id="videoTitle" placeholder="Title"><select id="videoClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="videoSubject" placeholder="Subject"><input type="text" id="videoUrl" placeholder="Video URL (YouTube, Facebook, etc)"><button onclick="addVideo()">Add Video</button></div><div id="videosList"></div></div>
-
     <div id="tab-articles" style="display:none;"><div class="form-card"><h3>Add Article</h3><input type="text" id="articleTitle" placeholder="Title"><select id="articleClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="articleSubject" placeholder="Subject"><textarea id="articleContent" placeholder="Content"></textarea><div class="file-upload-box" onclick="document.getElementById('articleImageInput').click()"><p>Click to upload image</p><img id="articlePreview" class="preview-img"><input type="file" id="articleImageInput" accept="image/*" style="display:none;" onchange="previewImage(this,'articlePreview','articleImageData')"><input type="hidden" id="articleImageData"></div><button onclick="addArticle()">Add Article</button></div><div id="articlesList"></div></div>
-
     <div id="tab-news" style="display:none;"><div class="form-card"><h3>Add News</h3><input type="text" id="newsTitle" placeholder="Title"><textarea id="newsContent" placeholder="Content"></textarea><div class="file-upload-box" onclick="document.getElementById('newsImageInput').click()"><p>Click to upload image</p><img id="newsPreview" class="preview-img"><input type="file" id="newsImageInput" accept="image/*" style="display:none;" onchange="previewImage(this,'newsPreview','newsImageData')"><input type="hidden" id="newsImageData"></div><button onclick="addNews()">Add News</button></div><div id="newsList"></div></div>
-
     <div id="tab-mcq" style="display:none;"><div class="form-card"><h3>Add MCQ</h3><select id="mcqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="mcqSubject" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter"><textarea id="mcqQuestion" placeholder="Question"></textarea><p style="color:var(--muted);font-size:var(--text-xs);margin-bottom:var(--space-2);">৪টি অপশন লিখুন:</p><div class="option-row"><span>১.</span><input type="text" id="mcqOpt1" placeholder="Option 1"></div><div class="option-row"><span>২.</span><input type="text" id="mcqOpt2" placeholder="Option 2"></div><div class="option-row"><span>৩.</span><input type="text" id="mcqOpt3" placeholder="Option 3"></div><div class="option-row"><span>৪.</span><input type="text" id="mcqOpt4" placeholder="Option 4"></div><p style="color:var(--muted);font-size:var(--text-xs);margin:var(--space-3) 0 var(--space-2);">সঠিক উত্তর কোনটি? (নম্বর লিখুন)</p><input type="number" id="mcqCorrectNum" placeholder="যেমন: 2" min="1" max="4" style="max-width:100px;"><button onclick="addMCQ()">Add MCQ</button></div><div id="mcqList"></div></div>
-
     <div id="tab-cq" style="display:none;"><div class="form-card"><h3>Add CQ</h3><select id="cqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="cqSubject" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter"><textarea id="cqQuestion" placeholder="Question"></textarea><textarea id="cqAnswer" placeholder="Model Answer"></textarea><button onclick="addCQ()">Add CQ</button></div><div id="cqList"></div></div>
-
     <div id="tab-sq" style="display:none;"><div class="form-card"><h3>Add SQ</h3><select id="sqClass" class="modern-select"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select><input type="text" id="sqSubject" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter"><textarea id="sqQuestion" placeholder="Question"></textarea><textarea id="sqAnswer" placeholder="Model Answer"></textarea><button onclick="addSQ()">Add SQ</button></div><div id="sqList"></div></div>
   </div>
-
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
+    // Set auth persistence to LOCAL (stays logged in even after browser close)
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
     const db = firebase.firestore();
     function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '&#10003;' : '&#10007;') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
     function ts() { return firebase.firestore.FieldValue.serverTimestamp(); }
     function previewImage(input, previewId, dataId) { const file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { document.getElementById(previewId).src = e.target.result; document.getElementById(previewId).style.display = 'block'; document.getElementById(dataId).value = e.target.result; }; reader.readAsDataURL(file); }
-    function clearForm(ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); document.querySelectorAll('.preview-img').forEach(img => { img.style.display = 'none'; img.src = ''; }); document.querySelectorAll('input[type=hidden]').forEach(h => { if (h.id.includes('ImageData')) h.value = ''; }); }
+    function clearForm(ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); document.querySelectorAll('.preview-img').forEach(img => { img.style.display = 'none'; img.src = ''; }); }
 
     auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
     function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
-    function logout() { auth.signOut(); }
+    function logout() { auth.signOut(); showToast('Logged out'); }
     function switchTab(tab) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none'); document.getElementById('tab-' + tab).style.display = 'block'; }
 
     async function addVideo() { const t = document.getElementById('videoTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('videos').add({ title: t, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, url: document.getElementById('videoUrl').value, createdAt: ts() }); showToast('Video added!', 'success'); clearForm(['videoTitle','videoSubject','videoUrl']); loadVideos(); }
@@ -94,6 +88,6 @@
     async function del(col, id) { if (confirm('Delete?')) { await db.collection(col).doc(id).delete(); showToast('Deleted!', 'error'); loadAll(); } }
     function loadAll() { loadVideos(); loadArticles(); loadNews(); loadMCQ(); loadCQ(); loadSQ(); }
   </script>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/cholo-porte-boshi/admin-sw.js");}</script>
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/cholo-porte-boshi/admin-sw.js");}</script>
 </body>
 </html>
