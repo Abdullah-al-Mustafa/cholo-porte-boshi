@@ -83,10 +83,10 @@
     function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9': 'Class 9', '10': 'Class 10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
 
     (async () => {
-      const v = await db.collection('videos').orderBy('createdAt','desc').get();
+      const v = await db.collection('videos').orderBy('createdAt','desc').limit(9).get();
       document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = getThumb(d.data().url||''); return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="thumb" style="${t.url?'background-image:url('+t.url+');':''}"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div><span class="video-label">${t.label}</span></div><div class="body"><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)} ${d.data().subject||''}</div></div></div>`; }).join('');
 
-      const a = await db.collection('articles').orderBy('createdAt','desc').get();
+      const a = await db.collection('articles').orderBy('createdAt','desc').limit(9).get();
       document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="mini-card" onclick="location.href='article.html?id=${d.id}'"><div class="thumb" style="${img?'background-image:url('+img+');':'background:var(--accent-light);'}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)}</div></div></div>`; }).join('');
     })();
   </script>
