@@ -26,7 +26,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9': 'Class 9', '10': 'Class 10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
+    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9-10': 'Class 9-10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
     (async () => {
       const s = await db.collection('articles').orderBy('createdAt','desc').get();
       document.getElementById('articlesList').innerHTML = s.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : s.docs.map(d => { const img = d.data().image; return `<div class="article-card" onclick="location.href='article.html?id=${d.id}'">${img?`<div class="article-img" style="background-image:url(${img});"></div>`:''}<div class="article-body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h3>${d.data().title}</h3><div class="meta">${clsBadge(d.data().class)}</div><p>${(d.data().content||'').substring(0,150)}...</p></div></div>`; }).join('');
