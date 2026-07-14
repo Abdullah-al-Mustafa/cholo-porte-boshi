@@ -37,6 +37,9 @@
     .list-item p { color: var(--muted); font-size: 0.9rem; }
     .list-item button { padding: var(--space-2) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; margin-left: var(--space-2); }
     .btn-danger { background: #FEE2E2; color: #DC2626; border-color: #FECACA; }
+    .comments-panel { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-3); margin-top: var(--space-1); }
+    .comment-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .comment-row:last-child { border-bottom: none; }
   </style>
 </head>
 <body>
@@ -89,16 +92,64 @@
     function switchTab(tab) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active'); document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none'); document.getElementById('tab-' + tab).style.display = 'block'; }
 
     // ========== VIDEOS ==========
-    async function addVideo() { const t = document.getElementById('videoTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('videos').add({ title: t, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, url: document.getElementById('videoUrl').value, createdAt: ts() }); showToast('Video added!', 'success'); clearForm(['videoTitle','videoSubject','videoUrl']); loadVideos(); }
-    async function loadVideos() { const s = await db.collection('videos').orderBy('createdAt', 'desc').get(); document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('videos','${d.id}')">Delete</button></div></div>`).join(''); }
+    async function addVideo() { const t = document.getElementById('videoTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('videos').add({ title: t, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, chapter: document.getElementById('videoChapter').value, url: document.getElementById('videoUrl').value, createdAt: ts() }); showToast('Video added!', 'success'); clearForm(['videoTitle','videoSubject','videoChapter','videoUrl']); loadVideos(); }
+    async function loadVideos() { const s = await db.collection('videos').orderBy('createdAt', 'desc').get(); document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} • ${d.data().subject||''} • ${d.data().chapter||''}</p></div><div><button class="btn-danger" onclick="del('videos','${d.id}')">Delete</button></div></div>`).join(''); }
 
     // ========== ARTICLES ==========
     async function addArticle() { const t = document.getElementById('articleTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('articles').add({ title: t, class: document.getElementById('articleClass').value, subject: document.getElementById('articleSubject').value, image: document.getElementById('articleImageData').value, content: document.getElementById('articleContent').value, createdAt: ts() }); showToast('Article added!', 'success'); clearForm(['articleTitle','articleSubject','articleContent','articleImageData']); document.getElementById('articlePreview').style.display='none'; loadArticles(); }
     async function loadArticles() { const s = await db.collection('articles').orderBy('createdAt', 'desc').get(); document.getElementById('articlesList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class}</p>${d.data().image?`<img src="${d.data().image}" style="max-width:60px;max-height:40px;border-radius:4px;margin-top:4px;">`:''}</div><div><button class="btn-danger" onclick="del('articles','${d.id}')">Delete</button></div></div>`).join(''); }
 
-    // ========== COMMUNITY (Type, Title, Content, Video, Image) ==========
+    // ========== COMMUNITY ==========
     async function addCommunity() { const t = document.getElementById('communityTitle').value; if (!t) return showToast('Title required', 'error'); await db.collection('community').add({ type: document.getElementById('communityType').value, title: t, content: document.getElementById('communityContent').value, video: document.getElementById('communityVideo').value, image: document.getElementById('communityImageData').value, createdAt: ts() }); showToast('Post added!', 'success'); clearForm(['communityTitle','communityContent','communityVideo','communityImageData']); document.getElementById('communityPreview').style.display='none'; loadCommunity(); }
-    async function loadCommunity() { const s = await db.collection('community').orderBy('createdAt', 'desc').get(); document.getElementById('communityList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>${d.data().type || 'post'} ${d.data().video ? '🎬' : ''}</p></div><div><button class="btn-danger" onclick="del('community','${d.id}')">Delete</button></div></div>`).join(''); }
+    async function loadCommunity() { 
+      const s = await db.collection('community').orderBy('createdAt', 'desc').get(); 
+      document.getElementById('communityList').innerHTML = s.docs.map(d => `<div><div class="list-item"><div><h4>${d.data().title}</h4><p>${d.data().type || 'post'} ${d.data().video ? '🎬' : ''}</p></div><div><button onclick="toggleAdminComments('${d.id}', this)" style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;margin-right:6px;background:var(--surface);">Comments</button><button class="btn-danger" onclick="del('community','${d.id}')">Delete</button></div></div><div id="admin-comments-${d.id}" style="display:none;" class="comments-panel"></div></div>`).join(''); 
+    }
+
+    // ========== ADMIN COMMENT MANAGEMENT ==========
+    async function toggleAdminComments(postId, btn) {
+      const panel = document.getElementById('admin-comments-' + postId);
+      if (panel.style.display === 'none' || !panel.style.display) {
+        panel.style.display = 'block';
+        btn.textContent = 'Hide';
+        const s = await db.collection('community').doc(postId).collection('comments').orderBy('createdAt','asc').get();
+        panel.innerHTML = s.empty ? '<p style="font-size:0.85rem;color:var(--muted);">কোনো কমেন্ট নেই</p>' : s.docs.map(d => `
+          <div class="comment-row">
+            <div>
+              <span style="font-weight:600;font-size:0.85rem;">${d.data().name}</span>
+              <span style="font-size:0.75rem;color:var(--muted);">${d.data().createdAt ? new Date(d.data().createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</span>
+              <div style="font-size:0.85rem;margin-top:2px;">${d.data().text}</div>
+            </div>
+            <button class="btn-danger" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteAdminComment('${postId}','${d.id}')">Delete</button>
+          </div>
+        `).join('');
+      } else {
+        panel.style.display = 'none';
+        btn.textContent = 'Comments';
+      }
+    }
+
+    async function deleteAdminComment(postId, commentId) {
+      if (confirm('Delete this comment?')) {
+        await db.collection('community').doc(postId).collection('comments').doc(commentId).delete();
+        showToast('Comment deleted!', 'error');
+        // Refresh the panel
+        const panel = document.getElementById('admin-comments-' + postId);
+        if (panel && panel.style.display !== 'none') {
+          const s = await db.collection('community').doc(postId).collection('comments').orderBy('createdAt','asc').get();
+          panel.innerHTML = s.empty ? '<p style="font-size:0.85rem;color:var(--muted);">কোনো কমেন্ট নেই</p>' : s.docs.map(d => `
+            <div class="comment-row">
+              <div>
+                <span style="font-weight:600;font-size:0.85rem;">${d.data().name}</span>
+                <span style="font-size:0.75rem;color:var(--muted);">${d.data().createdAt ? new Date(d.data().createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</span>
+                <div style="font-size:0.85rem;margin-top:2px;">${d.data().text}</div>
+              </div>
+              <button class="btn-danger" style="padding:4px 10px;font-size:0.75rem;" onclick="deleteAdminComment('${postId}','${d.id}')">Delete</button>
+            </div>
+          `).join('');
+        }
+      }
+    }
 
     // ========== MCQ ==========
     async function addMCQ() { const q = document.getElementById('mcqQuestion').value; if (!q) return showToast('Question required', 'error'); const opt1=document.getElementById('mcqOpt1').value, opt2=document.getElementById('mcqOpt2').value, opt3=document.getElementById('mcqOpt3').value, opt4=document.getElementById('mcqOpt4').value; const correctNum=parseInt(document.getElementById('mcqCorrectNum').value); if(!opt1||!opt2||!opt3||!opt4) return showToast('All 4 options required','error'); if(!correctNum||correctNum<1||correctNum>4) return showToast('Correct answer number (1-4) required','error'); const options=[opt1,opt2,opt3,opt4].join(','); const answer=[opt1,opt2,opt3,opt4][correctNum-1]; await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type:'mcq', question:q, options, answer, createdAt:ts() }); showToast('MCQ added!','success'); clearForm(['mcqQuestion','mcqSubject','mcqChapter','mcqOpt1','mcqOpt2','mcqOpt3','mcqOpt4','mcqCorrectNum']); loadMCQ(); }
