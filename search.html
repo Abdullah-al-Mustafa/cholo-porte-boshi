@@ -50,42 +50,10 @@
       <div id="results"><div class="empty-state"><p>কিছু লিখে সার্চ করো</p></div></div>
     </div>
   </main>
-  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
+<nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>সেটিংস</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a>
+    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
     <a href="community.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>Community</span></a>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
-  <script>
-    const db = firebase.firestore();
-    let allData = [];
-
-    async function loadData() {
-      const [v, a, q] = await Promise.all([
-        db.collection('videos').orderBy('createdAt','desc').get(),
-        db.collection('articles').orderBy('createdAt','desc').get(),
-        db.collection('questions').orderBy('createdAt','desc').get()
-      ]);
-      allData = [
-        ...v.docs.map(d => ({ type: 'video', title: d.data().title, class: d.data().class, subject: d.data().subject, url: d.data().url })),
-        ...a.docs.map(d => ({ type: 'article', title: d.data().title, class: d.data().class, subject: d.data().subject, id: d.id })),
-        ...q.docs.map(d => ({ type: 'question', title: d.data().question?.substring(0,60), class: d.data().class, subject: d.data().subject }))
-      ];
-    }
-    loadData();
-
-    function doSearch() {
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      const res = document.getElementById('results');
-      if (!q) { res.innerHTML = '<div class="empty-state"><p>কিছু লিখে সার্চ করো</p></div>'; return; }
-      const filtered = allData.filter(d => 
-        (d.title||'').toLowerCase().includes(q) || (d.subject||'').toLowerCase().includes(q) || (d.class||'').includes(q)
-      );
-      if (!filtered.length) { res.innerHTML = '<div class="empty-state"><p>কোনো ফলাফল পাওয়া যায়নি</p><span>CPB AI-কে জিজ্ঞেস করো</span></div>'; return; }
-      res.innerHTML = filtered.slice(0, 10).map(d => {
-        const iconMap = { video: '▶️', article: '📄', question: '❓' };
-        const badgeClass = d.type === 'video' ? 'video' : d.type === 'article' ? 'article' : 'question';
-        const onClick = d.type === 'video' ? `window.open('${d.url}','_blank')` : d.type === 'article' ? `location.href='article.html?id=${d.id}'` : '';
-        return `<div class="result-card" onclick="${onClick}"><div class="result-icon" style="background:var(--secondary);">${iconMap[d.type]}</div><div class="result-info"><h4>${d.title}</h4><p><span class="result-badge ${badgeClass}">${d.type.toUpperCase()}</span> ${d.class||''} • ${d.subject||''}</p></div></div>`;
-      }).join('');
-    }
-  </script>
-</body>
-</html>
+</nav>
