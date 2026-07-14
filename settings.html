@@ -313,27 +313,3 @@
     <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Exams</span></a>
   </nav>
 
-  <footer class="footer">© 2026-present. All Rights Reserved. Fellows</footer>
-
-  <script>
-    function setTheme(mode, btn) {
-      document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (mode === 'dark') { document.body.classList.add('dark'); localStorage.setItem('cpb-theme', 'dark'); }
-      else if (mode === 'light') { document.body.classList.remove('dark'); localStorage.setItem('cpb-theme', 'light'); }
-      else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        prefersDark ? document.body.classList.add('dark') : document.body.classList.remove('dark');
-        localStorage.setItem('cpb-theme', 'system');
-      }
-    }
-
-    // Init theme
-    const saved = localStorage.getItem('cpb-theme') || 'light';
-    document.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
-    if (saved === 'dark') { document.body.classList.add('dark'); document.querySelector('.theme-opt:nth-child(2)').classList.add('active'); }
-    else if (saved === 'system') { document.querySelector('.theme-opt:nth-child(3)').classList.add('active'); }
-    else { document.querySelector('.theme-opt:nth-child(1)').classList.add('active'); }
-  </script>
-</body>
-</html>
