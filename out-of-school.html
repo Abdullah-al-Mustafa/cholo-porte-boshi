@@ -2,36 +2,33 @@
 <html lang="bn">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Out of School - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .oos-page { max-width: 900px; margin: 0 auto; width: 100%; }
-    .oos-hero { text-align: center; padding: var(--sp8) 0 var(--sp5); }
-    .oos-hero h1 { font-size: var(--text-3xl); color: var(--heading); margin-bottom: var(--sp1); }
-    .oos-hero p { color: var(--muted); font-size: var(--text-base); }
-    .card-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--sp2); margin-bottom: var(--sp5); }
-    @media (min-width: 600px) { .card-grid { grid-template-columns: repeat(3,1fr); } }
-    .oos-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); cursor: pointer; transition: all var(--tr-base); box-shadow: var(--sh-sm); text-decoration: none; color: var(--body); display: flex; flex-direction: column; gap: var(--sp2); }
-    .oos-card:hover { box-shadow: var(--sh-lg); border-color: var(--accent); transform: scale(1.02); }
-    .oos-card-icon { width: 48px; height: 48px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-    .oos-card h3 { font-size: var(--text-base); font-weight: 700; color: var(--heading); }
-    .oos-card p { font-size: var(--text-xs); color: var(--muted); line-height: 1.5; }
-    body.dark .oos-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .oos-card h3 { color: var(--dark-heading); }
+    .community-page { max-width: 700px; margin: 0 auto; width: 100%; }
+    .post-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); margin-bottom: var(--sp2); transition: all var(--tr-base); box-shadow: var(--sh-sm); }
+    .post-card:hover { box-shadow: var(--sh-md); border-color: var(--secondary-hover); }
+    .post-card h3 { font-size: var(--text-lg); font-weight: 700; color: var(--heading); margin-bottom: 4px; }
+    .post-card .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--sp1); }
+    .post-card .content { font-size: var(--text-sm); color: var(--body); line-height: 1.7; }
+    .post-card img { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); }
+    body.dark .post-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .post-card h3 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
   <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:white;font-weight:600;">Out of School</span><span style="width:40px;"></span></div></header>
   <main class="main-content">
-    <div class="oos-page">
-      <div class="oos-hero"><h1>Out of School</h1><p>পাঠ্যবইয়ের বাইরেও শেখার অনেক কিছু আছে</p></div>
-      <div class="card-grid">
-        <a href="#" class="oos-card"><div class="oos-card-icon" style="background:#DCFCE7;">💻</div><h3>প্রোগ্রামিং</h3><p>কোডিং, ওয়েব ডেভেলপমেন্ট, পাইথন</p></a>
-        <a href="#" class="oos-card"><div class="oos-card-icon" style="background:#DBEAFE;">🎨</div><h3>ডিজাইন</h3><p>গ্রাফিক ডিজাইন, UI/UX, ভিডিও এডিটিং</p></a>
-        <a href="#" class="oos-card"><div class="oos-card-icon" style="background:#FEF3C7;">🗣️</div><h3>কমিউনিকেশন</h3><p>পাবলিক স্পিকিং, ইংরেজি, প্রেজেন্টেশন</p></a>
-        <a href="#" class="oos-card"><div class="oos-card-icon" style="background:#FEE2E2;">💰</div><h3>ফ্রিল্যান্সিং</h3><p>অনলাইনে কাজ, মার্কেটপ্লেস, স্কিল ডেভেলপমেন্ট</p></a>
-        <a href="#" class="oos-card"><div class="oos-card-icon" style="background:#E0E7FF;">🧠</div><h3>জেনারেল নলেজ</h3><p>বিশ্ব পরিচিতি, ইতিহাস, বিজ্ঞান</p></a>
-        <a href="#" class="oos-card"><div class="oos-card-icon" style="background:#DCFCE7;">🏥</div><h3>স্বাস্থ্য ও সচেতনতা</h3><p>শারীরিক ও মানসিক স্বাস্থ্য, পুষ্টি</p></a>
-      </div>
-    </div>
+    <div class="community-page" id="communityPosts"><p class="text-muted">লোড হচ্ছে...</p></div>
   </main>
   <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    (async () => {
+      const s = await db.collection('outofschool').orderBy('createdAt','desc').get();
+      document.getElementById('communityPosts').innerHTML = s.empty ? '<p class="text-muted">এখনো কোনো পোস্ট নেই। শীঘ্রই আসছে!</p>' : s.docs.map(d => {
+        const data = d.data();
+        return `<div class="post-card"><h3>${data.title}</h3><div class="meta">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}</div><div class="content">${data.content}</div>${data.image ? `<img src="${data.image}" alt="">` : ''}</div>`;
+      }).join('');
+    })();
+  </script>
 </body>
 </html>
