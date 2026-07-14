@@ -8,7 +8,8 @@
     .post-card h3 { font-size: var(--text-lg); font-weight: 700; color: var(--heading); margin-bottom: 4px; }
     .post-card .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--sp1); display: flex; gap: var(--sp1); align-items: center; }
     .post-card .content { font-size: var(--text-sm); color: var(--body); line-height: 1.7; }
-    .post-card img, .post-card video { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); }
+    .post-card img { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); }
+    .post-card .video-embed { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); aspect-ratio: 16/9; border: none; }
     .news-badge { background: var(--primary); color: white; padding: 2px 10px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; }
     .post-badge { background: var(--accent); color: var(--primary-dark); padding: 2px 10px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; }
     .comment-icon { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; color: var(--primary); font-weight: 600; font-size: var(--text-xs); margin-top: var(--sp1); }
@@ -33,6 +34,26 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
+
+    function getYoutubeEmbed(url) {
+      const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+      return m ? `https://www.youtube.com/embed/${m[1]}` : '';
+    }
+
+    function getFacebookEmbed(url) {
+      return url.includes('facebook.com') || url.includes('fb.watch') ? url : '';
+    }
+
+    function renderVideo(videoUrl) {
+      if (!videoUrl) return '';
+      const yt = getYoutubeEmbed(videoUrl);
+      if (yt) return `<iframe class="video-embed" src="${yt}" allowfullscreen></iframe>`;
+      const fb = getFacebookEmbed(videoUrl);
+      if (fb) return `<a href="${fb}" target="_blank" class="btn btn-primary" style="margin-top:var(--sp1);display:inline-flex;gap:6px;">▶ ফেসবুক ভিডিও দেখুন</a>`;
+      if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) return `<video controls style="width:100%;border-radius:var(--r-sm);margin-top:var(--sp1);"><source src="${videoUrl}"></video>`;
+      return `<a href="${videoUrl}" target="_blank" class="btn btn-primary" style="margin-top:var(--sp1);display:inline-flex;gap:6px;">▶ ভিডিও দেখুন</a>`;
+    }
+
     async function loadPosts() {
       const s = await db.collection('community').orderBy('createdAt','desc').get();
       const container = document.getElementById('communityPosts');
@@ -50,7 +71,7 @@
             ${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}
           </div>
           <div class="content">${data.content||''}</div>
-          ${data.video ? `<video controls style="width:100%;border-radius:var(--r-sm);margin-top:var(--sp1);"><source src="${data.video}" type="video/mp4"></video>` : ''}
+          ${renderVideo(data.video)}
           ${data.image ? `<img src="${data.image}" alt="">` : ''}
           ${!isNews ? `
             <div class="comment-icon" onclick="location.href='comments.html?id=${doc.id}'">
@@ -62,6 +83,7 @@
         container.appendChild(postDiv);
       }
     }
+
     loadPosts();
   </script>
 </body>
