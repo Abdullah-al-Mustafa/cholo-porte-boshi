@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Out of School - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Community - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .community-page { max-width: 700px; margin: 0 auto; width: 100%; }
     .post-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); margin-bottom: var(--sp2); transition: all var(--tr-base); box-shadow: var(--sh-sm); }
@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:white;font-weight:600;">Out of School</span><span style="width:40px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:white;font-weight:600;">Community</span><span style="width:40px;"></span></div></header>
   <main class="main-content">
     <div class="community-page" id="communityPosts"><p class="text-muted">লোড হচ্ছে...</p></div>
   </main>
@@ -23,7 +23,7 @@
   <script>
     const db = firebase.firestore();
     (async () => {
-      const s = await db.collection('outofschool').orderBy('createdAt','desc').get();
+      const s = await db.collection('community').orderBy('createdAt','desc').get();
       document.getElementById('communityPosts').innerHTML = s.empty ? '<p class="text-muted">এখনো কোনো পোস্ট নেই। শীঘ্রই আসছে!</p>' : s.docs.map(d => {
         const data = d.data();
         return `<div class="post-card"><h3>${data.title}</h3><div class="meta">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}</div><div class="content">${data.content}</div>${data.image ? `<img src="${data.image}" alt="">` : ''}</div>`;
