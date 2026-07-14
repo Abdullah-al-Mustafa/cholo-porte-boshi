@@ -1,92 +1,45 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Fellows - CPB AI</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0D1B2A">
-  <link rel="icon" type="image/svg+xml" href="cpb-ai-icon.svg">
-  <link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CPB AI</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0D1B2A"><link rel="icon" type="image/svg+xml" href="cpb-ai-icon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    html, body { width: 100%; max-width: 100vw; overflow-x: hidden; }
+    html, body { width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
     .ai-workspace { display: flex; flex-direction: column; height: calc(100vh - var(--header-height) - var(--bottom-nav-height)); width: 100%; max-width: 100vw; overflow: hidden; margin: 0 auto; }
     @media (min-width: 768px) { .ai-workspace { max-width: 800px; } }
-    @media (min-width: 1024px) { .ai-workspace { max-width: 850px; } }
-
-    .ai-conversation { flex: 1; overflow-y: auto; overflow-x: hidden; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-5); }
-    .ai-empty-state { flex: 1; display: flex; align-items: center; justify-content: center; }
+    .ai-conversation { flex: 1; overflow-y: auto; overflow-x: hidden; padding: var(--space-4); width: 100%; max-width: 100%; display: flex; flex-direction: column; gap: var(--space-5); }
+    .ai-empty-state { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
     .ai-empty-text { font-size: clamp(1.25rem, 4vw, 2rem); font-weight: 700; color: var(--muted); text-align: center; }
-
-    .ai-message-block { width: 100%; max-width: 100%; overflow-wrap: break-word; word-break: break-word; }
+    .ai-message-block { animation: fadeIn var(--transition-base); width: 100%; max-width: 100%; overflow-wrap: break-word; word-break: break-word; }
     .ai-message-block.user { display: flex; justify-content: flex-end; }
     .ai-message-content { padding: var(--space-4); border-radius: var(--radius-lg); line-height: 1.7; font-size: clamp(0.875rem, 2vw, 1rem); max-width: 100%; overflow-wrap: break-word; }
-    .ai-message-block.user .ai-message-content { background: var(--accent-light); color: var(--body); max-width: 85%; border-bottom-right-radius: var(--radius-sm); }
-    .ai-message-block.bot .ai-message-content { background: var(--surface); border: 1px solid var(--border); color: var(--body); max-width: 100%; border-bottom-left-radius: var(--radius-sm); }
-
-    .ai-input-section { padding: var(--space-3); background: var(--surface); border-top: 1px solid var(--border); width: 100%; flex-shrink: 0; }
-    .ai-input-container { display: flex; align-items: center; gap: var(--space-2); width: 100%; }
+    .ai-message-block.user .ai-message-content { background: var(--secondary); color: var(--body); max-width: 85%; border-bottom-right-radius: var(--radius-sm); }
+    .ai-message-block.bot .ai-message-content { background: var(--surface); border: 1px solid var(--border); color: var(--body); max-width: 100%; border-bottom-left-radius: var(--radius-sm); width: 100%; box-sizing: border-box; }
+    .ai-input-section { padding: var(--space-3); background: var(--surface); border-top: 1px solid var(--border); width: 100%; max-width: 100%; box-sizing: border-box; flex-shrink: 0; }
+    .ai-input-container { display: flex; align-items: center; gap: var(--space-2); width: 100%; max-width: 100%; }
     .ai-input-wrapper { flex: 1; display: flex; align-items: center; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius-2xl); padding: var(--space-1) var(--space-4); min-width: 0; }
-    .ai-input-wrapper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212,175,55,0.12); }
+    .ai-input-wrapper:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21,128,61,0.08); }
     .ai-input-wrapper input { flex: 1; border: none; outline: none; background: transparent; font-size: clamp(0.875rem, 2vw, 1rem); font-family: var(--font-family); padding: var(--space-3) 0; color: var(--body); min-width: 0; }
-    .ai-input-wrapper input::placeholder { color: var(--muted); }
-
+    .ai-send-btn { width: 44px; height: 44px; min-width: 44px; border-radius: var(--radius-md); border: none; background: var(--accent); color: var(--primary); cursor: pointer; flex-shrink: 0; }
+    .ai-send-btn:disabled { opacity: 0.5; }
+    .ai-send-btn svg { width: 18px; height: 18px; }
     .typing-dots { display: flex; gap: 4px; padding: var(--space-2) 0; }
     .typing-dots span { width: 7px; height: 7px; background: var(--muted); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
-    .typing-dots span:nth-child(1) { animation-delay: 0s; }
-    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    .typing-dots span:nth-child(1) { animation-delay: 0s; } .typing-dots span:nth-child(2) { animation-delay: 0.2s; } .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     .ai-disclaimer { text-align: center; padding: var(--space-2) 0 0; font-size: clamp(0.65rem, 1.5vw, 0.75rem); color: var(--muted); }
-
-    body.dark .ai-message-block.user .ai-message-content { background: rgba(212,175,55,0.1); }
-    body.dark .ai-message-block.bot .ai-message-content { background: var(--dark-surface); border-color: var(--dark-border); }
-    body.dark .ai-input-section { background: var(--dark-surface); border-color: var(--dark-border); }
-    body.dark .ai-input-wrapper { background: var(--dark-bg); border-color: var(--dark-border); }
-    body.dark .ai-input-wrapper input { color: var(--dark-body); }
   </style>
 </head>
 <body>
-
-  <!-- Header with CPB AI Typography Logo -->
-  <header class="header">
-    <div class="header-inner" style="justify-content:center;">
-      <span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;letter-spacing:6px;color:var(--accent);font-size:clamp(1.2rem,3vw,1.5rem);">CPB</span>
-      <span style="font-family:'Inter',system-ui,sans-serif;font-weight:400;letter-spacing:2px;color:rgba(255,255,255,0.6);font-size:clamp(0.7rem,1.5vw,0.85rem);margin-left:6px;">AI</span>
-    </div>
-  </header>
-
+  <header class="header"><div class="header-inner" style="justify-content:center;"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;letter-spacing:6px;color:var(--accent);font-size:clamp(1.2rem,3vw,1.5rem);">CPB</span><span style="font-family:'Inter',system-ui,sans-serif;font-weight:400;letter-spacing:2px;color:rgba(255,255,255,0.6);font-size:clamp(0.7rem,1.5vw,0.85rem);margin-left:6px;">AI</span></div></header>
   <div class="ai-workspace">
-    <div class="ai-conversation" id="aiConversation">
-      <div class="ai-empty-state" id="aiEmptyState">
-        <span class="ai-empty-text">Write something to start...</span>
-      </div>
-    </div>
-
-    <div class="ai-input-section">
-      <div class="ai-input-container">
-        <div class="ai-input-wrapper">
-          <input type="text" placeholder="Ask anything..." id="aiInput" onkeydown="if(event.key==='Enter')sendMessage()">
-        </div>
-        <button class="send-btn" onclick="sendMessage()" aria-label="Send">
-          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-      <div class="ai-disclaimer">CPB AI can make mistakes. Please double-check.</div>
-    </div>
+    <div class="ai-conversation" id="aiConversation"><div class="ai-empty-state" id="aiEmptyState"><span class="ai-empty-text">Write something to start...</span></div></div>
+    <div class="ai-input-section"><div class="ai-input-container"><div class="ai-input-wrapper"><input type="text" placeholder="Ask anything..." id="aiInput" onkeydown="if(event.key==='Enter')sendMessage()"></div><button class="ai-send-btn" onclick="sendMessage()" id="sendBtn"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div><div class="ai-disclaimer">CPB AI can make mistakes. Please double-check.</div></div>
   </div>
-
-  <!-- Bottom Nav with Typography -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
-    <a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>Settings</span></a>
-    <a href="cpb-ai.html" class="nav-item active"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;line-height:22px;color:var(--accent);">CPB</span><span>CPB AI</span></a>
-    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Exams</span></a>
-  </nav>
-
+  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item active"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;color:var(--accent);">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <script>
-    function sendMessage() {
+    const HF_TOKEN = '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';
+    async function sendMessage() {
       const input = document.getElementById('aiInput');
+      const sendBtn = document.getElementById('sendBtn');
       const msg = input.value.trim();
       if (!msg) return;
       const conversation = document.getElementById('aiConversation');
@@ -95,14 +48,23 @@
       conversation.innerHTML += `<div class="ai-message-block user"><div class="ai-message-content"><p>${msg}</p></div></div>`;
       const loadingId = 'loading-' + Date.now();
       conversation.innerHTML += `<div class="ai-message-block bot" id="${loadingId}"><div class="ai-message-content"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
-      input.value = '';
+      input.value = ''; sendBtn.disabled = true;
       conversation.scrollTop = conversation.scrollHeight;
-      setTimeout(() => {
-        const el = document.getElementById(loadingId);
-        if (el) el.remove();
-        conversation.innerHTML += `<div class="ai-message-block bot"><div class="ai-message-content"><p><strong>CPB AI</strong> শীঘ্রই আসছে। আমরা আমাদের নিজস্ব বুদ্ধিমান সিস্টেম তৈরি করছি।</p></div></div>`;
-        conversation.scrollTop = conversation.scrollHeight;
-      }, 1500);
+      try {
+        const response = await fetch('https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2', {
+          method: 'POST', headers: { 'Authorization': `Bearer ${HF_TOKEN}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inputs: msg })
+        });
+        const data = await response.json();
+        document.getElementById(loadingId)?.remove();
+        const reply = data[0]?.generated_text || data.generated_text || 'No response';
+        conversation.innerHTML += `<div class="ai-message-block bot"><div class="ai-message-content">${reply.replace(/\n/g,'<br>')}</div></div>`;
+      } catch(e) {
+        document.getElementById(loadingId)?.remove();
+        conversation.innerHTML += `<div class="ai-message-block bot"><div class="ai-message-content"><p>Error: ${e.message}</p></div></div>`;
+      }
+      sendBtn.disabled = false;
+      conversation.scrollTop = conversation.scrollHeight;
     }
   </script>
 </body>
