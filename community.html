@@ -6,9 +6,11 @@
     .post-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); margin-bottom: var(--sp3); transition: all var(--tr-base); box-shadow: var(--sh-sm); }
     .post-card:hover { box-shadow: var(--sh-md); border-color: var(--secondary-hover); }
     .post-card h3 { font-size: var(--text-lg); font-weight: 700; color: var(--heading); margin-bottom: 4px; }
-    .post-card .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--sp1); }
+    .post-card .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--sp1); display: flex; gap: var(--sp1); align-items: center; }
     .post-card .content { font-size: var(--text-sm); color: var(--body); line-height: 1.7; }
-    .post-card img { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); }
+    .post-card img, .post-card video { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); }
+    .news-badge { background: var(--primary); color: white; padding: 2px 10px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; }
+    .post-badge { background: var(--accent); color: var(--primary-dark); padding: 2px 10px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; }
     .comments-section { margin-top: var(--sp3); border-top: 1px solid var(--border); padding-top: var(--sp2); }
     .comment { padding: var(--sp1) 0; border-bottom: 1px solid var(--border); }
     .comment:last-child { border-bottom: none; }
@@ -47,20 +49,27 @@
       container.innerHTML = '';
       for (const doc of s.docs) {
         const data = doc.data();
+        const isNews = data.type === 'news';
         const postDiv = document.createElement('div');
         postDiv.className = 'post-card';
         postDiv.innerHTML = `
           <h3>${data.title}</h3>
-          <div class="meta">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}</div>
-          <div class="content">${data.content||''}</div>
-          ${data.image ? `<img src="${data.image}" alt="">` : ''}
-          <div class="toggle-comments" onclick="toggleComments(this, '${doc.id}')">💬 কমেন্ট দেখুন</div>
-          <div class="comments-section" id="comments-${doc.id}" style="display:none;"><p class="text-muted" style="font-size:var(--text-xs);">লোড হচ্ছে...</p></div>
-          <div class="comment-form">
-            <input type="text" id="cname-${doc.id}" placeholder="আপনার নাম">
-            <input type="text" id="ctext-${doc.id}" placeholder="কমেন্ট লিখুন..." style="flex:2;">
-            <button onclick="addComment('${doc.id}')">পাঠান</button>
+          <div class="meta">
+            ${isNews ? '<span class="news-badge">News</span>' : '<span class="post-badge">Post</span>'}
+            ${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}
           </div>
+          <div class="content">${data.content||''}</div>
+          ${data.video ? `<video controls style="width:100%;border-radius:var(--r-sm);margin-top:var(--sp1);"><source src="${data.video}" type="video/mp4"></video>` : ''}
+          ${data.image ? `<img src="${data.image}" alt="">` : ''}
+          ${!isNews ? `
+            <div class="toggle-comments" onclick="toggleComments(this, '${doc.id}')">💬 কমেন্ট দেখুন</div>
+            <div class="comments-section" id="comments-${doc.id}" style="display:none;"><p class="text-muted" style="font-size:var(--text-xs);">লোড হচ্ছে...</p></div>
+            <div class="comment-form">
+              <input type="text" id="cname-${doc.id}" placeholder="আপনার নাম">
+              <input type="text" id="ctext-${doc.id}" placeholder="কমেন্ট লিখুন..." style="flex:2;">
+              <button onclick="addComment('${doc.id}')">পাঠান</button>
+            </div>
+          ` : ''}
         `;
         container.appendChild(postDiv);
       }
