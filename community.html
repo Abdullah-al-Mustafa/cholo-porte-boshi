@@ -3,14 +3,26 @@
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Community - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .community-page { max-width: 700px; margin: 0 auto; width: 100%; }
-    .post-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); margin-bottom: var(--sp2); transition: all var(--tr-base); box-shadow: var(--sh-sm); }
+    .post-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); margin-bottom: var(--sp3); transition: all var(--tr-base); box-shadow: var(--sh-sm); }
     .post-card:hover { box-shadow: var(--sh-md); border-color: var(--secondary-hover); }
     .post-card h3 { font-size: var(--text-lg); font-weight: 700; color: var(--heading); margin-bottom: 4px; }
     .post-card .meta { font-size: var(--text-xs); color: var(--muted); margin-bottom: var(--sp1); }
     .post-card .content { font-size: var(--text-sm); color: var(--body); line-height: 1.7; }
     .post-card img { width: 100%; border-radius: var(--r-sm); margin-top: var(--sp1); }
+    .comments-section { margin-top: var(--sp3); border-top: 1px solid var(--border); padding-top: var(--sp2); }
+    .comment { padding: var(--sp1) 0; border-bottom: 1px solid var(--border); }
+    .comment:last-child { border-bottom: none; }
+    .comment .c-name { font-weight: 600; font-size: var(--text-xs); color: var(--primary); }
+    .comment .c-text { font-size: var(--text-sm); color: var(--body); margin-top: 2px; }
+    .comment .c-time { font-size: 10px; color: var(--muted); }
+    .comment-form { display: flex; gap: var(--sp1); margin-top: var(--sp2); flex-wrap: wrap; }
+    .comment-form input { flex: 1; min-width: 120px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--font); font-size: var(--text-xs); background: var(--surface); color: var(--body); }
+    .comment-form button { padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: var(--r-sm); font-weight: 600; cursor: pointer; font-size: var(--text-xs); }
+    .toggle-comments { color: var(--primary); cursor: pointer; font-size: var(--text-xs); font-weight: 600; margin-top: var(--sp1); }
     body.dark .post-card { background: var(--dark-card); border-color: var(--dark-border); }
     body.dark .post-card h3 { color: var(--dark-heading); }
+    body.dark .comment-form input { background: var(--dark-surface); color: var(--dark-body); border-color: var(--dark-border); }
+    body.dark .comment { border-color: var(--dark-border); }
   </style>
 </head>
 <body>
@@ -22,13 +34,66 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    (async () => {
+
+    async function loadPosts() {
       const s = await db.collection('community').orderBy('createdAt','desc').get();
-      document.getElementById('communityPosts').innerHTML = s.empty ? '<p class="text-muted">এখনো কোনো পোস্ট নেই। শীঘ্রই আসছে!</p>' : s.docs.map(d => {
-        const data = d.data();
-        return `<div class="post-card"><h3>${data.title}</h3><div class="meta">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}</div><div class="content">${data.content}</div>${data.image ? `<img src="${data.image}" alt="">` : ''}</div>`;
-      }).join('');
-    })();
+      const container = document.getElementById('communityPosts');
+      if (s.empty) { container.innerHTML = '<p class="text-muted">এখনো কোনো পোস্ট নেই। শীঘ্রই আসছে!</p>'; return; }
+      container.innerHTML = '';
+      for (const doc of s.docs) {
+        const data = doc.data();
+        const postDiv = document.createElement('div');
+        postDiv.className = 'post-card';
+        postDiv.innerHTML = `
+          <h3>${data.title}</h3>
+          <div class="meta">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleDateString('bn-BD') : ''}</div>
+          <div class="content">${data.content||''}</div>
+          ${data.image ? `<img src="${data.image}" alt="">` : ''}
+          <div class="toggle-comments" onclick="toggleComments(this, '${doc.id}')">💬 কমেন্ট দেখুন</div>
+          <div class="comments-section" id="comments-${doc.id}" style="display:none;"><p class="text-muted" style="font-size:var(--text-xs);">লোড হচ্ছে...</p></div>
+          <div class="comment-form">
+            <input type="text" id="cname-${doc.id}" placeholder="আপনার নাম">
+            <input type="text" id="ctext-${doc.id}" placeholder="কমেন্ট লিখুন..." style="flex:2;">
+            <button onclick="addComment('${doc.id}')">পাঠান</button>
+          </div>
+        `;
+        container.appendChild(postDiv);
+      }
+    }
+
+    async function toggleComments(el, postId) {
+      const section = document.getElementById('comments-' + postId);
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        el.textContent = '💬 কমেন্ট লুকান';
+        const s = await db.collection('community').doc(postId).collection('comments').orderBy('createdAt','asc').get();
+        section.innerHTML = s.empty ? '<p class="text-muted" style="font-size:var(--text-xs);">কোনো কমেন্ট নেই</p>' : s.docs.map(d => {
+          const c = d.data();
+          return `<div class="comment"><span class="c-name">${c.name}</span> <span class="c-time">${c.createdAt ? new Date(c.createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</span><div class="c-text">${c.text}</div></div>`;
+        }).join('');
+      } else {
+        section.style.display = 'none';
+        el.textContent = '💬 কমেন্ট দেখুন';
+      }
+    }
+
+    async function addComment(postId) {
+      const name = document.getElementById('cname-' + postId).value.trim();
+      const text = document.getElementById('ctext-' + postId).value.trim();
+      if (!name || !text) return alert('নাম ও কমেন্ট দিন');
+      await db.collection('community').doc(postId).collection('comments').add({ name, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      document.getElementById('ctext-' + postId).value = '';
+      const section = document.getElementById('comments-' + postId);
+      if (section.style.display !== 'none') {
+        const s = await db.collection('community').doc(postId).collection('comments').orderBy('createdAt','asc').get();
+        section.innerHTML = s.empty ? '<p class="text-muted" style="font-size:var(--text-xs);">কোনো কমেন্ট নেই</p>' : s.docs.map(d => {
+          const c = d.data();
+          return `<div class="comment"><span class="c-name">${c.name}</span> <span class="c-time">${c.createdAt ? new Date(c.createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</span><div class="c-text">${c.text}</div></div>`;
+        }).join('');
+      }
+    }
+
+    loadPosts();
   </script>
 </body>
 </html>
