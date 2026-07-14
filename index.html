@@ -20,17 +20,47 @@
     .badge.subject { background: var(--secondary); color: var(--primary); }
     .badge.class { background: var(--primary); color: white; }
     .badge.all { background: var(--accent); color: var(--primary-dark); }
+
+    /* Tools Popup */
+    .tools-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
+    .tools-overlay.show { display: flex; }
+    .tools-sheet { background: var(--surface); border-radius: var(--r-lg) var(--r-lg) 0 0; padding: var(--sp5) var(--sp3) var(--sp6); width: 100%; max-width: 400px; animation: slideUp 0.25s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .tools-sheet h3 { font-size: var(--text-lg); font-weight: 700; margin-bottom: var(--sp3); color: var(--heading); text-align: center; }
+    .tools-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp1); }
+    .tool-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: var(--sp2); border-radius: var(--r-md); cursor: pointer; transition: background var(--tr-fast); text-decoration: none; color: var(--body); }
+    .tool-item:hover { background: var(--secondary); }
+    .tool-icon { width: 48px; height: 48px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; }
+    .tool-icon svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .tool-label { font-size: 11px; font-weight: 600; color: var(--heading); text-align: center; }
+
     body.dark .video-card { background: var(--dark-card); border-color: var(--dark-border); }
     body.dark .video-card .body h4 { color: var(--dark-heading); }
+    body.dark .tools-sheet { background: var(--dark-surface); }
+    body.dark .tool-icon svg { stroke: var(--accent); }
+    body.dark .tool-label { color: var(--dark-heading); }
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="menu.html" class="icon-btn mobile-only"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></a><a href="index.html" class="header-brand">চলো পড়তে বসি</a><nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
+  <header class="header"><div class="header-inner"><a href="index.html" class="header-brand">চলো পড়তে বসি</a><nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav><div style="display:flex;gap:4px;"><button class="icon-btn" onclick="document.getElementById('toolsOverlay').classList.add('show')" aria-label="Tools"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></div></header>
   <main class="main-content">
     <section class="hero"><h1>চলো পড়তে বসি</h1><p>A Bangladesh Curriculum-Based Learning Platform</p></section>
     <div class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও →</a></div><div class="card-grid" id="homeVideos"><p class="text-muted">লোড হচ্ছে...</p></div></div>
     <div class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল →</a></div><div class="card-grid" id="homeArticles"><p class="text-muted">লোড হচ্ছে...</p></div></div>
   </main>
+
+  <!-- Tools Popup -->
+  <div class="tools-overlay" id="toolsOverlay" onclick="if(event.target===this) this.classList.remove('show')">
+    <div class="tools-sheet">
+      <h3>টুলস</h3>
+      <div class="tools-grid">
+        <a href="calculator.html" class="tool-item"><div class="tool-icon" style="background:var(--secondary);"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg></div><span class="tool-label">ক্যালকুলেটর</span></a>
+        <a href="translator.html" class="tool-item"><div class="tool-icon" style="background:var(--secondary);"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div><span class="tool-label">ট্রান্সলেটর</span></a>
+        <a href="#" class="tool-item"><div class="tool-icon" style="background:var(--secondary);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><span class="tool-label">আউট অফ স্কুল</span></a>
+      </div>
+    </div>
+  </div>
+
   <nav class="bottom-nav"><a href="index.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>

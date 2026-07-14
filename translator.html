@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ট্রান্সলেটর - চলো পড়তে বসি</title><link rel="stylesheet" href="css/style.css">
+  <style>
+    .trans-page { max-width: 600px; margin: 0 auto; width: 100%; padding: var(--sp5) var(--sp3); }
+    .trans-page h2 { text-align: center; margin-bottom: var(--sp4); color: var(--heading); }
+    .trans-page textarea { width: 100%; padding: var(--sp3); border: 2px solid var(--border); border-radius: var(--r-md); font-family: var(--font); font-size: var(--text-base); min-height: 120px; resize: vertical; background: var(--surface); color: var(--body); }
+    .trans-page button { margin-top: var(--sp3); width: 100%; }
+    .back-btn { display: inline-flex; align-items: center; gap: 4px; color: var(--primary); text-decoration: none; font-weight: 600; margin-bottom: var(--sp3); }
+    .output-box { margin-top: var(--sp3); padding: var(--sp3); border: 1px solid var(--border); border-radius: var(--r-md); min-height: 80px; background: var(--surface); color: var(--body); font-size: var(--text-base); }
+    body.dark textarea, body.dark .output-box { background: var(--dark-surface); color: var(--dark-body); border-color: var(--dark-border); }
+  </style>
+</head>
+<body>
+  <main class="main-content">
+    <div class="trans-page">
+      <a href="index.html" class="back-btn">← ফিরে যান</a>
+      <h2>ট্রান্সলেটর</h2>
+      <textarea id="transInput" placeholder="টেক্সট লিখুন..."></textarea>
+      <button class="btn btn-primary" onclick="translateText()">অনুবাদ করুন</button>
+      <div class="output-box" id="transOutput"></div>
+    </div>
+  </main>
+  <script>
+    async function translateText() {
+      const text = document.getElementById('transInput').value.trim();
+      if (!text) return;
+      document.getElementById('transOutput').textContent = 'অনুবাদ করা হচ্ছে...';
+      try {
+        const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=bn|en`);
+        const data = await res.json();
+        document.getElementById('transOutput').textContent = data.responseData.translatedText || 'অনুবাদ করা যায়নি';
+      } catch(e) {
+        document.getElementById('transOutput').textContent = 'অনুবাদ করা যায়নি';
+      }
+    }
+  </script>
+</body>
+</html>

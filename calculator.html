@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ক্যালকুলেটর - চলো পড়তে বসি</title><link rel="stylesheet" href="css/style.css">
+  <style>
+    .calc-page { max-width: 400px; margin: 0 auto; width: 100%; padding: var(--sp5) var(--sp3); }
+    .calc-page h2 { text-align: center; margin-bottom: var(--sp4); color: var(--heading); }
+    .calc-display { width: 100%; padding: var(--sp4); font-size: 2rem; text-align: right; border: 2px solid var(--border); border-radius: var(--r-md); margin-bottom: var(--sp3); background: var(--surface); color: var(--heading); font-family: monospace; }
+    .calc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--sp1); }
+    .calc-btn { padding: var(--sp3); font-size: 1.2rem; font-weight: 600; border: 1px solid var(--border); border-radius: var(--r-sm); cursor: pointer; background: var(--surface); color: var(--heading); transition: all var(--tr-fast); }
+    .calc-btn:hover { background: var(--secondary); }
+    .calc-btn.op { color: var(--primary); }
+    .calc-btn.eq { background: var(--primary); color: white; }
+    .back-btn { display: inline-flex; align-items: center; gap: 4px; color: var(--primary); text-decoration: none; font-weight: 600; margin-bottom: var(--sp3); }
+    body.dark .calc-display { background: var(--dark-surface); color: var(--dark-heading); border-color: var(--dark-border); }
+    body.dark .calc-btn { background: var(--dark-surface); color: var(--dark-heading); border-color: var(--dark-border); }
+  </style>
+</head>
+<body>
+  <main class="main-content">
+    <div class="calc-page">
+      <a href="index.html" class="back-btn">← ফিরে যান</a>
+      <h2>ক্যালকুলেটর</h2>
+      <input type="text" id="calcDisplay" class="calc-display" readonly placeholder="0">
+      <div class="calc-grid">
+        <button class="calc-btn" onclick="appendCalc('7')">৭</button><button class="calc-btn" onclick="appendCalc('8')">৮</button><button class="calc-btn" onclick="appendCalc('9')">৯</button><button class="calc-btn op" onclick="appendCalc('/')">÷</button>
+        <button class="calc-btn" onclick="appendCalc('4')">৪</button><button class="calc-btn" onclick="appendCalc('5')">৫</button><button class="calc-btn" onclick="appendCalc('6')">৬</button><button class="calc-btn op" onclick="appendCalc('*')">×</button>
+        <button class="calc-btn" onclick="appendCalc('1')">১</button><button class="calc-btn" onclick="appendCalc('2')">২</button><button class="calc-btn" onclick="appendCalc('3')">৩</button><button class="calc-btn op" onclick="appendCalc('-')">−</button>
+        <button class="calc-btn" onclick="appendCalc('0')">০</button><button class="calc-btn" onclick="appendCalc('.')">.</button><button class="calc-btn op" onclick="appendCalc('+')">+</button><button class="calc-btn eq" onclick="calcResult()">=</button>
+        <button class="calc-btn" onclick="clearCalc()" style="grid-column:span 4;">Clear</button>
+      </div>
+    </div>
+  </main>
+  <script>
+    function appendCalc(v) { document.getElementById('calcDisplay').value += v; }
+    function clearCalc() { document.getElementById('calcDisplay').value = ''; }
+    function calcResult() {
+      try { document.getElementById('calcDisplay').value = eval(document.getElementById('calcDisplay').value.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-')); }
+      catch { document.getElementById('calcDisplay').value = 'Error'; }
+    }
+  </script>
+</body>
+</html>
