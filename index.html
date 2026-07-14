@@ -4,78 +4,27 @@
   <style>
     .section { margin-bottom: var(--space-8); }
     .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }
-    .section-title { font-size: clamp(1.2rem,3vw,1.5rem); font-weight: 700; color: var(--heading); letter-spacing: -0.3px; }
-    .section-link { color: var(--secondary); font-weight: 600; text-decoration: none; font-size: var(--text-sm); transition: color 0.2s; }
-    .section-link:hover { color: var(--accent); }
+    .section-title { font-size: clamp(1.2rem,3vw,1.5rem); font-weight: 700; color: var(--heading); }
+    .section-link { color: var(--secondary); font-weight: 600; text-decoration: none; font-size: var(--text-sm); }
     .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-4); }
     @media (max-width: 768px) { .card-grid { grid-template-columns: repeat(2,1fr); gap: var(--space-3); } }
     @media (max-width: 400px) { .card-grid { grid-template-columns: 1fr; } }
     .mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; cursor: pointer; transition: all 0.25s ease; box-shadow: var(--shadow-sm); }
     .mini-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--accent); transform: translateY(-3px); }
-    .mini-card .thumb { height: 140px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; background-color: #0F1A2E; position: relative; }
-    .mini-card .thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, transparent 60%); }
-    .mini-card .thumb .play-icon { width: 44px; height: 44px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    .mini-card .thumb .play-icon svg { width: 18px; height: 18px; fill: var(--primary); }
-    .mini-card .thumb .video-label { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; font-size: 9px; padding: 3px 8px; border-radius: var(--radius-full); z-index: 1; font-weight: 500; letter-spacing: 0.5px; }
+    .mini-card .thumb { width: 100%; height: 180px; background-size: cover; background-position: center; background-color: #0F1A2E; position: relative; }
+    .mini-card .thumb .video-label { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; font-size: 9px; padding: 3px 8px; border-radius: var(--radius-full); z-index: 1; font-weight: 500; }
     .mini-card .body { padding: var(--space-4); }
     .mini-card .body h4 { font-size: var(--text-sm); font-weight: 600; color: var(--heading); margin-bottom: 6px; line-height: 1.4; }
     .mini-card .body .meta { font-size: var(--text-xs); color: var(--muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; }
     .badge.subject { background: var(--accent-light); color: var(--primary); }
     .badge.class { background: var(--secondary); color: white; }
     .badge.all { background: var(--accent); color: var(--primary); }
 
-    /* Premium Hero */
-    .hero-premium {
-      background: linear-gradient(135deg, #0A1628 0%, #132238 40%, #1A3350 70%, #0F1F35 100%);
-      padding: var(--space-16) var(--space-4) var(--space-12);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--radius-2xl);
-      margin-bottom: var(--space-8);
-    }
-    .hero-premium::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle at 30% 70%, rgba(212,175,55,0.06) 0%, transparent 50%),
-                  radial-gradient(circle at 70% 30%, rgba(31,78,91,0.08) 0%, transparent 50%);
-      animation: heroGlow 8s ease-in-out infinite;
-    }
-    @keyframes heroGlow {
-      0%, 100% { transform: translate(0,0); }
-      50% { transform: translate(-2%, -2%); }
-    }
-    .hero-content { position: relative; z-index: 1; }
-    .hero-content h1 {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      font-weight: 800;
-      color: white;
-      margin-bottom: var(--space-3);
-      letter-spacing: -0.5px;
-      animation: fadeInUp 0.8s ease-out;
-    }
-    .hero-content h1 span { color: var(--accent); }
-    .hero-content p {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      color: rgba(255,255,255,0.7);
-      margin-bottom: var(--space-8);
-      font-weight: 400;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: var(--space-8);
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-    .hero-stat { text-align: center; }
-    .hero-stat .num { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--accent); }
-    .hero-stat .label { font-size: var(--text-xs); color: rgba(255,255,255,0.5); margin-top: 2px; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    /* Hero */
+    .hero { text-align: center; padding: var(--space-16) var(--space-4) var(--space-12); }
+    .hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; color: var(--heading); margin-bottom: var(--space-3); }
+    .hero p { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--muted); }
 
     /* Footer */
     .main-footer { background: var(--primary); color: rgba(255,255,255,0.8); padding: var(--space-10) var(--space-4) var(--space-6); margin-top: auto; }
@@ -93,19 +42,7 @@
 <body>
   <header class="header"><div class="header-inner"><a href="menu.html" class="icon-btn mobile-only"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></a><a href="index.html" class="header-brand">চলো পড়তে বসি</a><nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
   <main class="main-content">
-    <!-- Premium Hero -->
-    <div class="hero-premium">
-      <div class="hero-content">
-        <h1>চলো <span>পড়তে</span> বসি</h1>
-        <p>A Bangladesh Curriculum-Based Learning Platform</p>
-        <div class="hero-stats" id="heroStats">
-          <div class="hero-stat"><div class="num">...</div><div class="label">ক্লাস</div></div>
-          <div class="hero-stat"><div class="num">...</div><div class="label">ভিডিও</div></div>
-          <div class="hero-stat"><div class="num">...</div><div class="label">আর্টিকেল</div></div>
-        </div>
-      </div>
-    </div>
-
+    <section class="hero"><h1>চলো পড়তে বসি</h1><p>A Bangladesh Curriculum-Based Learning Platform</p></section>
     <div class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও →</a></div><div class="card-grid" id="homeVideos"><p class="text-muted">লোড হচ্ছে...</p></div></div>
     <div class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল →</a></div><div class="card-grid" id="homeArticles"><p class="text-muted">লোড হচ্ছে...</p></div></div>
   </main>
@@ -126,23 +63,11 @@
     function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9': 'Class 9', '10': 'Class 10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
 
     (async () => {
-      const [vSnap, aSnap] = await Promise.all([
-        db.collection('videos').orderBy('createdAt','desc').limit(9).get(),
-        db.collection('articles').orderBy('createdAt','desc').limit(9).get()
-      ]);
+      const v = await db.collection('videos').orderBy('createdAt','desc').limit(9).get();
+      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = getThumb(d.data().url||''); return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="thumb" style="${t.url?'background-image:url('+t.url+');':'background-color:#1a1a2e;'}"><span class="video-label">${t.label}</span></div><div class="body"><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)} ${d.data().subject||''}</div></div></div>`; }).join('');
 
-      // Hero Stats
-      document.getElementById('heroStats').innerHTML = `
-        <div class="hero-stat"><div class="num">৬-১০</div><div class="label">ক্লাস</div></div>
-        <div class="hero-stat"><div class="num">${vSnap.size}</div><div class="label">ভিডিও</div></div>
-        <div class="hero-stat"><div class="num">${aSnap.size}</div><div class="label">আর্টিকেল</div></div>
-      `;
-
-      // Videos
-      document.getElementById('homeVideos').innerHTML = vSnap.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : vSnap.docs.map(d => { const t = getThumb(d.data().url||''); return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="thumb" style="${t.url?'background-image:url('+t.url+');':''}"><div class="play-icon"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div><span class="video-label">${t.label}</span></div><div class="body"><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)} ${d.data().subject||''}</div></div></div>`; }).join('');
-
-      // Articles
-      document.getElementById('homeArticles').innerHTML = aSnap.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : aSnap.docs.map(d => { const img = d.data().image; return `<div class="mini-card" onclick="location.href='article.html?id=${d.id}'"><div class="thumb" style="${img?'background-image:url('+img+');':'background:var(--accent-light);'}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)}</div></div></div>`; }).join('');
+      const a = await db.collection('articles').orderBy('createdAt','desc').limit(9).get();
+      document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="mini-card" onclick="location.href='article.html?id=${d.id}'"><div class="thumb" style="${img?'background-image:url('+img+');':'background:var(--accent-light);'}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)}</div></div></div>`; }).join('');
     })();
   </script>
 </body>
