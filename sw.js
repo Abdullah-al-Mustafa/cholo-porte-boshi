@@ -7,7 +7,6 @@ const urlsToCache = [
   '/cholo-porte-boshi/manifest.json'
 ];
 
-// Install - cache basic files
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
@@ -15,7 +14,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate - clear old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -27,7 +25,6 @@ self.addEventListener('activate', event => {
   return self.clients.claim();
 });
 
-// Fetch - network first, fallback to cache
 self.addEventListener('fetch', event => {
   event.respondWith(
     fetch(event.request)
