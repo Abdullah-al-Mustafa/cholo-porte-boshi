@@ -1,27 +1,64 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>আর্টিকেল - চলো পড়তে বসি</title><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>আর্টিকেল - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     .article-page { max-width: 750px; margin: 0 auto; width: 100%; }
-    .article-page img { width: 100%; border-radius: var(--radius-xl); margin-bottom: var(--space-6); }
-    .article-page h1 { font-size: var(--text-3xl); color: var(--heading); margin-bottom: var(--space-3); }
-    .article-page .meta { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; align-items: center; }
+    .article-page img { width: 100%; border-radius: var(--r-md); margin-bottom: var(--sp4); }
+    .article-page h1 { font-size: var(--text-3xl); color: var(--heading); margin-bottom: var(--sp2); }
+    .article-page .meta { display: flex; gap: var(--sp1); margin-bottom: var(--sp4); flex-wrap: wrap; align-items: center; }
     .article-page .content { font-size: var(--text-base); line-height: 2; color: var(--body); }
-    .article-page .content p { margin-bottom: var(--space-4); }
-    .badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
-    .badge.subject { background: var(--accent-light); color: var(--primary); }
-    .badge.class { background: var(--secondary); color: white; }
-    .badge.all { background: var(--accent); color: var(--primary); }
-    .voice-btn { display: inline-flex; align-items: center; gap: 6px; padding: var(--space-2) var(--space-4); background: var(--accent); color: var(--primary); border: none; border-radius: var(--radius-full); font-weight: 600; font-size: var(--text-sm); cursor: pointer; transition: all 0.2s; }
-    .voice-btn:hover { background: var(--accent-hover); }
-    .voice-btn.playing { background: var(--primary); color: white; }
+    .article-page .content p { margin-bottom: var(--sp3); }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; }
+    .badge.subject { background: var(--secondary); color: var(--primary); }
+    .badge.class { background: var(--primary); color: white; }
+    .badge.all { background: var(--accent); color: var(--primary-dark); }
+    .voice-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: var(--r-full); font-weight: 600; font-size: var(--text-sm); cursor: pointer; transition: all var(--tr-fast); }
+    .voice-btn:hover { background: var(--primary-hover); }
+    .voice-btn.playing { background: var(--accent); color: var(--primary-dark); }
     body.dark .article-page h1 { color: var(--dark-heading); }
     body.dark .article-page .content { color: var(--dark-body); }
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:rgba(255,255,255,0.85);">আর্টিকেল</span><span style="width:40px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">আর্টিকেল</span><span style="width:40px;"></span></div></header>
   <main class="main-content">
     <div class="article-page" id="articleContent"><p class="text-muted">লোড হচ্ছে...</p></div>
   </main>
-  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
+  <nav class="bottom-nav"><a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
+
+    let isPlaying = false;
+    function toggleVoice() {
+      const btn = document.getElementById('voiceBtn');
+      if (isPlaying) { window.speechSynthesis.cancel(); btn.textContent = '🔊 শুনুন'; btn.classList.remove('playing'); isPlaying = false; return; }
+      const content = document.getElementById('articleText');
+      if (!content) return;
+      const text = content.textContent.trim();
+      if (!text) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'bn-BD'; utterance.rate = 0.9;
+      utterance.onstart = () => { btn.textContent = '⏸️ থামান'; btn.classList.add('playing'); isPlaying = true; };
+      utterance.onend = () => { btn.textContent = '🔊 শুনুন'; btn.classList.remove('playing'); isPlaying = false; };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    (async () => {
+      if (!id) { document.getElementById('articleContent').innerHTML = '<p class="text-muted">আর্টিকেল পাওয়া যায়নি</p>'; return; }
+      const doc = await db.collection('articles').doc(id).get();
+      if (!doc.exists) { document.getElementById('articleContent').innerHTML = '<p class="text-muted">আর্টিকেল পাওয়া যায়নি</p>'; return; }
+      const d = doc.data();
+      document.getElementById('articleContent').innerHTML = `
+        ${d.image ? `<img src="${d.image}" alt="${d.title}">` : ''}
+        <h1>${d.title}</h1>
+        <div class="meta"><span class="badge subject">${d.subject||'সাধারণ'}</span>${clsBadge(d.class)}<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊 শুনুন</button></div>
+        <div class="content" id="articleText">${(d.content||'').split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('')}</div>
+      `;
+    })();
+  </script>
+</body>
+</html>
