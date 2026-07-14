@@ -40,18 +40,15 @@
       return m ? `https://www.youtube.com/embed/${m[1]}` : '';
     }
 
-    function getFacebookEmbed(url) {
-      return url.includes('facebook.com') || url.includes('fb.watch') ? url : '';
-    }
-
     function renderVideo(videoUrl) {
-      if (!videoUrl) return '';
-      const yt = getYoutubeEmbed(videoUrl);
+      if (!videoUrl || videoUrl.trim() === '') return '';
+      const trimmed = videoUrl.trim();
+      const yt = getYoutubeEmbed(trimmed);
       if (yt) return `<iframe class="video-embed" src="${yt}" allowfullscreen></iframe>`;
-      const fb = getFacebookEmbed(videoUrl);
-      if (fb) return `<a href="${fb}" target="_blank" class="btn btn-primary" style="margin-top:var(--sp1);display:inline-flex;gap:6px;">▶ ফেসবুক ভিডিও দেখুন</a>`;
-      if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) return `<video controls style="width:100%;border-radius:var(--r-sm);margin-top:var(--sp1);"><source src="${videoUrl}"></video>`;
-      return `<a href="${videoUrl}" target="_blank" class="btn btn-primary" style="margin-top:var(--sp1);display:inline-flex;gap:6px;">▶ ভিডিও দেখুন</a>`;
+      if (trimmed.includes('facebook.com') || trimmed.includes('fb.watch')) return `<a href="${trimmed}" target="_blank" class="btn btn-primary" style="margin-top:var(--sp1);display:inline-flex;gap:6px;">▶ ফেসবুক ভিডিও দেখুন</a>`;
+      if (/\.(mp4|webm|ogg)$/i.test(trimmed)) return `<video controls style="width:100%;border-radius:var(--r-sm);margin-top:var(--sp1);"><source src="${trimmed}"></video>`;
+      // For any other URL, just show a generic link button
+      return `<a href="${trimmed}" target="_blank" class="btn btn-primary" style="margin-top:var(--sp1);display:inline-flex;gap:6px;">▶ ভিডিও দেখুন</a>`;
     }
 
     async function loadPosts() {
