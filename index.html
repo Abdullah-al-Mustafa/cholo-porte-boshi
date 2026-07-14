@@ -1,50 +1,28 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0D1B2A"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .section { margin-bottom: var(--space-8); }
-    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }
-    .section-title { font-size: clamp(1.2rem,3vw,1.5rem); font-weight: 700; color: var(--heading); }
-    .section-link { color: var(--secondary); font-weight: 600; text-decoration: none; font-size: var(--text-sm); }
-    .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-4); }
-    @media (max-width: 768px) { .card-grid { grid-template-columns: repeat(2,1fr); gap: var(--space-3); } }
-    @media (max-width: 400px) { .card-grid { grid-template-columns: 1fr; } }
-    .mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; cursor: pointer; transition: all 0.25s ease; box-shadow: var(--shadow-sm); }
-    .mini-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.1); border-color: var(--accent); transform: translateY(-3px); }
-    .mini-card .thumb { height: 160px; background-size: cover; background-position: center; background-color: #0F1A2E; position: relative; }
-    .mini-card .thumb .video-label { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; font-size: 9px; padding: 3px 8px; border-radius: var(--radius-full); z-index: 1; font-weight: 500; }
-    .mini-card .body { padding: var(--space-4); }
-    .mini-card .body h4 { font-size: var(--text-sm); font-weight: 600; color: var(--heading); margin-bottom: 6px; line-height: 1.4; }
-    .mini-card .body .meta { font-size: var(--text-xs); color: var(--muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-full); font-size: 10px; font-weight: 600; }
-    .badge.subject { background: var(--accent-light); color: var(--primary); }
-    .badge.class { background: var(--secondary); color: white; }
-    .badge.all { background: var(--accent); color: var(--primary); }
-
-    /* Hero - clean */
-    .hero { text-align: center; padding: var(--space-16) var(--space-4) var(--space-12); }
-    .hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; color: var(--heading); margin-bottom: var(--space-3); }
-    .hero p { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--muted); }
-
-    /* Footer */
-    .main-footer { background: var(--primary); color: rgba(255,255,255,0.8); padding: var(--space-10) var(--space-4) var(--space-6); margin-top: auto; }
-    .footer-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-6); max-width: 1000px; margin: 0 auto; }
-    @media (min-width: 600px) { .footer-grid { grid-template-columns: repeat(4,1fr); } }
-    .footer-col h4 { color: var(--accent); font-size: var(--text-sm); margin-bottom: var(--space-3); font-weight: 700; }
-    .footer-col a { display: block; color: rgba(255,255,255,0.7); text-decoration: none; font-size: var(--text-xs); margin-bottom: var(--space-2); transition: color 0.2s; }
-    .footer-col a:hover { color: white; }
-    .footer-bottom { text-align: center; padding-top: var(--space-6); border-top: 1px solid rgba(255,255,255,0.08); margin-top: var(--space-6); font-size: var(--text-xs); color: rgba(255,255,255,0.5); }
-    body.dark .mini-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .mini-card .body h4 { color: var(--dark-heading); }
-    body.dark .main-footer { background: #060B12; }
+    .video-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; cursor: pointer; transition: all var(--tr-base); box-shadow: var(--sh-sm); }
+    .video-card:hover { box-shadow: var(--sh-lg); border-color: var(--secondary-hover); transform: scale(1.02); }
+    .video-card .thumb { height: 160px; background-size: cover; background-position: center; background-color: #0F1A2E; position: relative; }
+    .video-card .thumb .v-label { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: white; font-size: 9px; padding: 3px 8px; border-radius: var(--r-full); z-index: 1; font-weight: 500; }
+    .video-card .body { padding: var(--sp3); }
+    .video-card .body h4 { font-size: var(--text-sm); font-weight: 600; color: var(--heading); margin-bottom: 4px; }
+    .video-card .body .meta { font-size: var(--text-xs); color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: var(--r-full); font-size: 10px; font-weight: 600; }
+    .badge.subject { background: var(--secondary); color: var(--primary); }
+    .badge.class { background: var(--primary); color: white; }
+    .badge.all { background: var(--accent); color: var(--primary-dark); }
+    body.dark .video-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .video-card .body h4 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
   <header class="header"><div class="header-inner"><a href="menu.html" class="icon-btn mobile-only"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></a><a href="index.html" class="header-brand">চলো পড়তে বসি</a><nav class="header-nav"><a href="index.html" class="active">হোম</a><a href="articles.html">আর্টিকেল</a><a href="videos.html">ভিডিও</a><a href="exam.html">পরীক্ষা</a><a href="cpb-ai.html">CPB AI</a></nav><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
   <main class="main-content">
     <section class="hero"><h1>চলো পড়তে বসি</h1><p>A Bangladesh Curriculum-Based Learning Platform</p></section>
-    <div class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও →</a></div><div class="card-grid" id="homeVideos"><p class="text-muted">লোড হচ্ছে...</p></div></div>
-    <div class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল →</a></div><div class="card-grid" id="homeArticles"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+    <div class="section"><div class="section-header"><h2 class="section-title">ভিডিও</h2><a href="videos.html" class="section-link">সব ভিডিও →</a></div><div class="grid grid-3" id="homeVideos"><p class="text-muted">লোড হচ্ছে...</p></div></div>
+    <div class="section"><div class="section-header"><h2 class="section-title">আর্টিকেল</h2><a href="articles.html" class="section-link">সব আর্টিকেল →</a></div><div class="grid grid-3" id="homeArticles"><p class="text-muted">লোড হচ্ছে...</p></div></div>
   </main>
   <footer class="main-footer">
     <div class="footer-grid">
@@ -55,19 +33,19 @@
     </div>
     <div class="footer-bottom">&copy; 2026-present. All Rights Reserved. চলো পড়তে বসি</div>
   </footer>
-  <nav class="bottom-nav"><a href="index.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
+  <nav class="bottom-nav"><a href="index.html" class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a><a href="settings.html" class="nav-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>সেটিংস</span></a><a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">CPB</span><span>CPB AI</span></a><a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a></nav>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
     function getThumb(url) { if (!url) return ''; let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); if (m) return { url: 'https://img.youtube.com/vi/'+m[1]+'/hqdefault.jpg', label: 'YouTube' }; if (url.includes('facebook.com')||url.includes('fb.watch')) return { url: '', label: 'Facebook' }; if (url.includes('vimeo.com')) return { url: '', label: 'Vimeo' }; if (url.includes('drive.google.com')) return { url: '', label: 'Drive' }; return { url: '', label: 'Video' }; }
-    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9-10': 'Class 9-10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
+    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
 
     (async () => {
       const v = await db.collection('videos').orderBy('createdAt','desc').limit(9).get();
-      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = getThumb(d.data().url||''); return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="thumb" style="${t.url?'background-image:url('+t.url+');':'background-color:#1a1a2e;'}"><span class="video-label">${t.label}</span></div><div class="body"><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)} ${d.data().subject||''}</div></div></div>`; }).join('');
+      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted">কোনো ভিডিও নেই</p>' : v.docs.map(d => { const t = getThumb(d.data().url||''); return `<div class="video-card" onclick="window.open('${d.data().url}','_blank')"><div class="thumb" style="${t.url?'background-image:url('+t.url+');':'background-color:#1a1a2e;'}"><span class="v-label">${t.label}</span></div><div class="body"><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)} ${d.data().subject||''}</div></div></div>`; }).join('');
 
       const a = await db.collection('articles').orderBy('createdAt','desc').limit(9).get();
-      document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="mini-card" onclick="location.href='article.html?id=${d.id}'"><div class="thumb" style="${img?'background-image:url('+img+');':'background:var(--accent-light);'}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)}</div></div></div>`; }).join('');
+      document.getElementById('homeArticles').innerHTML = a.empty ? '<p class="text-muted">কোনো আর্টিকেল নেই</p>' : a.docs.map(d => { const img = d.data().image; return `<div class="video-card" onclick="location.href='article.html?id=${d.id}'"><div class="thumb" style="${img?'background-image:url('+img+');':'background:var(--secondary);'}"></div><div class="body"><span class="badge subject">${d.data().subject||'সাধারণ'}</span><h4>${d.data().title}</h4><div class="meta">${clsBadge(d.data().class)}</div></div></div>`; }).join('');
     })();
   </script>
 </body>
