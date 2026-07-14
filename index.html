@@ -59,7 +59,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    function getThumb(url) { if (!url) return ''; let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); if (m) return { url: 'https://img.youtube.com/vi/'+m[1]+'/mqdefault.jpg', label: 'YouTube' }; if (url.includes('facebook.com')||url.includes('fb.watch')) return { url: '', label: 'Facebook' }; if (url.includes('vimeo.com')) return { url: '', label: 'Vimeo' }; if (url.includes('drive.google.com')) return { url: '', label: 'Drive' }; return { url: '', label: 'Video' }; }
+    function getThumb(url) { if (!url) return ''; let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); if (m) return { url: 'https://img.youtube.com/vi/'+m[1]+'/hqdefault.jpg', label: 'YouTube' }; if (url.includes('facebook.com')||url.includes('fb.watch')) return { url: '', label: 'Facebook' }; if (url.includes('vimeo.com')) return { url: '', label: 'Vimeo' }; if (url.includes('drive.google.com')) return { url: '', label: 'Drive' }; return { url: '', label: 'Video' }; }
     function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map = { '6': 'Class 6', '7': 'Class 7', '8': 'Class 8', '9': 'Class 9', '10': 'Class 10', '9-10': 'Class 9-10' }; return `<span class="badge class">For ${map[c] || c}</span>`; }
 
     (async () => {
