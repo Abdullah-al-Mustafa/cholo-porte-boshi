@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>কমেন্ট - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+  <style>
+    .comments-page { max-width: 700px; margin: 0 auto; width: 100%; }
+    .comment-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp3); margin-bottom: var(--sp1); }
+    .comment-card .c-name { font-weight: 600; font-size: var(--text-sm); color: var(--primary); }
+    .comment-card .c-text { font-size: var(--text-sm); color: var(--body); margin-top: 4px; }
+    .comment-card .c-time { font-size: 10px; color: var(--muted); }
+    .comment-form { display: flex; gap: var(--sp1); margin-top: var(--sp4); flex-wrap: wrap; }
+    .comment-form input { flex: 1; min-width: 120px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--font); font-size: var(--text-xs); background: var(--surface); color: var(--body); }
+    .comment-form button { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: var(--r-sm); font-weight: 600; cursor: pointer; font-size: var(--text-xs); }
+    body.dark .comment-card { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .comment-form input { background: var(--dark-surface); color: var(--dark-body); border-color: var(--dark-border); }
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="community.html" class="icon-btn"><svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><a href="index.html" class="header-brand">চলো পড়তে বসি</a><span style="color:white;font-weight:600;">কমেন্ট</span><span style="width:40px;"></span></div></header>
+  <main class="main-content">
+    <div class="comments-page">
+      <div id="commentsList"><p class="text-muted">লোড হচ্ছে...</p></div>
+      <div class="comment-form">
+        <input type="text" id="cname" placeholder="আপনার নাম">
+        <input type="text" id="ctext" placeholder="কমেন্ট লিখুন..." style="flex:2;">
+        <button onclick="addComment()">পাঠান</button>
+      </div>
+    </div>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    const params = new URLSearchParams(location.search);
+    const postId = params.get('id');
+    async function loadComments() {
+      if (!postId) return;
+      const s = await db.collection('community').doc(postId).collection('comments').orderBy('createdAt','asc').get();
+      document.getElementById('commentsList').innerHTML = s.empty ? '<p class="text-muted">কোনো কমেন্ট নেই</p>' : s.docs.map(d => {
+        const c = d.data();
+        return `<div class="comment-card"><span class="c-name">${c.name}</span> <span class="c-time">${c.createdAt ? new Date(c.createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</span><div class="c-text">${c.text}</div></div>`;
+      }).join('');
+    }
+    async function addComment() {
+      if (!postId) return;
+      const name = document.getElementById('cname').value.trim();
+      const text = document.getElementById('ctext').value.trim();
+      if (!name || !text) return alert('নাম ও কমেন্ট দিন');
+      await db.collection('community').doc(postId).collection('comments').add({ name, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      document.getElementById('ctext').value = '';
+      loadComments();
+    }
+    loadComments();
+  </script>
+</body>
+</html>
