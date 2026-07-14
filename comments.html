@@ -2,16 +2,30 @@
 <html lang="bn">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>কমেন্ট - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .comments-page { max-width: 700px; margin: 0 auto; width: 100%; }
-    .comment-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp3); margin-bottom: var(--sp1); }
-    .comment-card .c-name { font-weight: 600; font-size: var(--text-sm); color: var(--primary); }
-    .comment-card .c-text { font-size: var(--text-sm); color: var(--body); margin-top: 4px; }
-    .comment-card .c-time { font-size: 10px; color: var(--muted); }
-    .comment-form { display: flex; gap: var(--sp1); margin-top: var(--sp4); flex-wrap: wrap; }
-    .comment-form input { flex: 1; min-width: 120px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--font); font-size: var(--text-xs); background: var(--surface); color: var(--body); }
-    .comment-form button { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: var(--r-sm); font-weight: 600; cursor: pointer; font-size: var(--text-xs); }
-    body.dark .comment-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .comment-form input { background: var(--dark-surface); color: var(--dark-body); border-color: var(--dark-border); }
+    .comments-page { max-width: 650px; margin: 0 auto; width: 100%; }
+    .comment-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp3); margin-bottom: var(--sp2); }
+    .comment-header { display: flex; align-items: center; gap: var(--sp2); margin-bottom: var(--sp1); }
+    .comment-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--text-sm); }
+    .comment-name { font-weight: 600; font-size: var(--text-sm); color: var(--heading); }
+    .comment-time { font-size: 11px; color: var(--muted); }
+    .comment-text { font-size: var(--text-sm); color: var(--body); margin-bottom: var(--sp1); line-height: 1.5; }
+    .comment-actions { display: flex; gap: var(--sp2); margin-top: var(--sp1); }
+    .action-btn { display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: var(--primary); font-weight: 600; font-size: 11px; cursor: pointer; padding: 4px 8px; border-radius: var(--r-sm); transition: background var(--tr-fast); }
+    .action-btn:hover { background: var(--secondary); }
+    .action-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .replies-container { margin-left: var(--sp5); margin-top: var(--sp2); border-left: 2px solid var(--border); padding-left: var(--sp3); }
+    .reply-input-area { display: flex; gap: var(--sp1); margin-top: var(--sp2); flex-wrap: wrap; }
+    .reply-input-area input { flex: 1; min-width: 120px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--font); font-size: var(--text-xs); background: var(--surface); color: var(--body); }
+    .reply-input-area button { padding: 8px 14px; background: var(--primary); color: white; border: none; border-radius: var(--r-sm); font-weight: 600; cursor: pointer; font-size: var(--text-xs); }
+    .main-comment-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: var(--sp4); margin-top: var(--sp6); }
+    .main-comment-form h3 { margin-bottom: var(--sp2); font-size: var(--text-lg); }
+    .main-comment-form input, .main-comment-form textarea { width: 100%; padding: var(--sp2); margin-bottom: var(--sp1); border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--font); font-size: var(--text-sm); background: var(--surface); color: var(--body); }
+    .main-comment-form textarea { min-height: 80px; resize: vertical; }
+    .main-comment-form button { width: 100%; padding: var(--sp2); background: var(--primary); color: white; border: none; border-radius: var(--r-sm); font-weight: 600; cursor: pointer; font-size: var(--text-sm); }
+    body.dark .comment-item, body.dark .main-comment-form { background: var(--dark-card); border-color: var(--dark-border); }
+    body.dark .comment-name { color: var(--dark-heading); }
+    body.dark .action-btn { color: var(--accent); }
+    body.dark .reply-input-area input, body.dark .main-comment-form input, body.dark .main-comment-form textarea { background: var(--dark-surface); color: var(--dark-body); border-color: var(--dark-border); }
   </style>
 </head>
 <body>
@@ -19,10 +33,11 @@
   <main class="main-content">
     <div class="comments-page">
       <div id="commentsList"><p class="text-muted">লোড হচ্ছে...</p></div>
-      <div class="comment-form">
-        <input type="text" id="cname" placeholder="আপনার নাম">
-        <input type="text" id="ctext" placeholder="কমেন্ট লিখুন..." style="flex:2;">
-        <button onclick="addComment()">পাঠান</button>
+      <div class="main-comment-form">
+        <h3>কমেন্ট করুন</h3>
+        <input type="text" id="mainName" placeholder="আপনার নাম">
+        <textarea id="mainText" placeholder="কমেন্ট লিখুন..."></textarea>
+        <button onclick="addMainComment()">পাঠান</button>
       </div>
     </div>
   </main>
@@ -31,23 +46,88 @@
     const db = firebase.firestore();
     const params = new URLSearchParams(location.search);
     const postId = params.get('id');
+
     async function loadComments() {
       if (!postId) return;
       const s = await db.collection('community').doc(postId).collection('comments').orderBy('createdAt','asc').get();
-      document.getElementById('commentsList').innerHTML = s.empty ? '<p class="text-muted">কোনো কমেন্ট নেই</p>' : s.docs.map(d => {
-        const c = d.data();
-        return `<div class="comment-card"><span class="c-name">${c.name}</span> <span class="c-time">${c.createdAt ? new Date(c.createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</span><div class="c-text">${c.text}</div></div>`;
+      const container = document.getElementById('commentsList');
+      if (s.empty) { container.innerHTML = '<p class="text-muted">কোনো কমেন্ট নেই</p>'; return; }
+      container.innerHTML = '';
+      for (const doc of s.docs) {
+        const data = doc.data();
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment-item';
+        commentDiv.id = 'comment-' + doc.id;
+        const initials = data.name ? data.name.charAt(0).toUpperCase() : '?';
+        commentDiv.innerHTML = `
+          <div class="comment-header">
+            <div class="comment-avatar">${initials}</div>
+            <div>
+              <div class="comment-name">${data.name}</div>
+              <div class="comment-time">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleString('bn-BD') : ''}</div>
+            </div>
+          </div>
+          <div class="comment-text">${data.text}</div>
+          <div class="comment-actions">
+            <button class="action-btn" onclick="toggleReply('${doc.id}', this)">
+              <svg viewBox="0 0 24 24"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg> রিপ্লাই
+            </button>
+          </div>
+          <div class="replies-container" id="replies-${doc.id}" style="display:none;"></div>
+          <div class="reply-input-area" id="reply-form-${doc.id}" style="display:none;">
+            <input type="text" id="replyName-${doc.id}" placeholder="আপনার নাম">
+            <input type="text" id="replyText-${doc.id}" placeholder="রিপ্লাই লিখুন..." style="flex:2;">
+            <button onclick="addReply('${doc.id}')">পাঠান</button>
+          </div>
+        `;
+        container.appendChild(commentDiv);
+      }
+    }
+
+    async function toggleReply(commentId, btn) {
+      const repliesDiv = document.getElementById('replies-' + commentId);
+      const formDiv = document.getElementById('reply-form-' + commentId);
+      if (repliesDiv.style.display === 'none') {
+        repliesDiv.style.display = 'block';
+        formDiv.style.display = 'flex';
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg> লুকান';
+        // Load replies
+        const s = await db.collection('community').doc(postId).collection('comments').doc(commentId).collection('replies').orderBy('createdAt','asc').get();
+        repliesDiv.innerHTML = s.empty ? '<p style="font-size:11px;color:var(--muted);">কোনো রিপ্লাই নেই</p>' : s.docs.map(d => {
+          const r = d.data();
+          return `<div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11px;">${r.name}</span> <span style="font-size:10px;color:var(--muted);">${r.createdAt ? new Date(r.createdAt.seconds*1000).toLocaleTimeString('bn-BD') : ''}</span><div style="font-size:12px;">${r.text}</div></div>`;
+        }).join('');
+      } else {
+        repliesDiv.style.display = 'none';
+        formDiv.style.display = 'none';
+        btn.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg> রিপ্লাই';
+      }
+    }
+
+    async function addReply(commentId) {
+      const name = document.getElementById('replyName-' + commentId).value.trim();
+      const text = document.getElementById('replyText-' + commentId).value.trim();
+      if (!name || !text) return alert('নাম ও রিপ্লাই দিন');
+      await db.collection('community').doc(postId).collection('comments').doc(commentId).collection('replies').add({ name, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      document.getElementById('replyText-' + commentId).value = '';
+      // Refresh replies
+      const repliesDiv = document.getElementById('replies-' + commentId);
+      const s = await db.collection('community').doc(postId).collection('comments').doc(commentId).collection('replies').orderBy('createdAt','asc').get();
+      repliesDiv.innerHTML = s.empty ? '<p style="font-size:11px;color:var(--muted);">কোনো রিপ্লাই নেই</p>' : s.docs.map(d => {
+        const r = d.data();
+        return `<div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11px;">${r.name}</span> <span style="font-size:10px;color:var(--muted);">${r.createdAt ? new Date(r.createdAt.seconds*1000).toLocaleTimeString('bn-BD') : ''}</span><div style="font-size:12px;">${r.text}</div></div>`;
       }).join('');
     }
-    async function addComment() {
-      if (!postId) return;
-      const name = document.getElementById('cname').value.trim();
-      const text = document.getElementById('ctext').value.trim();
+
+    async function addMainComment() {
+      const name = document.getElementById('mainName').value.trim();
+      const text = document.getElementById('mainText').value.trim();
       if (!name || !text) return alert('নাম ও কমেন্ট দিন');
       await db.collection('community').doc(postId).collection('comments').add({ name, text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-      document.getElementById('ctext').value = '';
+      document.getElementById('mainText').value = '';
       loadComments();
     }
+
     loadComments();
   </script>
 </body>
