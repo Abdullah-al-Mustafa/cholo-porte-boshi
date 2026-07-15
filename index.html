@@ -2,33 +2,38 @@
 <html lang="bn">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .hero { text-align:center; padding: var(--sp10) var(--sp3) var(--sp8); }
-    .hero h1 { font-size: clamp(2rem,6vw,3rem); font-weight:800; color: var(--heading); margin-bottom: var(--sp1); letter-spacing: -0.02em; }
-    .hero p { color: var(--muted); font-size: clamp(0.9rem,2vw,1.1rem); }
+    .hero {
+      background: linear-gradient(135deg, #15803D 0%, #166534 100%);
+      border-radius: 0 0 24px 24px; padding: 40px 24px 32px;
+      text-align: center; color: white; margin-bottom: var(--sp6);
+    }
+    .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; color: white; }
+    .hero p { opacity: 0.9; font-size: 1.05rem; color: white; }
     .section-title { font-size: var(--text-sm); color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: var(--sp2); padding-left: 4px; font-weight: 600; }
     .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--sp2); margin-bottom: var(--sp8); }
     @media (max-width:400px) { .card-grid { grid-template-columns: 1fr; } }
     .mini-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
-      padding: var(--sp5) var(--sp3); text-align: center; cursor: pointer;
-      transition: all var(--tr-base); box-shadow: var(--sh-sm);
+      background: var(--surface); border: 1.5px solid #E2E8F0; border-radius: 20px;
+      padding: 28px 20px 24px; text-align: center; cursor: pointer;
+      transition: all 0.25s ease; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
       text-decoration: none; color: var(--body); display: flex;
       flex-direction: column; align-items: center; gap: var(--sp2);
     }
     .mini-card:hover {
-      transform: translateY(-4px); box-shadow: var(--sh-lg);
-      border-color: var(--primary-green);
+      border-color: #15803D; transform: translateY(-6px);
+      box-shadow: 0 20px 25px -5px rgb(21 128 61 / 0.1), 0 8px 10px -6px rgb(21 128 61 / 0.1);
     }
     .mini-card .card-icon {
-      width: 48px; height: 48px; border-radius: var(--r-sm);
-      background: rgba(21,128,61,0.08); display: flex;
-      align-items: center; justify-content: center;
+      width: 64px; height: 64px; border-radius: 16px;
+      background: #F0FDF4; display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
     }
-    .mini-card .card-icon svg { width: 28px; height: 28px; stroke: var(--primary-green); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .mini-card:hover .card-icon { background: #DCFCE7; transform: scale(1.08); }
+    .mini-card .card-icon svg { width: 32px; height: 32px; stroke: var(--primary-green); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .mini-card h4 { font-size: var(--text-base); font-weight: 600; color: var(--heading); margin: 0; }
     body.dark .mini-card { background: var(--dark-card); border-color: var(--dark-border); }
     body.dark .mini-card h4 { color: var(--dark-heading); }
-    body.dark .mini-card .card-icon { background: rgba(134,239,172,0.1); }
+    body.dark .mini-card .card-icon { background: rgba(134,239,172,0.15); }
     body.dark .mini-card .card-icon svg { stroke: var(--light-green); }
   </style>
 </head>
