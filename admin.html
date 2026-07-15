@@ -2,55 +2,167 @@
 <html lang="bn">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Panel - পড়তে বসি</title><link rel="manifest" href="admin-manifest.json"><meta name="theme-color" content="#0D1B2A"><link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
-    :root { --primary: #15803D; --primary-hover: #166534; --bg: #F8FAFC; --surface: #FFFFFF; --border: #E2E8F0; --heading: #0F172A; --body: #334155; --muted: #64748B; --danger: #DC2626; --radius-md: 16px; --radius-lg: 20px; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; }
+    :root {
+      --primary: #15803D; --primary-hover: #166534; --bg: #F8FAFC;
+      --surface: #FFFFFF; --border: #E2E8F0; --heading: #0F172A;
+      --body: #334155; --muted: #64748B; --danger: #DC2626;
+      --radius-sm: 12px; --radius-md: 16px; --radius-lg: 20px; --radius-full: 999px;
+      --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem;
+    }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--body); min-height: 100vh; display:flex; flex-direction:column; }
-    .admin-header { background: var(--primary); color: white; padding: var(--space-4) var(--space-5); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .admin-header h1 { font-size: 1.3rem; font-weight: 700; }
-    .admin-header button { background: var(--primary-hover); color: white; border: none; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: opacity 0.2s; }
-    .admin-header button:hover { opacity: 0.9; }
-    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); box-shadow: 0 10px 20px rgba(0,0,0,0.1); z-index: 999; display: flex; align-items: center; gap: var(--space-3); min-width: 280px; animation: slideIn 0.3s ease-out; }
-    .toast.success { border-left: 4px solid var(--primary); }
-    .toast.error { border-left: 4px solid var(--danger); }
-    @keyframes slideIn { from { transform: translateX(100%); opacity:0; } to { transform: translateX(0); opacity:1; } }
-    .login-container { max-width: 400px; margin: 80px auto; padding: var(--space-8); background: var(--surface); border-radius: var(--radius-lg); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); text-align: center; }
-    .login-container h2 { margin-bottom: var(--space-6); color: var(--heading); }
-    .login-container input { width: 100%; padding: var(--space-4); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; transition: border-color 0.2s; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--body); min-height: 100vh; display:flex; flex-direction:column; }
+    /* ── Header ── */
+    .admin-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: white; padding: var(--space-4) var(--space-6);
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .admin-header h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.3px; }
+    .admin-header .logout-btn {
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
+      color: white; border: 1.5px solid rgba(255,255,255,0.25);
+      padding: 8px 18px; border-radius: var(--radius-full); font-weight: 600;
+      font-size: 0.85rem; cursor: pointer; transition: background 0.2s;
+    }
+    .admin-header .logout-btn:hover { background: rgba(255,255,255,0.25); }
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; background: var(--surface);
+      border-radius: var(--radius-md); padding: var(--space-4) var(--space-5);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12); z-index: 999;
+      display: flex; align-items: center; gap: var(--space-3); min-width: 280px;
+      animation: slideIn 0.3s ease-out; border-left: 4px solid var(--primary);
+    }
+    .toast.success { border-left-color: var(--primary); }
+    .toast.error { border-left-color: var(--danger); }
+    @keyframes slideIn { from { transform: translateX(120%); opacity:0; } to { transform: translateX(0); opacity:1; } }
+    /* ── Login ── */
+    .login-container {
+      max-width: 420px; margin: 80px auto; padding: var(--space-8);
+      background: var(--surface); border-radius: var(--radius-lg);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.07); text-align: center;
+    }
+    .login-container .login-logo {
+      width: 56px; height: 56px; background: var(--primary); border-radius: var(--radius-md);
+      margin: 0 auto var(--space-5); display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.5rem; font-weight: 800;
+    }
+    .login-container h2 { margin-bottom: var(--space-6); color: var(--heading); font-size: 1.3rem; }
+    .login-container label { display: block; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--body); margin-bottom: 6px; }
+    .login-container input {
+      width: 100%; padding: var(--space-4); margin-bottom: var(--space-5);
+      border: 2px solid var(--border); border-radius: var(--radius-md);
+      font-size: 1rem; transition: border-color 0.2s;
+    }
     .login-container input:focus { border-color: var(--primary); outline: none; }
-    .login-container button { width: 100%; padding: var(--space-4); background: var(--primary); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .login-container button {
+      width: 100%; padding: var(--space-4); background: var(--primary);
+      color: white; border: none; border-radius: var(--radius-md);
+      font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
+    }
     .login-container button:hover { background: var(--primary-hover); }
-    .dashboard { max-width: 960px; margin: var(--space-8) auto; padding: 0 var(--space-4); display: none; }
+    /* ── Dashboard ── */
+    .dashboard { max-width: 960px; margin: var(--space-8) auto; padding: 0 var(--space-5); display: none; }
+    /* Tabs */
     .tabs { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
-    .tab { padding: 12px 24px; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--border); color: var(--body); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-    .tab.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(21,128,61,0.2); }
+    .tab {
+      padding: 10px 22px; border-radius: var(--radius-full); background: var(--surface);
+      border: 1.5px solid var(--border); color: var(--body); font-weight: 600;
+      font-size: 0.9rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .tab.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(21,128,61,0.2); }
     .sub-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-5); }
-    .sub-tab { padding: 8px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--body); font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+    .sub-tab {
+      padding: 7px 16px; border-radius: var(--radius-full); background: var(--surface);
+      border: 1px solid var(--border); color: var(--body); font-weight: 500;
+      font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+    }
     .sub-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
-    .form-card { background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-6); box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid var(--border); }
-    .form-card h3 { margin-bottom: var(--space-4); color: var(--heading); font-size: 1.2rem; }
-    .form-card input, .form-card textarea, .form-card select { width: 100%; padding: var(--space-4); margin-bottom: var(--space-4); border: 2px solid var(--border); border-radius: var(--radius-md); font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; background: var(--bg); }
+    /* ── Forms ── */
+    .form-card {
+      background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-6);
+      margin-bottom: var(--space-6); box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      border: 1px solid var(--border);
+    }
+    .form-card h3 { margin-bottom: var(--space-5); color: var(--heading); font-size: 1.2rem; font-weight: 700; }
+    .form-card label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--body); margin-bottom: 6px; }
+    .form-card input, .form-card textarea, .form-card select {
+      width: 100%; padding: var(--space-4); margin-bottom: var(--space-4);
+      border: 2px solid var(--border); border-radius: var(--radius-sm);
+      font-size: 0.9rem; font-family: inherit; transition: border-color 0.2s; background: var(--bg);
+    }
     .form-card input:focus, .form-card textarea:focus, .form-card select:focus { border-color: var(--primary); outline: none; }
     .form-card textarea { min-height: 120px; resize: vertical; }
-    .form-card button { padding: var(--space-4) var(--space-6); background: var(--primary); color: white; border: none; border-radius: var(--radius-md); font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-    .form-card button:hover { background: var(--primary-hover); }
+    .form-card .btn-primary {
+      padding: var(--space-4) 28px; background: var(--primary); color: white;
+      border: none; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.95rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .form-card .btn-primary:hover { background: var(--primary-hover); }
     .option-row { display: flex; gap: var(--space-3); align-items: center; margin-bottom: var(--space-3); }
     .option-row span { font-weight: 600; color: var(--muted); min-width: 28px; }
     .option-row input { flex:1; margin-bottom:0; }
-    .list-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-3); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
-    .list-item h4 { color: var(--heading); font-size: 0.95rem; }
-    .list-item p { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
-    .list-item button { padding: 8px 16px; border-radius: var(--radius-md); border: none; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
-    .btn-danger { background: #FEE2E2; color: var(--danger); }
+    /* ── List ── */
+    .list-item {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5); margin-bottom: var(--space-3);
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: box-shadow 0.2s;
+    }
+    .list-item:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.06); }
+    .list-item h4 { color: var(--heading); font-size: 0.95rem; font-weight: 600; }
+    .list-item p { color: var(--muted); font-size: 0.8rem; margin-top: 3px; }
+    .btn-danger { background: #FEE2E2; color: var(--danger); border: none; padding: 8px 16px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: background 0.2s; }
     .btn-danger:hover { background: #FECACA; }
-    .file-upload-box { border: 2px dashed var(--border); border-radius: var(--radius-md); padding: var(--space-6); text-align: center; cursor: pointer; margin-bottom: var(--space-4); transition: border-color 0.2s; background: var(--bg); }
+    .file-upload-box {
+      border: 2px dashed var(--border); border-radius: var(--radius-sm);
+      padding: var(--space-6); text-align: center; cursor: pointer;
+      margin-bottom: var(--space-4); transition: border-color 0.2s; background: var(--bg);
+    }
     .file-upload-box:hover { border-color: var(--primary); }
-    .preview-img { max-width: 200px; max-height: 120px; border-radius: var(--radius-md); margin-top: var(--space-3); display: none; }
-    @media (prefers-color-scheme: dark) { body { background: #0F172A; color: #E2E8F0; } .admin-header { background: #0A1F15; } .form-card, .list-item, .login-container { background: #1E293B; border-color: #334155; } .form-card input, .form-card textarea, .form-card select { background: #0F172A; border-color: #334155; color: #E2E8F0; } .tab, .sub-tab { background: #1E293B; border-color: #334155; color: #E2E8F0; } .tab.active, .sub-tab.active { background: var(--primary); color: white; } .list-item h4 { color: #F1F5F9; } .btn-danger { background: #7F1D1D; color: #FECACA; } }
+    .preview-img { max-width: 200px; max-height: 120px; border-radius: var(--radius-sm); margin-top: var(--space-3); display: none; }
+    /* ── Dark mode ── */
+    @media (prefers-color-scheme: dark) {
+      body { background: #0F172A; color: #E2E8F0; }
+      .admin-header { background: linear-gradient(135deg, #0A3A1A, #0B2A14); }
+      .form-card, .list-item, .login-container { background: #1E293B; border-color: #334155; }
+      .form-card input, .form-card textarea, .form-card select { background: #0F172A; border-color: #334155; color: #E2E8F0; }
+      .tab, .sub-tab { background: #1E293B; border-color: #334155; color: #E2E8F0; }
+      .tab.active, .sub-tab.active { background: var(--primary); color: white; }
+      .list-item h4 { color: #F1F5F9; }
+      .btn-danger { background: #7F1D1D; color: #FECACA; }
+      .file-upload-box { background: #0F172A; }
+    }
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .admin-header { padding: var(--space-3) var(--space-4); }
+      .admin-header h1 { font-size: 1.1rem; }
+      .tabs { gap: var(--space-2); }
+      .tab { padding: 8px 16px; font-size: 0.8rem; }
+      .form-card { padding: var(--space-4); }
+    }
   </style>
 </head>
 <body>
-  <header class="admin-header"><h1>পড়তে বসি Admin</h1><button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button></header>
-  <div class="login-container" id="loginBox"><h2>Admin Login</h2><input type="email" id="email" placeholder="Email"><input type="password" id="password" placeholder="Password"><button onclick="login()">Login</button><p id="loginError" style="color:var(--danger);margin-top:var(--space-3);display:none;"></p></div>
+  <header class="admin-header">
+    <h1>পড়তে বসি Admin</h1>
+    <button class="logout-btn" onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
+  </header>
+
+  <!-- Login -->
+  <div class="login-container" id="loginBox">
+    <div class="login-logo">PB</div>
+    <h2>Admin Login</h2>
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="admin@example.com">
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="••••••••">
+    <button onclick="login()">Sign In</button>
+    <p id="loginError" style="color:var(--danger);margin-top:var(--space-3);display:none;"></p>
+  </div>
+
+  <!-- Dashboard -->
   <div class="dashboard" id="dashboard">
     <div class="tabs">
       <button class="tab active" onclick="switchMainTab('questions')">Questions</button>
@@ -67,48 +179,60 @@
       </div>
 
       <div id="sub-mcq" class="form-card"><h3>Add MCQ</h3>
-        <select id="mcqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="mcqSubject" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter"><textarea id="mcqQuestion" placeholder="Question"></textarea>
-        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:var(--space-3);">৪টি অপশন লিখুন:</p>
+        <label>Class</label><select id="mcqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <label>Subject</label><input type="text" id="mcqSubject" placeholder="e.g. গণিত">
+        <label>Chapter</label><input type="text" id="mcqChapter" placeholder="e.g. বীজগণিত">
+        <label>Question</label><textarea id="mcqQuestion" placeholder="প্রশ্ন লিখুন..."></textarea>
+        <label>৪টি অপশন</label>
         <div class="option-row"><span>১.</span><input type="text" id="mcqOpt1" placeholder="Option 1"></div>
         <div class="option-row"><span>২.</span><input type="text" id="mcqOpt2" placeholder="Option 2"></div>
         <div class="option-row"><span>৩.</span><input type="text" id="mcqOpt3" placeholder="Option 3"></div>
         <div class="option-row"><span>৪.</span><input type="text" id="mcqOpt4" placeholder="Option 4"></div>
-        <p style="color:var(--muted);font-size:0.85rem;margin:var(--space-3) 0;">সঠিক উত্তর কোনটি? (নম্বর লিখুন)</p>
-        <input type="number" id="mcqCorrectNum" placeholder="যেমন: 2" min="1" max="4" style="max-width:120px;">
-        <button onclick="addMCQ()">Add MCQ</button>
+        <label>সঠিক উত্তর নম্বর (1-4)</label>
+        <input type="number" id="mcqCorrectNum" placeholder="2" min="1" max="4" style="max-width:120px;">
+        <button class="btn-primary" onclick="addMCQ()">Add MCQ</button>
       </div>
+
       <div id="sub-cq" class="form-card" style="display:none;"><h3>Add CQ</h3>
-        <select id="cqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="cqSubject" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter"><textarea id="cqPassage" placeholder="উদ্দীপক (Passage)"></textarea>
-        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:var(--space-3);">প্রশ্ন ও কীওয়ার্ড (৪টি প্রশ্ন):</p>
+        <label>Class</label><select id="cqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <label>Subject</label><input type="text" id="cqSubject" placeholder="Subject">
+        <label>Chapter</label><input type="text" id="cqChapter" placeholder="Chapter">
+        <label>উদ্দীপক (Passage)</label><textarea id="cqPassage" placeholder="উদ্দীপক লিখুন..."></textarea>
+        <label>প্রশ্ন ও কীওয়ার্ড (৪টি)</label>
         <div id="cqQuestions">
-          <div class="option-row"><span>১.</span><input type="text" class="cqQ" placeholder="প্রশ্ন ১"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
-          <div class="option-row"><span>২.</span><input type="text" class="cqQ" placeholder="প্রশ্ন ২"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
-          <div class="option-row"><span>৩.</span><input type="text" class="cqQ" placeholder="প্রশ্ন ৩"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
-          <div class="option-row"><span>৪.</span><input type="text" class="cqQ" placeholder="প্রশ্ন ৪"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
+          <div class="option-row"><span>১.</span><input type="text" class="cqQ" placeholder="প্রশ্ন"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
+          <div class="option-row"><span>২.</span><input type="text" class="cqQ" placeholder="প্রশ্ন"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
+          <div class="option-row"><span>৩.</span><input type="text" class="cqQ" placeholder="প্রশ্ন"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
+          <div class="option-row"><span>৪.</span><input type="text" class="cqQ" placeholder="প্রশ্ন"><input type="text" class="cqK" placeholder="কীওয়ার্ড"></div>
         </div>
-        <button onclick="addCQ()">Add CQ</button>
+        <button class="btn-primary" onclick="addCQ()">Add CQ</button>
       </div>
+
       <div id="sub-sq" class="form-card" style="display:none;"><h3>Add SQ</h3>
-        <select id="sqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="sqSubject" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter"><textarea id="sqQuestion" placeholder="Question"></textarea>
-        <input type="text" id="sqKeywords" placeholder="Keywords (comma separated)"><button onclick="addSQ()">Add SQ</button>
+        <label>Class</label><select id="sqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <label>Subject</label><input type="text" id="sqSubject" placeholder="Subject">
+        <label>Chapter</label><input type="text" id="sqChapter" placeholder="Chapter">
+        <label>Question</label><textarea id="sqQuestion" placeholder="প্রশ্ন লিখুন..."></textarea>
+        <label>Keywords (comma separated)</label><input type="text" id="sqKeywords" placeholder="keyword1, keyword2">
+        <button class="btn-primary" onclick="addSQ()">Add SQ</button>
       </div>
+
       <div id="questionsList"></div>
     </div>
 
     <!-- Writings Tab -->
     <div id="tab-writings" style="display:none;">
       <div class="form-card"><h3>Add Writing</h3>
-        <select id="writingCategory">
+        <label>Category</label><select id="writingCategory">
           <option value="completing-story">Completing Story</option><option value="dialogue">Dialogue</option><option value="paragraph">Paragraph</option><option value="email">Email</option><option value="letter">Letter</option><option value="application">Application</option><option value="short-composition">Short Composition</option>
           <option value="probondho-rochona">প্রবন্ধ রচনা</option><option value="vab-somprosharon">ভাব সম্প্রসারণ</option><option value="sarangsho">সারাংশ</option><option value="sharmormo">সারমর্ম</option><option value="chitipotro">চিঠিপত্র</option><option value="songbaad-protibedon">সংবাদ প্রতিবেদন</option><option value="onucched-rochona">অনুচ্ছেদ রচনা</option>
         </select>
-        <input type="text" id="writingTitle" placeholder="Title"><select id="writingClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="writingSubject" placeholder="Subject"><textarea id="writingContent" placeholder="Content"></textarea>
+        <label>Title</label><input type="text" id="writingTitle" placeholder="Title">
+        <label>Class</label><select id="writingClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <label>Subject</label><input type="text" id="writingSubject" placeholder="Subject">
+        <label>Content</label><textarea id="writingContent" placeholder="Content..."></textarea>
         <div class="file-upload-box" onclick="document.getElementById('writingImageInput').click()"><p>Click to upload image</p><img id="writingPreview" class="preview-img"><input type="file" id="writingImageInput" accept="image/*" style="display:none;" onchange="previewImage(this,'writingPreview','writingImageData')"><input type="hidden" id="writingImageData"></div>
-        <button onclick="addWriting()">Add Writing</button>
+        <button class="btn-primary" onclick="addWriting()">Add Writing</button>
       </div>
       <div id="writingsList"></div>
     </div>
@@ -116,101 +240,107 @@
     <!-- Videos Tab -->
     <div id="tab-videos" style="display:none;">
       <div class="form-card"><h3>Add Video</h3>
-        <input type="text" id="videoTitle" placeholder="Title"><input type="text" id="videoSubject" placeholder="Subject"><input type="text" id="videoChapter" placeholder="Chapter">
-        <select id="videoClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="videoUrl" placeholder="Video URL"><button onclick="addVideo()">Add Video</button>
+        <label>Title</label><input type="text" id="videoTitle" placeholder="Title">
+        <label>Subject</label><input type="text" id="videoSubject" placeholder="Subject">
+        <label>Chapter</label><input type="text" id="videoChapter" placeholder="Chapter">
+        <label>Class</label><select id="videoClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <label>Video URL</label><input type="text" id="videoUrl" placeholder="https://...">
+        <button class="btn-primary" onclick="addVideo()">Add Video</button>
       </div>
       <div id="videosList"></div>
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
   <script>
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const db = firebase.firestore();
-    function showToast(msg, type = 'success') { const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<span>' + (type === 'success' ? '&#10003;' : '&#10007;') + '</span> ' + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-    function ts() { return firebase.firestore.FieldValue.serverTimestamp(); }
-    function previewImage(input, previewId, dataId) { const file = input.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { document.getElementById(previewId).src = e.target.result; document.getElementById(previewId).style.display = 'block'; document.getElementById(dataId).value = e.target.result; }; reader.readAsDataURL(file); }
-    function clearForm(ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); document.querySelectorAll('.preview-img').forEach(img => { img.style.display = 'none'; img.src = ''; }); }
+    function showToast(msg, type='success'){const t=document.createElement('div');t.className='toast '+type;t.innerHTML='<span>'+(type==='success'?'✓':'✗')+'</span> '+msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000);}
+    function ts(){return firebase.firestore.FieldValue.serverTimestamp();}
+    function previewImage(input,previewId,dataId){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(e){document.getElementById(previewId).src=e.target.result;document.getElementById(previewId).style.display='block';document.getElementById(dataId).value=e.target.result;};reader.readAsDataURL(file);}
+    function clearForm(ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.querySelectorAll('.preview-img').forEach(img=>{img.style.display='none';img.src='';});}
 
-    auth.onAuthStateChanged(user => { if (user) { document.getElementById('loginBox').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('logoutBtn').style.display = 'block'; loadAll(); } else { document.getElementById('loginBox').style.display = 'block'; document.getElementById('dashboard').style.display = 'none'; document.getElementById('logoutBtn').style.display = 'none'; } });
-    function login() { auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value).then(() => showToast('Login!', 'success')).catch(err => { document.getElementById('loginError').style.display = 'block'; document.getElementById('loginError').textContent = err.message; }); }
-    function logout() { auth.signOut(); showToast('Logged out'); }
+    auth.onAuthStateChanged(user=>{if(user){document.getElementById('loginBox').style.display='none';document.getElementById('dashboard').style.display='block';document.getElementById('logoutBtn').style.display='block';loadAll();}else{document.getElementById('loginBox').style.display='block';document.getElementById('dashboard').style.display='none';document.getElementById('logoutBtn').style.display='none';}});
+    function login(){auth.signInWithEmailAndPassword(document.getElementById('email').value,document.getElementById('password').value).then(()=>showToast('Login!','success')).catch(err=>{document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent=err.message;});}
+    function logout(){auth.signOut();showToast('Logged out');}
 
-    function switchMainTab(tab) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active');
-      document.querySelectorAll('[id^="tab-"]').forEach(d => d.style.display = 'none');
-      document.getElementById('tab-' + tab).style.display = 'block';
-      if (tab === 'questions') switchSubTab('mcq');
+    function switchMainTab(tab){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');
+      document.querySelectorAll('[id^="tab-"]').forEach(d=>d.style.display='none');
+      document.getElementById('tab-'+tab).style.display='block';
+      if(tab==='questions')switchSubTab('mcq');
     }
-
-    function switchSubTab(sub) {
-      document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active')); event.target.classList.add('active');
-      document.querySelectorAll('[id^="sub-"]').forEach(d => d.style.display = 'none');
-      document.getElementById('sub-' + sub).style.display = 'block';
+    function switchSubTab(sub){
+      document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');
+      document.querySelectorAll('[id^="sub-"]').forEach(d=>d.style.display='none');
+      document.getElementById('sub-'+sub).style.display='block';
     }
 
     // MCQ
-    async function addMCQ() {
-      const q = document.getElementById('mcqQuestion').value.trim();
-      const opt1=document.getElementById('mcqOpt1').value.trim(), opt2=document.getElementById('mcqOpt2').value.trim(), opt3=document.getElementById('mcqOpt3').value.trim(), opt4=document.getElementById('mcqOpt4').value.trim();
-      const correctNum=parseInt(document.getElementById('mcqCorrectNum').value);
-      if (!q || !opt1 || !opt2 || !opt3 || !opt4) return showToast('All fields required','error');
-      if (!correctNum || correctNum<1 || correctNum>4) return showToast('Correct answer number (1-4) required','error');
-      const options=[opt1,opt2,opt3,opt4].join(','); const answer=[opt1,opt2,opt3,opt4][correctNum-1];
-      await db.collection('questions').add({ class: document.getElementById('mcqClass').value, subject: document.getElementById('mcqSubject').value, chapter: document.getElementById('mcqChapter').value, type:'mcq', question:q, options, answer, createdAt:ts() });
-      showToast('MCQ added!','success'); clearForm(['mcqQuestion','mcqSubject','mcqChapter','mcqOpt1','mcqOpt2','mcqOpt3','mcqOpt4','mcqCorrectNum']); loadQuestions();
+    async function addMCQ(){
+      const q=document.getElementById('mcqQuestion').value.trim();
+      const o1=document.getElementById('mcqOpt1').value.trim(),o2=document.getElementById('mcqOpt2').value.trim(),o3=document.getElementById('mcqOpt3').value.trim(),o4=document.getElementById('mcqOpt4').value.trim();
+      const cn=parseInt(document.getElementById('mcqCorrectNum').value);
+      if(!q||!o1||!o2||!o3||!o4)return showToast('All fields required','error');
+      if(!cn||cn<1||cn>4)return showToast('Correct answer number (1-4) required','error');
+      const opts=[o1,o2,o3,o4].join(','),ans=[o1,o2,o3,o4][cn-1];
+      await db.collection('questions').add({class:document.getElementById('mcqClass').value,subject:document.getElementById('mcqSubject').value,chapter:document.getElementById('mcqChapter').value,type:'mcq',question:q,options:opts,answer:ans,createdAt:ts()});
+      showToast('MCQ added!','success');clearForm(['mcqQuestion','mcqSubject','mcqChapter','mcqOpt1','mcqOpt2','mcqOpt3','mcqOpt4','mcqCorrectNum']);loadQuestions();
     }
     // CQ
-    async function addCQ() {
-      const passage = document.getElementById('cqPassage').value.trim();
-      const subject = document.getElementById('cqSubject').value.trim(), chapter = document.getElementById('cqChapter').value.trim(), cls = document.getElementById('cqClass').value;
-      const qInputs = document.querySelectorAll('.cqQ'), kInputs = document.querySelectorAll('.cqK');
-      const questions = [];
-      qInputs.forEach((inp, i) => { const qText = inp.value.trim(); const keywords = kInputs[i].value.trim(); if (qText && keywords) questions.push({ question: qText, keywords }); });
-      if (!passage || questions.length === 0) return showToast('Passage and at least one question required', 'error');
-      await db.collection('questions').add({ type: 'cq', class: cls, subject, chapter, passage, questions, createdAt: ts() });
-      showToast('CQ added!','success'); clearForm(['cqPassage','cqSubject','cqChapter']); qInputs.forEach(inp => inp.value = ''); kInputs.forEach(inp => inp.value = ''); loadQuestions();
+    async function addCQ(){
+      const passage=document.getElementById('cqPassage').value.trim();
+      const sub=document.getElementById('cqSubject').value.trim(),ch=document.getElementById('cqChapter').value.trim(),cls=document.getElementById('cqClass').value;
+      const qi=document.querySelectorAll('.cqQ'),ki=document.querySelectorAll('.cqK');
+      const qs=[];
+      qi.forEach((inp,i)=>{const qt=inp.value.trim(),kw=ki[i].value.trim();if(qt&&kw)qs.push({question:qt,keywords:kw});});
+      if(!passage||qs.length===0)return showToast('Passage and at least one question required','error');
+      await db.collection('questions').add({type:'cq',class:cls,subject:sub,chapter:ch,passage,questions:qs,createdAt:ts()});
+      showToast('CQ added!','success');clearForm(['cqPassage','cqSubject','cqChapter']);qi.forEach(inp=>inp.value='');ki.forEach(inp=>inp.value='');loadQuestions();
     }
     // SQ
-    async function addSQ() {
-      const q = document.getElementById('sqQuestion').value.trim(), keywords = document.getElementById('sqKeywords').value.trim();
-      const subject = document.getElementById('sqSubject').value.trim(), chapter = document.getElementById('sqChapter').value.trim(), cls = document.getElementById('sqClass').value;
-      if (!q || !keywords) return showToast('Question and keywords required', 'error');
-      await db.collection('questions').add({ type: 'sq', class: cls, subject, chapter, question: q, keywords, createdAt: ts() });
-      showToast('SQ added!','success'); clearForm(['sqQuestion','sqKeywords','sqSubject','sqChapter']); loadQuestions();
+    async function addSQ(){
+      const q=document.getElementById('sqQuestion').value.trim(),kw=document.getElementById('sqKeywords').value.trim();
+      const sub=document.getElementById('sqSubject').value.trim(),ch=document.getElementById('sqChapter').value.trim(),cls=document.getElementById('sqClass').value;
+      if(!q||!kw)return showToast('Question and keywords required','error');
+      await db.collection('questions').add({type:'sq',class:cls,subject:sub,chapter:ch,question:q,keywords:kw,createdAt:ts()});
+      showToast('SQ added!','success');clearForm(['sqQuestion','sqKeywords','sqSubject','sqChapter']);loadQuestions();
     }
-    async function loadQuestions() {
-      const s = await db.collection('questions').orderBy('createdAt','desc').limit(20).get();
-      document.getElementById('questionsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${(d.data().question||d.data().passage||'').substring(0,60)}</h4><p>${d.data().type?.toUpperCase()} | Class ${d.data().class} | ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join('');
+    async function loadQuestions(){
+      const s=await db.collection('questions').orderBy('createdAt','desc').limit(20).get();
+      document.getElementById('questionsList').innerHTML=s.docs.map(d=>`<div class="list-item"><div><h4>${(d.data().question||d.data().passage||'').substring(0,60)}</h4><p>${d.data().type?.toUpperCase()} | Class ${d.data().class} | ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join('');
     }
 
     // Writings
-    async function addWriting() {
-      const title = document.getElementById('writingTitle').value.trim();
-      if (!title) return showToast('Title required', 'error');
-      const category = document.getElementById('writingCategory').value;
-      await db.collection('writings').add({ title, category, class: document.getElementById('writingClass').value, subject: document.getElementById('writingSubject').value, content: document.getElementById('writingContent').value, image: document.getElementById('writingImageData').value, createdAt: ts() });
-      showToast('Writing added!','success'); clearForm(['writingTitle','writingSubject','writingContent','writingImageData']); document.getElementById('writingPreview').style.display='none'; loadWritings();
+    async function addWriting(){
+      const title=document.getElementById('writingTitle').value.trim();
+      if(!title)return showToast('Title required','error');
+      const cat=document.getElementById('writingCategory').value;
+      await db.collection('writings').add({title,category:cat,class:document.getElementById('writingClass').value,subject:document.getElementById('writingSubject').value,content:document.getElementById('writingContent').value,image:document.getElementById('writingImageData').value,createdAt:ts()});
+      showToast('Writing added!','success');clearForm(['writingTitle','writingSubject','writingContent','writingImageData']);document.getElementById('writingPreview').style.display='none';loadWritings();
     }
-    async function loadWritings() {
-      const s = await db.collection('writings').orderBy('createdAt','desc').get();
-      document.getElementById('writingsList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>${d.data().category} | Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('writings','${d.id}')">Delete</button></div></div>`).join('');
+    async function loadWritings(){
+      const s=await db.collection('writings').orderBy('createdAt','desc').get();
+      document.getElementById('writingsList').innerHTML=s.docs.map(d=>`<div class="list-item"><div><h4>${d.data().title}</h4><p>${d.data().category} | Class ${d.data().class}</p></div><div><button class="btn-danger" onclick="del('writings','${d.id}')">Delete</button></div></div>`).join('');
     }
 
     // Videos
-    async function addVideo() {
-      const t = document.getElementById('videoTitle').value.trim(); if (!t) return showToast('Title required', 'error');
-      await db.collection('videos').add({ title: t, class: document.getElementById('videoClass').value, subject: document.getElementById('videoSubject').value, chapter: document.getElementById('videoChapter').value, url: document.getElementById('videoUrl').value, createdAt: ts() });
-      showToast('Video added!','success'); clearForm(['videoTitle','videoSubject','videoChapter','videoUrl']); loadVideos();
+    async function addVideo(){
+      const t=document.getElementById('videoTitle').value.trim();if(!t)return showToast('Title required','error');
+      await db.collection('videos').add({title:t,class:document.getElementById('videoClass').value,subject:document.getElementById('videoSubject').value,chapter:document.getElementById('videoChapter').value,url:document.getElementById('videoUrl').value,createdAt:ts()});
+      showToast('Video added!','success');clearForm(['videoTitle','videoSubject','videoChapter','videoUrl']);loadVideos();
     }
-    async function loadVideos() {
-      const s = await db.collection('videos').orderBy('createdAt','desc').get();
-      document.getElementById('videosList').innerHTML = s.docs.map(d => `<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} | ${d.data().subject} | ${d.data().chapter}</p></div><div><button class="btn-danger" onclick="del('videos','${d.id}')">Delete</button></div></div>`).join('');
+    async function loadVideos(){
+      const s=await db.collection('videos').orderBy('createdAt','desc').get();
+      document.getElementById('videosList').innerHTML=s.docs.map(d=>`<div class="list-item"><div><h4>${d.data().title}</h4><p>Class ${d.data().class} | ${d.data().subject} | ${d.data().chapter}</p></div><div><button class="btn-danger" onclick="del('videos','${d.id}')">Delete</button></div></div>`).join('');
     }
 
-    async function del(col, id) { if (confirm('Delete?')) { await db.collection(col).doc(id).delete(); showToast('Deleted!','error'); loadAll(); } }
-    function loadAll() { loadQuestions(); loadWritings(); loadVideos(); }
+    async function del(col,id){if(confirm('Delete?')){await db.collection(col).doc(id).delete();showToast('Deleted!','error');loadAll();}}
+    function loadAll(){loadQuestions();loadWritings();loadVideos();}
     loadAll();
   </script>
   <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/cholo-porte-boshi/admin-sw.js");}</script>
