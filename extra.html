@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Extra - PorteBoshi</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0D1B2A"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+  <style>
+    .extra-page { max-width:600px; margin:0 auto; width:100%; }
+    .extra-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: var(--sp2); }
+    .extra-item { display:flex; flex-direction:column; align-items:center; padding:var(--sp4); background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); text-decoration:none; color:var(--body); transition:all var(--tr-base); }
+    .extra-item:hover { box-shadow:var(--sh-md); border-color:var(--accent); }
+    .extra-icon { width:48px; height:48px; border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:var(--sp1); background:var(--secondary); }
+    .extra-label { font-size:var(--text-xs); font-weight:600; color:var(--heading); text-align:center; }
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="settings.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></a><a href="index.html" class="header-brand">PorteBoshi</a><a href="search.html" class="icon-btn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a></div></header>
+  <main class="main-content">
+    <div class="extra-page">
+      <h2 style="text-align:center;margin-bottom:var(--sp4);">Extra Tools</h2>
+      <div class="extra-grid">
+        <a href="calculator.html" class="extra-item"><div class="extra-icon">🧮</div><span class="extra-label">Calculator</span></a>
+        <a href="translator.html" class="extra-item"><div class="extra-icon">🌐</div><span class="extra-label">Translator</span></a>
+        <a href="community.html" class="extra-item"><div class="extra-icon">💬</div><span class="extra-label">Community</span></a>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
+    <a href="exam.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>Exam</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span></a>
+    <a href="extra.html" class="nav-item active"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Extra</span></a>
+  </nav>
+</body>
+</html>
