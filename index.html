@@ -12,9 +12,10 @@
     .mini-card { background: var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:var(--sp4); text-align:center; cursor:pointer; transition:all var(--tr-base); box-shadow:var(--sh-sm); text-decoration:none; color:var(--body); }
     .mini-card:hover { box-shadow:var(--sh-lg); border-color:var(--accent); transform:scale(1.02); }
     .mini-card h4 { font-size:var(--text-sm); font-weight:600; color:var(--heading); margin-top:var(--sp1); }
-    .mini-card .icon { font-size:1.5rem; }
+    .mini-card .card-icon { width:28px; height:28px; stroke: var(--primary); fill: none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; margin:0 auto; }
     body.dark .mini-card { background:var(--dark-card); border-color:var(--dark-border); }
     body.dark .mini-card h4 { color:var(--dark-heading); }
+    body.dark .mini-card .card-icon { stroke: var(--accent); }
   </style>
 </head>
 <body>
@@ -24,28 +25,70 @@
 
     <div class="section-title">English 1st Paper</div>
     <div class="card-grid">
-      <a href="writings.html?category=completing-story" class="mini-card"><div class="icon">📖</div><h4>Completing Story</h4></a>
-      <a href="writings.html?category=dialogue" class="mini-card"><div class="icon">💬</div><h4>Dialogue</h4></a>
+      <a href="writings.html?category=completing-story" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <h4>Completing Story</h4>
+      </a>
+      <a href="writings.html?category=dialogue" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h4>Dialogue</h4>
+      </a>
     </div>
 
     <div class="section-title">English 2nd Paper</div>
     <div class="card-grid">
-      <a href="writings.html?category=paragraph" class="mini-card"><div class="icon">📝</div><h4>Paragraph</h4></a>
-      <a href="writings.html?category=email" class="mini-card"><div class="icon">✉️</div><h4>Email</h4></a>
-      <a href="writings.html?category=letter" class="mini-card"><div class="icon">📨</div><h4>Letter</h4></a>
-      <a href="writings.html?category=application" class="mini-card"><div class="icon">📄</div><h4>Application</h4></a>
-      <a href="writings.html?category=short-composition" class="mini-card"><div class="icon">✍️</div><h4>Short Composition</h4></a>
+      <a href="writings.html?category=paragraph" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <h4>Paragraph</h4>
+      </a>
+      <a href="writings.html?category=email" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        <h4>Email</h4>
+      </a>
+      <a href="writings.html?category=letter" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        <h4>Letter</h4>
+      </a>
+      <a href="writings.html?category=application" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg>
+        <h4>Application</h4>
+      </a>
+      <a href="writings.html?category=short-composition" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <h4>Short Composition</h4>
+      </a>
     </div>
 
     <div class="section-title">বাংলা</div>
     <div class="card-grid">
-      <a href="writings.html?category=probondho-rochona" class="mini-card"><div class="icon">📰</div><h4>প্রবন্ধ রচনা</h4></a>
-      <a href="writings.html?category=vab-somprosharon" class="mini-card"><div class="icon">💭</div><h4>ভাব সম্প্রসারণ</h4></a>
-      <a href="writings.html?category=sarangsho" class="mini-card"><div class="icon">📋</div><h4>সারাংশ</h4></a>
-      <a href="writings.html?category=sharmormo" class="mini-card"><div class="icon">🔍</div><h4>সারমর্ম</h4></a>
-      <a href="writings.html?category=chitipotro" class="mini-card"><div class="icon">✉️</div><h4>চিঠিপত্র</h4></a>
-      <a href="writings.html?category=songbaad-protibedon" class="mini-card"><div class="icon">📢</div><h4>সংবাদ প্রতিবেদন</h4></a>
-      <a href="writings.html?category=onucched-rochona" class="mini-card"><div class="icon">📄</div><h4>অনুচ্ছেদ রচনা</h4></a>
+      <a href="writings.html?category=probondho-rochona" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <h4>প্রবন্ধ রচনা</h4>
+      </a>
+      <a href="writings.html?category=vab-somprosharon" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-1.46 4.73 8.5 8.5 0 0 1-7.04 3.77 8.5 8.5 0 0 1-6.29-2.27L2 19l1.14-4.11A8.5 8.5 0 0 1 4.5 8.5a8.38 8.38 0 0 1 4.73-1.46"/></svg>
+        <h4>ভাব সম্প্রসারণ</h4>
+      </a>
+      <a href="writings.html?category=sarangsho" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <h4>সারাংশ</h4>
+      </a>
+      <a href="writings.html?category=sharmormo" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <h4>সারমর্ম</h4>
+      </a>
+      <a href="writings.html?category=chitipotro" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        <h4>চিঠিপত্র</h4>
+      </a>
+      <a href="writings.html?category=songbaad-protibedon" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 7h20"/><line x1="8" y1="12" x2="10" y2="12"/><line x1="12" y1="12" x2="14" y2="12"/><line x1="16" y1="12" x2="18" y2="12"/><line x1="8" y1="16" x2="18" y2="16"/><line x1="8" y1="20" x2="18" y2="20"/></svg>
+        <h4>সংবাদ প্রতিবেদন</h4>
+      </a>
+      <a href="writings.html?category=onucched-rochona" class="mini-card">
+        <svg class="card-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <h4>অনুচ্ছেদ রচনা</h4>
+      </a>
     </div>
   </main>
   <nav class="bottom-nav">
