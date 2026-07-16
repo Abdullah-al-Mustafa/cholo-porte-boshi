@@ -25,12 +25,12 @@
   <main class="main-content">
     <section class="hero"><h1>পড়তে বসি</h1><p>পড়াশোনার সবকিছু এক জায়গায়</p></section>
 
-    <!-- Video Class Section (Latest 4 videos, link to video-class.html) -->
+    <!-- Video Class Section (Latest 4 videos) -->
     <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;">
       <span>Video Class</span>
       <a href="video-class.html" style="font-size:0.9rem;font-weight:600;color:var(--primary-green);text-decoration:none;">সব ভিডিও →</a>
     </div>
-    <div class="card-grid" id="homeVideos"><p class="text-muted" style="grid-column:1/-1;text-align:center;">Loading videos...</p></div>
+    <div class="card-grid" id="homeVideos"><p class="text-muted" style="grid-column:1/-1;text-align:center;">ভিডিও লোড হচ্ছে...</p></div>
 
     <!-- English 1st Paper -->
     <div class="section-title">English 1st Paper</div>
@@ -90,7 +90,12 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script>
+    // Initialize Firebase
+    if (typeof firebase !== 'undefined') {
+      firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.firestore();
+    
     function getThumb(url) {
       if (!url) return '';
       const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
@@ -103,11 +108,27 @@
     }
 
     (async () => {
-      const v = await db.collection('videos').orderBy('createdAt','desc').limit(4).get();
-      document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted" style="grid-column:1/-1;text-align:center;">কোনো ভিডিও নেই</p>' : v.docs.map(d => {
-        const t = getThumb(d.data().url||'');
-        return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="card-icon" style="background-image:url(${t?t:''});background-size:cover;background-position:center;background-image:url(${t?t:});">${!t?'<svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>':''}</div><h4>${d.data().title}</h4></div>`;
-      }).join('');
+      try {
+        const v = await db.collection('videos').orderBy('createdAt','desc').limit(4).get();
+        const container = document.getElementById('homeVideos');
+        if (v.empty) {
+          container.innerHTML = '<p class="text-muted" style="grid-column:1/-1;text-align:center;">কোনো ভিডিও নেই</p>';
+        } else {
+          container.innerHTML = v.docs.map(d => {
+            const t = getThumb(d.data().url||'');
+            const style = t ? `background-image:url(${t});background-size:cover;background-position:center;` : 'background-color:#0A1F12;';
+            return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')">
+              <div class="card-icon" style="${style}">
+                ${!t ? '<svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;"><polygon points="6 4 20 12 6 20 6 4"/></svg>' : ''}
+              </div>
+              <h4>${d.data().title}</h4>
+            </div>`;
+          }).join('');
+        }
+      } catch (error) {
+        console.error('Firebase error:', error);
+        document.getElementById('homeVideos').innerHTML = '<p class="text-muted" style="grid-column:1/-1;text-align:center;">ভিডিও লোড করতে সমস্যা হচ্ছে</p>';
+      }
     })();
   </script>
 </body>
