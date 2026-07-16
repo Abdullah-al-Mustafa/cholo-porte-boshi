@@ -181,3 +181,5 @@ body.dark .nav-item.active svg { stroke: var(--accent); }
 /* Utility */
 .text-muted { color: var(--muted); }
 .text-center { text-align: center; }
+.header-logo { display:flex; align-items:center; text-decoration:none; }
+.header-logo svg { height:36px; width:auto; }
