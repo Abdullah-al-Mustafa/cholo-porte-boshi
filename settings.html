@@ -20,75 +20,59 @@
     .contact-form input, .contact-form textarea { width:100%; padding:var(--sp2); border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.9rem; font-family:var(--font); background:var(--bg); color:var(--body); }
     .contact-form textarea { min-height:100px; resize:vertical; }
     .contact-form button { background:var(--primary-green); color:white; border:none; padding:var(--sp2); border-radius:var(--r-sm); font-weight:600; cursor:pointer; }
-
-    /* Slide-in notification */
-    .notification-slide {
-      position: fixed;
-      top: 20px; right: -320px;
-      background: var(--surface);
-      border-left: 4px solid var(--primary-green);
-      border-radius: var(--r-md);
-      padding: var(--sp3) var(--sp4);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: var(--sp2);
-      min-width: 280px;
-      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .notification-slide.show { right: 20px; }
-    .notification-icon {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: #DCFCE7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .notification-icon svg { width: 20px; height: 20px; stroke: var(--primary-green); fill: none; stroke-width: 2; }
-    .notification-text h4 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin: 0; }
-    .notification-text p { font-size: 0.8rem; color: var(--muted); margin: 2px 0 0; }
-
+    .lang-select { margin-left:auto; padding:8px 12px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.85rem; font-family:var(--font); background:var(--surface); color:var(--body); cursor:pointer; }
+    .notification-slide { position:fixed; top:20px; right:-320px; background:var(--surface); border-left:4px solid var(--primary-green); border-radius:var(--r-md); padding:var(--sp3) var(--sp4); box-shadow:0 8px 20px rgba(0,0,0,0.12); z-index:9999; display:flex; align-items:center; gap:var(--sp2); min-width:280px; transition:right 0.35s cubic-bezier(0.4,0,0.2,1); }
+    .notification-slide.show { right:20px; }
+    .notification-icon { width:36px; height:36px; border-radius:50%; background:#DCFCE7; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .notification-icon svg { width:20px; height:20px; stroke:var(--primary-green); fill:none; stroke-width:2; }
+    .notification-text h4 { font-size:0.95rem; font-weight:600; color:var(--heading); margin:0; }
+    .notification-text p { font-size:0.8rem; color:var(--muted); margin:2px 0 0; }
     body.dark .setting-card { background:var(--dark-card); border-color:var(--dark-border); }
     body.dark .setting-info h3 { color:var(--dark-heading); }
     body.dark .setting-icon { background:rgba(134,239,172,0.15); }
     body.dark .setting-icon svg { stroke:var(--light-green); }
     body.dark .expandable-content { background:var(--dark-card); border-color:var(--dark-border); }
     body.dark .contact-form input, body.dark .contact-form textarea { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
-    body.dark .notification-slide { background: var(--dark-surface); border-color: var(--primary-green); }
-    body.dark .notification-icon { background: rgba(21,128,61,0.2); }
-    body.dark .notification-text h4 { color: var(--dark-heading); }
+    body.dark .notification-slide { background:var(--dark-surface); border-color:var(--primary-green); }
+    body.dark .notification-icon { background:rgba(21,128,61,0.2); }
+    body.dark .notification-text h4 { color:var(--dark-heading); }
+    body.dark .lang-select { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">সেটিংস</span><span style="width:28px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;" id="pageTitle">সেটিংস</span><span style="width:28px;"></span></div></header>
   <main class="main-content">
     <div class="settings-page">
-      <h2>সেটিংস</h2>
+      <h2 id="settingsHeading">সেটিংস</h2>
 
+      <!-- Language Switcher -->
       <div class="setting-card">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div>
-        <div class="setting-info"><h3>অ্যাপ ভাষা</h3><p>বর্তমান: বাংলা</p></div>
+        <div class="setting-info"><h3 id="langLabel">অ্যাপ ভাষা</h3><p id="langDesc">বর্তমান: বাংলা</p></div>
+        <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+          <option value="bn">বাংলা</option>
+          <option value="en">English</option>
+        </select>
       </div>
 
+      <!-- About Us -->
       <div class="setting-card" onclick="toggleExpand('aboutContent', this)" style="border-radius:24px 24px 24px 24px;">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
-        <div class="setting-info"><h3>আমাদের সম্পর্কে</h3><p>প্ল্যাটফর্ম সম্পর্কে জানুন</p></div>
+        <div class="setting-info"><h3 id="aboutLabel">আমাদের সম্পর্কে</h3><p id="aboutDesc">প্ল্যাটফর্ম সম্পর্কে জানুন</p></div>
         <span class="setting-arrow" id="aboutArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
       <div class="expandable-content" id="aboutContent">
-        <div class="about-text">
+        <div class="about-text" id="aboutText">
           <p><strong>পড়তে বসি</strong> বাংলাদেশের শিক্ষার্থীদের জন্য একটি সম্পূর্ণ ফ্রি ডিজিটাল শিক্ষা প্ল্যাটফর্ম। এখানে রয়েছে ক্লাস ৬ থেকে ১০ পর্যন্ত ভিডিও ক্লাস, রাইটিং প্র্যাকটিস, পিডিএফ ও গাইড বই, পরীক্ষা প্রস্তুতি, এবং এআই টিউটর।</p>
           <p style="margin-top:var(--sp1);">আমাদের লক্ষ্য: প্রযুক্তির মাধ্যমে শিক্ষাকে সবার জন্য সহজলভ্য করে তোলা।</p>
           <p style="margin-top:var(--sp1);">ইমেইল: <a href="mailto:letsconnectcpb@gmail.com">letsconnectcpb@gmail.com</a></p>
         </div>
       </div>
 
+      <!-- Contact -->
       <div class="setting-card" onclick="toggleExpand('contactContent', this)" style="border-radius:24px 24px 24px 24px;">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg></div>
-        <div class="setting-info"><h3>যোগাযোগ</h3><p>আমাদের সাথে যোগাযোগ করুন</p></div>
+        <div class="setting-info"><h3 id="contactLabel">যোগাযোগ</h3><p id="contactDesc">আমাদের সাথে যোগাযোগ করুন</p></div>
         <span class="setting-arrow" id="contactArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
       <div class="expandable-content" id="contactContent">
@@ -96,20 +80,21 @@
           <input type="text" id="contactName" placeholder="আপনার নাম" required>
           <input type="email" id="contactEmail" placeholder="ইমেইল" required>
           <textarea id="contactMsg" placeholder="আপনার বার্তা লিখুন..." required></textarea>
-          <button type="submit">পাঠান</button>
+          <button type="submit" id="contactBtn">পাঠান</button>
         </form>
       </div>
 
+      <!-- Version -->
       <div class="setting-card">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-        <div class="setting-info"><h3>ভার্সন</h3><p>v1.0.0</p></div>
+        <div class="setting-info"><h3 id="versionLabel">ভার্সন</h3><p>v1.0.0</p></div>
       </div>
     </div>
   </main>
 
   <div class="notification-slide" id="notification">
     <div class="notification-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <div class="notification-text"><h4>পাঠানো হয়েছে!</h4><p>আমরা শীঘ্রই যোগাযোগ করব।</p></div>
+    <div class="notification-text"><h4 id="notifTitle">পাঠানো হয়েছে!</h4><p id="notifDesc">আমরা শীঘ্রই যোগাযোগ করব।</p></div>
   </div>
 
   <nav class="bottom-nav">
@@ -137,18 +122,81 @@
       const email = document.getElementById('contactEmail').value.trim();
       const msg = document.getElementById('contactMsg').value.trim();
       if (name && email && msg) {
-        // Clear form
         document.getElementById('contactName').value = '';
         document.getElementById('contactEmail').value = '';
         document.getElementById('contactMsg').value = '';
-        // Show slide-in notification
         const notif = document.getElementById('notification');
         notif.classList.add('show');
         setTimeout(() => { notif.classList.remove('show'); }, 3500);
-        // Open mailto link
         window.open('mailto:letsconnectcpb@gmail.com?subject=Contact from ' + encodeURIComponent(name) + '&body=' + encodeURIComponent(msg + '\n\nFrom: ' + email));
       }
     }
+
+    // Language switching
+    const translations = {
+      bn: {
+        pageTitle: 'সেটিংস',
+        settingsHeading: 'সেটিংস',
+        langLabel: 'অ্যাপ ভাষা',
+        langDesc: 'বর্তমান: বাংলা',
+        aboutLabel: 'আমাদের সম্পর্কে',
+        aboutDesc: 'প্ল্যাটফর্ম সম্পর্কে জানুন',
+        aboutText: '<p><strong>পড়তে বসি</strong> বাংলাদেশের শিক্ষার্থীদের জন্য একটি সম্পূর্ণ ফ্রি ডিজিটাল শিক্ষা প্ল্যাটফর্ম। এখানে রয়েছে ক্লাস ৬ থেকে ১০ পর্যন্ত ভিডিও ক্লাস, রাইটিং প্র্যাকটিস, পিডিএফ ও গাইড বই, পরীক্ষা প্রস্তুতি, এবং এআই টিউটর।</p><p style="margin-top:var(--sp1);">আমাদের লক্ষ্য: প্রযুক্তির মাধ্যমে শিক্ষাকে সবার জন্য সহজলভ্য করে তোলা।</p><p style="margin-top:var(--sp1);">ইমেইল: <a href="mailto:letsconnectcpb@gmail.com">letsconnectcpb@gmail.com</a></p>',
+        contactLabel: 'যোগাযোগ',
+        contactDesc: 'আমাদের সাথে যোগাযোগ করুন',
+        contactNamePlaceholder: 'আপনার নাম',
+        contactEmailPlaceholder: 'ইমেইল',
+        contactMsgPlaceholder: 'আপনার বার্তা লিখুন...',
+        contactBtn: 'পাঠান',
+        versionLabel: 'ভার্সন',
+        notifTitle: 'পাঠানো হয়েছে!',
+        notifDesc: 'আমরা শীঘ্রই যোগাযোগ করব।'
+      },
+      en: {
+        pageTitle: 'Settings',
+        settingsHeading: 'Settings',
+        langLabel: 'App Language',
+        langDesc: 'Current: English',
+        aboutLabel: 'About Us',
+        aboutDesc: 'Learn about the platform',
+        aboutText: '<p><strong>পড়তে বসি</strong> is a completely free digital learning platform for Bangladeshi students. It includes video classes from Class 6 to 10, writing practice, PDF and guide books, exam preparation, and an AI tutor.</p><p style="margin-top:var(--sp1);">Our goal: Make education accessible to everyone through technology.</p><p style="margin-top:var(--sp1);">Email: <a href="mailto:letsconnectcpb@gmail.com">letsconnectcpb@gmail.com</a></p>',
+        contactLabel: 'Contact',
+        contactDesc: 'Get in touch with us',
+        contactNamePlaceholder: 'Your name',
+        contactEmailPlaceholder: 'Email',
+        contactMsgPlaceholder: 'Write your message...',
+        contactBtn: 'Send',
+        versionLabel: 'Version',
+        notifTitle: 'Sent!',
+        notifDesc: 'We will contact you soon.'
+      }
+    };
+
+    function changeLanguage(lang) {
+      const t = translations[lang];
+      document.getElementById('pageTitle').textContent = t.pageTitle;
+      document.getElementById('settingsHeading').textContent = t.settingsHeading;
+      document.getElementById('langLabel').textContent = t.langLabel;
+      document.getElementById('langDesc').textContent = t.langDesc;
+      document.getElementById('aboutLabel').textContent = t.aboutLabel;
+      document.getElementById('aboutDesc').textContent = t.aboutDesc;
+      document.getElementById('aboutText').innerHTML = t.aboutText;
+      document.getElementById('contactLabel').textContent = t.contactLabel;
+      document.getElementById('contactDesc').textContent = t.contactDesc;
+      document.getElementById('contactName').placeholder = t.contactNamePlaceholder;
+      document.getElementById('contactEmail').placeholder = t.contactEmailPlaceholder;
+      document.getElementById('contactMsg').placeholder = t.contactMsgPlaceholder;
+      document.getElementById('contactBtn').textContent = t.contactBtn;
+      document.getElementById('versionLabel').textContent = t.versionLabel;
+      document.getElementById('notifTitle').textContent = t.notifTitle;
+      document.getElementById('notifDesc').textContent = t.notifDesc;
+      localStorage.setItem('ui-language', lang);
+    }
+
+    // Load saved language
+    const savedLang = localStorage.getItem('ui-language') || 'bn';
+    document.getElementById('langSelect').value = savedLang;
+    changeLanguage(savedLang);
   </script>
 </body>
 </html>
