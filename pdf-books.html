@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PDF Books - পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+  <style>
+    .pdf-page { max-width:800px; margin:0 auto; width:100%; }
+    .pdf-page h2 { text-align:center; margin-bottom:var(--sp4); color:var(--heading); }
+    .class-filter { display:flex; gap:var(--sp1); margin-bottom:var(--sp5); flex-wrap:wrap; justify-content:center; }
+    .class-chip { padding:8px 18px; border-radius:var(--r-full); border:1px solid var(--border); background:var(--surface); cursor:pointer; font-weight:600; font-size:var(--text-sm); transition:all var(--tr-fast); }
+    .class-chip.active { background:var(--primary-green); color:white; border-color:var(--primary-green); }
+    .book-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:var(--sp2); }
+    .book-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:var(--sp4); text-align:center; transition:all var(--tr-base); text-decoration:none; color:var(--body); box-shadow:var(--sh-sm); }
+    .book-card:hover { box-shadow:var(--sh-lg); border-color:var(--primary-green); transform:translateY(-4px); }
+    .book-card h4 { font-size:var(--text-sm); color:var(--heading); margin-bottom:4px; }
+    .book-card p { font-size:var(--text-xs); color:var(--muted); }
+    .coming-soon { text-align:center; padding:var(--sp8); color:var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><a href="index.html" class="header-brand">পড়তে বসি</a><span style="color:white;font-weight:600;">PDF Books</span><span style="width:40px;"></span></div></header>
+  <main class="main-content">
+    <div class="pdf-page">
+      <h2>PDF Books</h2>
+      <div class="class-filter" id="classFilter">
+        <button class="class-chip active" onclick="filterBooks('All', this)">All</button>
+        <button class="class-chip" onclick="filterBooks('9-10', this)">Class 9-10</button>
+        <button class="class-chip" onclick="filterBooks('8', this)">Class 8</button>
+        <button class="class-chip" onclick="filterBooks('7', this)">Class 7</button>
+        <button class="class-chip" onclick="filterBooks('6', this)">Class 6</button>
+      </div>
+      <div class="book-list" id="bookList">
+        <div class="coming-soon">শীঘ্রই পিডিএফ বই আসছে...</div>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
+    <a href="extra.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>অতিরিক্ত</span></a>
+  </nav>
+  <script>
+    function filterBooks(cls, el) {
+      document.querySelectorAll('.class-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      // Future: load books based on selected class
+      document.getElementById('bookList').innerHTML = '<div class="coming-soon">শীঘ্রই পিডিএফ বই আসছে...</div>';
+    }
+  </script>
+</body>
+</html>
