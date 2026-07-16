@@ -133,7 +133,7 @@
 
       <div id="sub-mcq" class="form-card"><h3>Add MCQ</h3>
         <select id="mcqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="mcqSubject" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter">
+        <input type="text" id="mcqSubject" onchange="loadChaptersForAdmin('mcq', document.getElementById('mcqClass').value, this.value)" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter">
         <textarea id="mcqQuestion" placeholder="Question"></textarea>
         <p style="color:var(--muted);font-size:0.85rem;margin-bottom:var(--sp2);">৪টি অপশন:</p>
         <div class="option-row"><span>১.</span><input type="text" id="mcqOpt1" placeholder="Option 1"></div>
@@ -146,7 +146,7 @@
       </div>
       <div id="sub-cq" class="form-card" style="display:none;"><h3>Add CQ</h3>
         <select id="cqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="cqSubject" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter">
+        <input type="text" id="cqSubject" onchange="loadChaptersForAdmin('cq', document.getElementById('cqClass').value, this.value)" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter">
         <textarea id="cqPassage" placeholder="উদ্দীপক"></textarea>
         <p style="color:var(--muted);font-size:0.85rem;">প্রশ্ন ও কীওয়ার্ড (৪টি):</p>
         <div id="cqQuestions">
@@ -159,7 +159,7 @@
       </div>
       <div id="sub-sq" class="form-card" style="display:none;"><h3>Add SQ</h3>
         <select id="sqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
-        <input type="text" id="sqSubject" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter">
+        <input type="text" id="sqSubject" onchange="loadChaptersForAdmin('sq', document.getElementById('sqClass').value, this.value)" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter">
         <textarea id="sqQuestion" placeholder="Question"></textarea>
         <input type="text" id="sqKeywords" placeholder="Keywords (comma separated)">
         <button class="btn-primary" onclick="addSQ()">Add SQ</button>
@@ -234,9 +234,23 @@ document.addEventListener("input", function(e) {
     function switchMainTab(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('[id^="tab-"]').forEach(d=>d.style.display='none');document.getElementById('tab-'+tab).style.display='block';if(tab==='questions')switchSubTab('mcq');}
     function switchSubTab(sub){document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('[id^="sub-"]').forEach(d=>d.style.display='none');document.getElementById('sub-'+sub).style.display='block';}
 
-    async function addMCQ(){const q=document.getElementById('mcqQuestion').value.trim();const o1=document.getElementById('mcqOpt1').value.trim(),o2=document.getElementById('mcqOpt2').value.trim(),o3=document.getElementById('mcqOpt3').value.trim(),o4=document.getElementById('mcqOpt4').value.trim();const cn=parseInt(document.getElementById('mcqCorrectNum').value);if(!q||!o1||!o2||!o3||!o4)return showToast('All fields required','error');if(!cn||cn<1||cn>4)return showToast('Correct answer number (1-4) required','error');const opts=[o1,o2,o3,o4].join(','),ans=[o1,o2,o3,o4][cn-1];await db.collection('questions').add({class:document.getElementById('mcqClass').value,subject:document.getElementById('mcqSubject').value,chapter:document.getElementById('mcqChapter').value,type:'mcq',question:q,options:opts,answer:ans,createdAt:ts()});showToast('MCQ added!','success');clearForm(['mcqQuestion','mcqSubject','mcqChapter','mcqOpt1','mcqOpt2','mcqOpt3','mcqOpt4','mcqCorrectNum']);loadQuestions();}
-    async function addCQ(){const passage=document.getElementById('cqPassage').value.trim();const sub=document.getElementById('cqSubject').value.trim(),ch=document.getElementById('cqChapter').value.trim(),cls=document.getElementById('cqClass').value;const qi=document.querySelectorAll('.cqQ'),ki=document.querySelectorAll('.cqK');const qs=[];qi.forEach((inp,i)=>{const qt=inp.value.trim(),kw=ki[i].value.trim();if(qt&&kw)qs.push({question:qt,keywords:kw});});if(!passage||qs.length===0)return showToast('Passage and at least one question required','error');await db.collection('questions').add({type:'cq',class:cls,subject:sub,chapter:ch,passage,questions:qs,createdAt:ts()});showToast('CQ added!','success');clearForm(['cqPassage','cqSubject','cqChapter']);qi.forEach(inp=>inp.value='');ki.forEach(inp=>inp.value='');loadQuestions();}
-    async function addSQ(){const q=document.getElementById('sqQuestion').value.trim(),kw=document.getElementById('sqKeywords').value.trim();const sub=document.getElementById('sqSubject').value.trim(),ch=document.getElementById('sqChapter').value.trim(),cls=document.getElementById('sqClass').value;if(!q||!kw)return showToast('Question and keywords required','error');await db.collection('questions').add({type:'sq',class:cls,subject:sub,chapter:ch,question:q,keywords:kw,createdAt:ts()});showToast('SQ added!','success');clearForm(['sqQuestion','sqKeywords','sqSubject','sqChapter']);loadQuestions();}
+// Load chapters when subject changes
+async function loadChaptersForAdmin(type, cls, sub) {
+  const selectId = type + "ChapterSelect";
+  const selectEl = document.getElementById(selectId);
+  if (!selectEl) return;
+  const s = await db.collection("questions").where("type","==",type).where("class","==",cls).where("subject","==",sub).get();
+  const chapters = [...new Set(s.docs.map(d => d.data().chapter).filter(Boolean))];
+  if (chapters.length === 0) {
+    selectEl.innerHTML = "<option value=\"\">No chapters found</option>";
+  } else {
+    selectEl.innerHTML = "<option value=\"\">Select chapter</option>" + chapters.map(ch => `<option value="${ch}">${ch}</option>`).join("");
+  }
+}
+
+    async function addMCQ(){const q=document.getElementById("cqChapterSelect").value,type:'mcq',question:q,options:opts,answer:ans,createdAt:ts()});showToast('MCQ added!','success');clearForm(['mcqQuestion','mcqSubject','mcqChapter','mcqOpt1','mcqOpt2','mcqOpt3','mcqOpt4','mcqCorrectNum']);loadQuestions();}
+    async function addCQ(){const passage=document.getElementById("cqChapterSelect").value='');loadQuestions();}
+    async function addSQ(){const q=document.getElementById("sqChapterSelect").value;if(!q||!kw)return showToast('Question and keywords required','error');await db.collection('questions').add({type:'sq',class:cls,subject:sub,chapter:ch,question:q,keywords:kw,createdAt:ts()});showToast('SQ added!','success');clearForm(['sqQuestion','sqKeywords','sqSubject','sqChapter']);loadQuestions();}
     async function loadQuestions(){const s=await db.collection('questions').orderBy('createdAt','desc').limit(20).get();document.getElementById('questionsList').innerHTML=s.docs.map(d=>`<div class="list-item"><div><h4>${(d.data().question||d.data().passage||'').substring(0,60)}</h4><p>${d.data().type?.toUpperCase()} | Class ${d.data().class} | ${d.data().subject}</p></div><div><button class="btn-danger" onclick="del('questions','${d.id}')">Delete</button></div></div>`).join('');}
 
     async function addWriting(){const title=document.getElementById('writingTitle').value.trim();if(!title)return showToast('Title required','error');const cat=document.getElementById('writingCategory').value;await db.collection('writings').add({title,category:cat,class:document.getElementById('writingClass').value,subject:document.getElementById('writingSubject').value,content:document.getElementById('writingContent').value,image:document.getElementById('writingImageData').value,createdAt:ts()});showToast('Writing added!','success');clearForm(['writingTitle','writingSubject','writingContent','writingImageData']);document.getElementById('writingPreview').style.display='none';document.getElementById("writingPreview").style.display="none"; document.getElementById("writingImageData").value=""; loadWritings();}
