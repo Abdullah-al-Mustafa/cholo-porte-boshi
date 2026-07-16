@@ -45,14 +45,6 @@
     <div class="settings-page">
       <h2 id="settingsHeading">সেটিংস</h2>
 
-      <!-- Language Switcher -->
-      <div class="setting-card">
-        <div class="setting-icon"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div>
-        <div class="setting-info"><h3 id="langLabel">অ্যাপ ভাষা</h3><p id="langDesc">বর্তমান: বাংলা</p></div>
-        <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
-          <option value="bn">বাংলা</option>
-          <option value="en">English</option>
-        </select>
       </div>
 
       <!-- About Us -->
@@ -197,8 +189,6 @@
 
     // Load saved language
     const savedLang = localStorage.getItem('ui-language') || 'bn';
-    document.getElementById('langSelect').value = savedLang;
-    changeLanguage(savedLang);
   </script>
 </body>
 </html>
