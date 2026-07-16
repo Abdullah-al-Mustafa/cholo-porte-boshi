@@ -1,32 +1,177 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MCQ পরীক্ষা - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0D1B2A">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MCQ Test - পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .test-page { max-width: 700px; margin: 0 auto; width: 100%; }
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
-    .modal.show { display: flex; }
-    .modal-box { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-6); max-width: 400px; width: 90%; }
-    .modal-box h3 { margin-bottom: var(--space-4); }
-    .class-option { display: block; width: 100%; padding: var(--space-3); margin-bottom: var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-align: center; font-size: var(--text-base); background: var(--surface); }
-    .class-option:hover { background: var(--accent-light); border-color: var(--accent); }
-    .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: var(--space-6); margin-bottom: var(--space-4); }
-    .q-meta { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-3); }
-    .q-badge { padding: 2px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
-    .q-badge.type { background: var(--accent); color: var(--primary); }
-    .q-badge.class { background: var(--accent-light); color: var(--primary); }
-    .q-badge.subject { background: var(--secondary); color: white; }
-    .question-card h3 { color: var(--heading); margin-bottom: var(--space-4); }
-    .option { display: block; padding: var(--space-3) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--space-2); cursor: pointer; transition: all 0.2s; }
-    .option:hover { border-color: var(--accent); background: var(--accent-light); }
-    .option.correct { background: #DCFCE7; border-color: #22C55E; color: #166534; font-weight: 600; }
-    .option.wrong { background: #FEE2E2; border-color: #DC2626; color: #991B1B; }
-    .btn-row { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
-    body.dark .question-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .option { border-color: var(--dark-border); }
-    body.dark .modal-box { background: var(--dark-surface); }
-    body.dark .class-option { background: var(--dark-surface); border-color: var(--dark-border); }
+    .mcq-page { max-width:650px; margin:0 auto; width:100%; }
+    .mcq-page h2 { font-size:var(--text-2xl); font-weight:700; color:var(--heading); text-align:center; margin-bottom:var(--sp5); }
+    .selector-group { margin-bottom:var(--sp4); }
+    .selector-label { font-size:0.85rem; font-weight:600; color:var(--body); margin-bottom:6px; display:block; }
+    .chip-row { display:flex; gap:var(--sp1); flex-wrap:wrap; }
+    .chip { padding:10px 18px; border-radius:var(--r-full); border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-size:0.9rem; font-weight:500; transition:all var(--tr-fast); font-family:var(--font); color:var(--body); }
+    .chip:hover { border-color:var(--primary-green); }
+    .chip.active { background:var(--primary-green); color:white; border-color:var(--primary-green); font-weight:600; }
+    .chip.disabled { opacity:0.4; pointer-events:none; }
+    .quantity-selector { display:flex; align-items:center; gap:var(--sp2); }
+    .quantity-selector input { width:80px; padding:10px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.9rem; text-align:center; font-family:var(--font); background:var(--surface); color:var(--body); }
+    .quantity-selector input:focus { border-color:var(--primary-green); outline:none; }
+    .btn-start { width:100%; padding:var(--sp3); background:var(--primary-green); color:white; border:none; border-radius:var(--r-md); font-weight:700; font-size:1.05rem; cursor:pointer; transition:background var(--tr-fast); margin-top:var(--sp5); }
+    .btn-start:hover { background:var(--dark-green); }
+    .btn-start:disabled { opacity:0.5; cursor:not-allowed; }
+    .question-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp5); margin-bottom:var(--sp3); box-shadow:var(--sh-sm); }
+    .question-card h3 { font-size:1.05rem; color:var(--heading); margin-bottom:var(--sp3); }
+    .option { display:block; width:100%; padding:var(--sp2) var(--sp3); margin-bottom:var(--sp1); border:1.5px solid var(--border); border-radius:var(--r-sm); background:var(--surface); cursor:pointer; text-align:left; font-size:0.95rem; transition:all var(--tr-fast); font-family:var(--font); color:var(--body); }
+    .option:hover { border-color:var(--primary-green); background:var(--secondary); }
+    .option.correct { background:#DCFCE7; border-color:#22C55E; color:#166534; font-weight:600; }
+    .option.wrong { background:#FEE2E2; border-color:#DC2626; color:#991B1B; }
+    .option:disabled { pointer-events:none; opacity:0.9; }
+    .result-card { text-align:center; padding:var(--sp8) var(--sp4); background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-md); }
+    .result-card .score { font-size:3rem; font-weight:800; color:var(--primary-green); }
+    .result-card p { color:var(--muted); font-size:1.1rem; }
+    body.dark .chip { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
+    body.dark .chip.active { background:var(--primary-green); color:white; }
+    body.dark .question-card { background:var(--dark-card); border-color:var(--dark-border); }
+    body.dark .question-card h3 { color:var(--dark-heading); }
+    body.dark .option { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
+    body.dark .option:hover { background:rgba(21,128,61,0.1); }
+    body.dark .quantity-selector input { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
   </style>
 </head>
 <body>
+  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">MCQ Test</span><span style="width:28px;"></span></div></header>
+  <main class="main-content">
+    <div class="mcq-page" id="setupArea">
+      <h2>MCQ পরীক্ষা</h2>
+      <div class="selector-group">
+        <label class="selector-label">ক্লাস নির্বাচন করুন</label>
+        <div class="chip-row" id="classChips">
+          <button class="chip" onclick="selectClass('6', this)">৬ষ্ঠ</button>
+          <button class="chip" onclick="selectClass('7', this)">৭ম</button>
+          <button class="chip" onclick="selectClass('8', this)">৮ম</button>
+          <button class="chip" onclick="selectClass('9-10', this)">৯ম-১০ম</button>
+        </div>
+      </div>
+      <div class="selector-group">
+        <label class="selector-label">বিষয় নির্বাচন করুন</label>
+        <div class="chip-row" id="subjectChips">
+          <button class="chip disabled">প্রথমে ক্লাস বাছুন</button>
+        </div>
+      </div>
+      <div class="selector-group">
+        <label class="selector-label">অধ্যায় (ঐচ্ছিক)</label>
+        <div class="chip-row" id="chapterChips">
+          <button class="chip disabled">প্রথমে বিষয় বাছুন</button>
+        </div>
+      </div>
+      <div class="selector-group">
+        <label class="selector-label">MCQ সংখ্যা</label>
+        <div class="quantity-selector">
+          <input type="number" id="mcqCount" value="10" min="5" max="50" step="5">
+          <span style="font-size:0.85rem;color:var(--muted);">টি প্রশ্ন</span>
+        </div>
+      </div>
+      <button class="btn-start" id="startBtn" onclick="startTest()">পরীক্ষা শুরু করুন</button>
+    </div>
+    <div class="mcq-page" id="testArea" style="display:none;"></div>
+    <div class="mcq-page" id="resultArea" style="display:none;"></div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
+    <a href="tools.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>টুলস</span></a>
+  </nav>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    let selClass = '', selSubject = '', selChapter = '', allQuestions = [], currentIndex = 0, score = 0, questions = [];
+
+    function selectClass(cls, el) {
+      selClass = cls; selSubject = ''; selChapter = '';
+      document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      loadSubjects(cls);
+      document.getElementById('chapterChips').innerHTML = '<button class="chip disabled">প্রথমে বিষয় বাছুন</button>';
+    }
+
+    async function loadSubjects(cls) {
+      const s = await db.collection('questions').where('type','==','mcq').where('class','==',cls).get();
+      const subjects = [...new Set(s.docs.map(d => d.data().subject).filter(Boolean))];
+      const container = document.getElementById('subjectChips');
+      if (subjects.length === 0) { container.innerHTML = '<button class="chip disabled">কোনো বিষয় নেই</button>'; return; }
+      container.innerHTML = subjects.map(sub => `<button class="chip" onclick="selectSubject('${sub}', this)">${sub}</button>`).join('');
+    }
+
+    function selectSubject(sub, el) {
+      selSubject = sub; selChapter = '';
+      document.querySelectorAll('#subjectChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      loadChapters(selClass, sub);
+    }
+
+    async function loadChapters(cls, sub) {
+      const s = await db.collection('questions').where('type','==','mcq').where('class','==',cls).where('subject','==',sub).get();
+      const chapters = [...new Set(s.docs.map(d => d.data().chapter).filter(Boolean))];
+      const container = document.getElementById('chapterChips');
+      if (chapters.length === 0) { container.innerHTML = '<button class="chip disabled">কোনো অধ্যায় নেই</button>'; return; }
+      container.innerHTML = '<button class="chip active" onclick="selectChapter('', this)">সব</button>' + chapters.map(ch => `<button class="chip" onclick="selectChapter('${ch}', this)">${ch}</button>`).join('');
+      selChapter = '';
+    }
+
+    function selectChapter(ch, el) {
+      selChapter = ch;
+      document.querySelectorAll('#chapterChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    async function startTest() {
+      if (!selClass || !selSubject) { alert('ক্লাস ও বিষয় নির্বাচন করুন'); return; }
+      const count = parseInt(document.getElementById('mcqCount').value) || 10;
+      let q = db.collection('questions').where('type','==','mcq').where('class','==',selClass).where('subject','==',selSubject);
+      if (selChapter) q = q.where('chapter','==',selChapter);
+      const snap = await q.limit(count).get();
+      if (snap.empty) { alert('এই সিলেকশনে কোনো MCQ পাওয়া যায়নি'); return; }
+      questions = snap.docs.map(d => ({id: d.id, ...d.data()})).sort(() => Math.random() - 0.5);
+      currentIndex = 0; score = 0;
+      document.getElementById('setupArea').style.display = 'none';
+      document.getElementById('testArea').style.display = 'block';
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      if (currentIndex >= questions.length) return showResult();
+      const q = questions[currentIndex];
+      const opts = (q.options || '').split(',').filter(o => o.trim());
+      document.getElementById('testArea').innerHTML = `
+        <div class="question-card">
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:var(--sp2);">প্রশ্ন ${currentIndex+1}/${questions.length}</p>
+          <h3>${q.question}</h3>
+          ${opts.map((opt,i) => `<button class="option" onclick="checkAnswer(${i}, '${q.answer?.trim().replace(/'/g,"\\'")}', this)">${opt.trim()}</button>`).join('')}
+          <button class="btn-start" id="nextBtn" style="display:none;margin-top:var(--sp3);" onclick="nextQuestion()">পরবর্তী →</button>
+        </div>`;
+    }
+
+    function checkAnswer(index, correct, el) {
+      const opts = document.querySelectorAll('.option');
+      opts.forEach(o => o.disabled = true);
+      const selected = (questions[currentIndex].options || '').split(',')[index]?.trim();
+      if (selected === correct) { el.classList.add('correct'); score++; }
+      else { el.classList.add('wrong'); opts.forEach(o => { if (o.textContent.trim() === correct) o.classList.add('correct'); }); }
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextQuestion() { currentIndex++; renderQuestion(); }
+
+    function showResult() {
+      document.getElementById('testArea').style.display = 'none';
+      document.getElementById('resultArea').style.display = 'block';
+      document.getElementById('resultArea').innerHTML = `
+        <div class="result-card">
+          <div class="score">${score}/${questions.length}</div>
+          <p>সঠিক উত্তর</p>
+          <button class="btn-start" onclick="location.reload()">আবার পরীক্ষা দিন</button>
+          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'">ফিরে যান</button>
+        </div>`;
+    }
+  </script>
+</body>
+</html>
