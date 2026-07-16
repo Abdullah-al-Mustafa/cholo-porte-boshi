@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CPB AI</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0D1B2A"><link rel="icon" type="image/svg+xml" href="cpb-ai-icon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CPB AI - পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
     html, body { width: 100%; max-width: 100vw; overflow-x: hidden; position: relative; }
-    .ai-workspace { display: flex; flex-direction: column; height: calc(100vh - var(--header-height) - var(--bottom-nav-height)); width: 100%; max-width: 100vw; overflow: hidden; margin: 0 auto; }
+    .ai-workspace { display: flex; flex-direction: column; height: calc(100vh - var(--header-h) - var(--nav-h)); width: 100%; max-width: 100vw; overflow: hidden; margin: 0 auto; }
     @media (min-width: 768px) { .ai-workspace { max-width: 800px; } }
-    .ai-conversation { flex: 1; overflow-y: auto; overflow-x: hidden; padding: var(--space-4); width: 100%; max-width: 100%; display: flex; flex-direction: column; gap: var(--space-5); }
+    .ai-conversation { flex: 1; overflow-y: auto; overflow-x: hidden; padding: var(--sp3); width: 100%; max-width: 100%; display: flex; flex-direction: column; gap: var(--sp3); -webkit-overflow-scrolling: touch; }
     .ai-empty-state { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
-    .ai-empty-text { font-size: clamp(1.25rem, 4vw, 2rem); font-weight: 700; color: var(--muted); text-align: center; }
-    .ai-message-block { width: 100%; max-width: 100%; overflow-wrap: break-word; word-break: break-word; }
+    .ai-empty-text { font-size: clamp(1.25rem, 4vw, 2rem); font-weight: 700; color: var(--muted); text-align: center; padding: 0 var(--sp3); }
+    .ai-message-block { animation: fadeIn var(--tr-base); width: 100%; max-width: 100%; overflow-wrap: break-word; word-break: break-word; }
     .ai-message-block.user { display: flex; justify-content: flex-end; }
-    .ai-message-content { padding: var(--space-4); border-radius: var(--radius-lg); line-height: 1.7; font-size: clamp(0.875rem, 2vw, 1rem); max-width: 100%; overflow-wrap: break-word; }
-    .ai-message-block.user .ai-message-content { background: var(--secondary); color: var(--body); max-width: 85%; border-bottom-right-radius: var(--radius-sm); }
-    .ai-message-block.bot .ai-message-content { background: var(--surface); border: 1px solid var(--border); color: var(--body); max-width: 100%; border-bottom-left-radius: var(--radius-sm); width: 100%; box-sizing: border-box; }
-    .ai-input-section { padding: var(--space-3); background: var(--surface); border-top: 1px solid var(--border); width: 100%; max-width: 100%; box-sizing: border-box; flex-shrink: 0; }
-    .ai-input-container { display: flex; align-items: center; gap: var(--space-2); width: 100%; max-width: 100%; }
-    .ai-input-wrapper { flex: 1; display: flex; align-items: center; background: var(--bg); border: 2px solid var(--border); border-radius: var(--radius-2xl); padding: var(--space-1) var(--space-4); min-width: 0; }
-    .ai-input-wrapper:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21,128,61,0.08); }
-    .ai-input-wrapper input { flex: 1; border: none; outline: none; background: transparent; font-size: clamp(0.875rem, 2vw, 1rem); font-family: var(--font-family); padding: var(--space-3) 0; color: var(--body); min-width: 0; }
-    .ai-send-btn { width: 44px; height: 44px; min-width: 44px; border-radius: var(--radius-md); border: none; background: var(--accent); color: var(--primary); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
-    .ai-send-btn:hover { background: var(--accent-hover); transform: scale(1.05); }
-    .ai-send-btn svg { width: 20px; height: 20px; stroke: var(--primary); stroke-width: 2; fill: none; }
-    .ai-disclaimer { text-align: center; padding: var(--space-2) 0 0; font-size: clamp(0.65rem, 1.5vw, 0.75rem); color: var(--muted); }
-    body.dark .ai-message-block.user .ai-message-content { background: rgba(212,175,55,0.12); }
+    .ai-message-content { padding: var(--sp3); border-radius: var(--r-md); line-height: 1.7; font-size: clamp(0.875rem, 2vw, 1rem); max-width: 100%; overflow-wrap: break-word; }
+    .ai-message-block.user .ai-message-content { background: var(--secondary); color: var(--body); max-width: 85%; border-bottom-right-radius: var(--r-sm); }
+    .ai-message-block.bot .ai-message-content { background: var(--surface); border: 1px solid var(--border); color: var(--body); max-width: 100%; border-bottom-left-radius: var(--r-sm); width: 100%; box-sizing: border-box; }
+    .ai-input-section { padding: var(--sp2); background: var(--surface); border-top: 1px solid var(--border); width: 100%; max-width: 100%; box-sizing: border-box; flex-shrink: 0; }
+    .ai-input-container { display: flex; align-items: center; gap: var(--sp1); width: 100%; max-width: 100%; box-sizing: border-box; }
+    .ai-input-wrapper { flex: 1; display: flex; align-items: center; background: var(--bg); border: 2px solid var(--border); border-radius: var(--r-full); padding: var(--sp1) var(--sp3); transition: all var(--tr-fast); min-width: 0; box-sizing: border-box; }
+    .ai-input-wrapper:focus-within { border-color: var(--primary-green); box-shadow: 0 0 0 3px rgba(21,128,61,0.08); }
+    .ai-input-wrapper input { flex: 1; border: none; outline: none; background: transparent; font-size: clamp(0.875rem, 2vw, 1rem); font-family: var(--font); padding: var(--sp2) 0; color: var(--body); min-width: 0; width: 100%; }
+    .ai-input-wrapper input::placeholder { color: var(--muted); }
+    .ai-send-btn { width: 44px; height: 44px; min-width: 44px; border-radius: var(--r-full); border: none; background: var(--primary-green); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--tr-fast); flex-shrink: 0; }
+    .ai-send-btn:hover { background: var(--dark-green); transform: scale(1.05); }
+    .ai-send-btn svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .typing-dots { display: flex; gap: 4px; padding: var(--sp1) 0; }
+    .typing-dots span { width: 7px; height: 7px; background: var(--muted); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
+    .typing-dots span:nth-child(1) { animation-delay: 0s; } .typing-dots span:nth-child(2) { animation-delay: 0.2s; } .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+    .ai-disclaimer { text-align: center; padding: var(--sp1) 0 0; font-size: clamp(0.65rem, 1.5vw, 0.75rem); color: var(--muted); }
+    body.dark .ai-message-block.user .ai-message-content { background: rgba(21,128,61,0.15); }
     body.dark .ai-message-block.bot .ai-message-content { background: var(--dark-surface); border-color: var(--dark-border); }
     body.dark .ai-input-section { background: var(--dark-surface); border-color: var(--dark-border); }
     body.dark .ai-input-wrapper { background: var(--dark-bg); border-color: var(--dark-border); }
@@ -30,3 +35,60 @@
   </style>
 </head>
 <body>
+  <header class="header">
+    <div class="header-inner" style="justify-content:center;">
+      <span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;letter-spacing:6px;color:var(--accent);font-size:clamp(1.2rem,3vw,1.5rem);">CPB</span>
+      <span style="font-family:'Inter',system-ui,sans-serif;font-weight:400;letter-spacing:2px;color:rgba(255,255,255,0.6);font-size:clamp(0.7rem,1.5vw,0.85rem);margin-left:6px;">AI</span>
+    </div>
+  </header>
+
+  <div class="ai-workspace">
+    <div class="ai-conversation" id="aiConversation">
+      <div class="ai-empty-state" id="aiEmptyState">
+        <span class="ai-empty-text">Write something to start...</span>
+      </div>
+    </div>
+
+    <div class="ai-input-section">
+      <div class="ai-input-container">
+        <div class="ai-input-wrapper">
+          <input type="text" placeholder="Ask anything..." id="aiInput" onkeydown="if(event.key==='Enter')sendMessage()">
+        </div>
+        <button class="ai-send-btn" onclick="sendMessage()" aria-label="Send">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="ai-disclaimer">CPB AI can make mistakes. Please double-check.</div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item active"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;color:var(--accent);">AI</span><span>এআই</span></a>
+    <a href="extra.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>অতিরিক্ত</span></a>
+  </nav>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('aiInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      const conversation = document.getElementById('aiConversation');
+      const emptyState = document.getElementById('aiEmptyState');
+      if (emptyState) emptyState.remove();
+      conversation.innerHTML += `<div class="ai-message-block user"><div class="ai-message-content"><p>${msg}</p></div></div>`;
+      const loadingId = 'loading-' + Date.now();
+      conversation.innerHTML += `<div class="ai-message-block bot" id="${loadingId}"><div class="ai-message-content"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
+      input.value = '';
+      conversation.scrollTop = conversation.scrollHeight;
+      setTimeout(() => {
+        const loadingEl = document.getElementById(loadingId);
+        if (loadingEl) loadingEl.remove();
+        conversation.innerHTML += `<div class="ai-message-block bot"><div class="ai-message-content"><p>CPB AI শীঘ্রই আসছে। আমরা আমাদের নিজস্ব বুদ্ধিমান সিস্টেম তৈরি করছি।</p></div></div>`;
+        conversation.scrollTop = conversation.scrollHeight;
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
