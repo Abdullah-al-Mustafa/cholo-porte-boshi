@@ -205,6 +205,32 @@
     function login(){auth.signInWithEmailAndPassword(document.getElementById('email').value,document.getElementById('password').value).then(()=>showToast('Login!','success')).catch(err=>{document.getElementById('loginError').style.display='block';document.getElementById('loginError').textContent=err.message;});}
     function logout(){auth.signOut();showToast('Logged out');}
 
+// Live thumbnail preview for video URL
+document.addEventListener("input", function(e) {
+  if (e.target.id === "videoUrl") {
+    const url = e.target.value.trim();
+    const preview = document.getElementById("videoThumbPreview");
+    const noThumb = document.getElementById("noThumbText");
+    if (!url) {
+      preview.style.display = "none";
+      noThumb.style.display = "block";
+      return;
+    }
+    let thumb = "";
+    const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+    if (ytMatch) thumb = "https://img.youtube.com/vi/" + ytMatch[1] + "/hqdefault.jpg";
+    const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+    if (!thumb && vimeoMatch) thumb = "https://vumbnail.com/" + vimeoMatch[1] + ".jpg";
+    if (thumb) {
+      preview.src = thumb;
+      preview.style.display = "block";
+      noThumb.style.display = "none";
+    } else {
+      preview.style.display = "none";
+      noThumb.style.display = "block";
+    }
+  }
+});
     function switchMainTab(tab){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('[id^="tab-"]').forEach(d=>d.style.display='none');document.getElementById('tab-'+tab).style.display='block';if(tab==='questions')switchSubTab('mcq');}
     function switchSubTab(sub){document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('[id^="sub-"]').forEach(d=>d.style.display='none');document.getElementById('sub-'+sub).style.display='block';}
 
