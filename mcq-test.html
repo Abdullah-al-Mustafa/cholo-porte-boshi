@@ -44,11 +44,59 @@
       <div class="selector-group">
         <label class="selector-label">ক্লাস নির্বাচন করুন</label>
         <div class="chip-row" id="classChips">
-          <button class="chip" onclick="selectClass('6', this)">৬ষ্ঠ</button>
-          <button class="chip" onclick="selectClass('7', this)">৭ম</button>
-          <button class="chip" onclick="selectClass('8', this)">৮ম</button>
-          <button class="chip" onclick="selectClass('9-10', this)">৯ম-১০ম</button>
+      <div class="selector-group" id="groupSelector" style="display:none;">
+        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
+        <div class="chip-row" id="groupChips">
+          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
+          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
+          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
         </div>
+      </div>
+          <button class="chip" onclick="selectClass('6', this)">৬ষ্ঠ</button>
+      <div class="selector-group" id="groupSelector" style="display:none;">
+        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
+        <div class="chip-row" id="groupChips">
+          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
+          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
+          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
+        </div>
+      </div>
+          <button class="chip" onclick="selectClass('7', this)">৭ম</button>
+      <div class="selector-group" id="groupSelector" style="display:none;">
+        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
+        <div class="chip-row" id="groupChips">
+          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
+          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
+          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
+        </div>
+      </div>
+          <button class="chip" onclick="selectClass('8', this)">৮ম</button>
+      <div class="selector-group" id="groupSelector" style="display:none;">
+        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
+        <div class="chip-row" id="groupChips">
+          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
+          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
+          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
+        </div>
+      </div>
+          <button class="chip" onclick="selectClass('9-10', this)">৯ম-১০ম</button>
+      <div class="selector-group" id="groupSelector" style="display:none;">
+        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
+        <div class="chip-row" id="groupChips">
+          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
+          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
+          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
+        </div>
+      </div>
+        </div>
+      <div class="selector-group" id="groupSelector" style="display:none;">
+        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
+        <div class="chip-row" id="groupChips">
+          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
+          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
+          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
+        </div>
+      </div>
       </div>
       <div class="selector-group">
         <label class="selector-label">বিষয় নির্বাচন করুন</label>
@@ -87,9 +135,22 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    let selClass = '', selSubject = '', selChapter = '', allQuestions = [], currentIndex = 0, score = 0, questions = [];
+    let selClass, selGroup = ""; = '', selSubject = '', selChapter = '', allQuestions = [], currentIndex = 0, score = 0, questions = [];
 
     function selectClass(cls, el) {
+    function selectGroup(grp, el) {
+      selGroup = grp;
+      document.querySelectorAll("#groupChips .chip").forEach(c => c.classList.remove("active"));
+      el.classList.add("active");
+      loadSubjects("9-10", grp);
+    }
+    selGroup = "";
+    document.querySelectorAll("#groupChips .chip").forEach(c => c.classList.remove("active"));
+    if (cls === "9-10") {
+      document.getElementById("groupSelector").style.display = "block";
+    } else {
+      document.getElementById("groupSelector").style.display = "none";
+    }
       selClass = cls; selSubject = ''; selChapter = '';
       document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('active'));
       el.classList.add('active');
