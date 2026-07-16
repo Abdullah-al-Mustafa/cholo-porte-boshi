@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Video Class - পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+  <style>
+    .page { max-width:900px; margin:0 auto; width:100%; }
+    .filter-bar { display:flex; gap:var(--sp1); margin-bottom:var(--sp4); flex-wrap:wrap; }
+    .filter-chip { padding:6px 14px; border-radius:var(--r-full); border:1px solid var(--border); background:var(--surface); cursor:pointer; font-size:var(--text-xs); font-weight:500; transition:all var(--tr-fast); white-space:nowrap; font-family:var(--font); }
+    .filter-chip:hover, .filter-chip.active { background:var(--primary-green); color:white; border-color:var(--primary-green); }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:var(--sp2); }
+    .video-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; cursor:pointer; transition:all var(--tr-base); box-shadow:var(--sh-sm); }
+    .video-card:hover { box-shadow:var(--sh-lg); border-color:var(--primary-green); transform:scale(1.02); }
+    .video-card .thumb { height:160px; background-size:cover; background-position:center; background-color:#0A1F12; position:relative; }
+    .video-card .thumb .v-label { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.75); color:white; font-size:9px; padding:4px 10px; border-radius:var(--r-full); font-weight:600; }
+    .video-card .body { padding:var(--sp3); }
+    .video-card .body h4 { font-size:var(--text-sm); font-weight:600; color:var(--heading); margin-bottom:6px; }
+    .video-card .body .meta { font-size:var(--text-xs); color:var(--muted); }
+    .badge { display:inline-block; padding:2px 8px; border-radius:var(--r-full); font-size:10px; font-weight:600; }
+    .badge.class { background:var(--primary-green); color:white; }
+    .badge.all { background:var(--accent); color:var(--primary-dark); }
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><a href="index.html" class="header-brand">পড়তে বসি</a><span style="color:white;font-weight:600;">Video Class</span><span style="width:40px;"></span></div></header>
+  <main class="main-content">
+    <div class="page">
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-chip active" onclick="filterVideos('All', this)">All</button>
+        <button class="filter-chip" onclick="filterVideos('9-10', this)">Class 9-10</button>
+        <button class="filter-chip" onclick="filterVideos('8', this)">Class 8</button>
+        <button class="filter-chip" onclick="filterVideos('7', this)">Class 7</button>
+        <button class="filter-chip" onclick="filterVideos('6', this)">Class 6</button>
+      </div>
+      <div class="card-grid" id="videoList"><p class="text-muted">Loading...</p></div>
+    </div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
+    <a href="extra.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>অতিরিক্ত</span></a>
+  </nav>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    let allVideos = [];
+    function getThumb(url) { if(!url) return ''; const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m ? 'https://img.youtube.com/vi/'+m[1]+'/hqdefault.jpg' : ''; }
+    function clsBadge(c) { if (!c || c === 'All' || c === 'all') return '<span class="badge all">For All</span>'; const map={'6':'Class 6','7':'Class 7','8':'Class 8','9-10':'Class 9-10'}; return `<span class="badge class">For ${map[c]||c}</span>`; }
+
+    async function loadVideos() {
+      const s = await db.collection('videos').orderBy('createdAt','desc').get();
+      allVideos = s.docs.map(d => ({id: d.id, ...d.data()}));
+      renderVideos(allVideos);
+    }
+
+    function renderVideos(data) {
+      document.getElementById('videoList').innerHTML = data.length ? data.map(d => {
+        const t = getThumb(d.url||'');
+        return `<div class="video-card" onclick="window.open('${d.url}','_blank')"><div class="thumb" style="${t?'background-image:url('+t+');':'background-color:#0A1F12;'}"><span class="v-label">Video</span></div><div class="body"><h4>${d.title}</h4><div class="meta">${clsBadge(d.class)} ${d.subject||''}</div></div></div>`;
+      }).join('') : '<p class="text-muted">কোনো ভিডিও নেই</p>';
+    }
+
+    function filterVideos(cls, el) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      const filtered = cls === 'All' ? allVideos : allVideos.filter(v => v.class === cls);
+      renderVideos(filtered);
+    }
+
+    loadVideos();
+  </script>
+</body>
+</html>
