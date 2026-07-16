@@ -9,15 +9,20 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .trans-page { max-width:600px; margin:0 auto; width:100%; }
+    .trans-page { max-width:650px; margin:0 auto; width:100%; }
     .trans-page h2 { font-size:var(--text-2xl); font-weight:700; color:var(--heading); text-align:center; margin-bottom:var(--sp4); }
-    .lang-selector { display:flex; gap:var(--sp1); margin-bottom:var(--sp3); align-items:center; }
-    .lang-selector select { padding:10px 14px; border:1.5px solid var(--border); border-radius:var(--r-md); font-family:var(--font); background:var(--surface); color:var(--body); font-size:0.9rem; }
-    .lang-selector span { color:var(--muted); font-weight:600; }
-    .trans-page textarea { width:100%; padding:var(--sp3); border:2px solid var(--border); border-radius:var(--r-md); font-family:var(--font); font-size:var(--text-base); min-height:120px; resize:vertical; background:var(--surface); color:var(--body); }
-    .trans-page button { margin-top:var(--sp2); width:100%; background:var(--primary-green); color:white; padding:var(--sp3); border:none; border-radius:var(--r-md); font-weight:600; font-size:1rem; cursor:pointer; }
-    .output-box { margin-top:var(--sp3); padding:var(--sp3); border:1px solid var(--border); border-radius:var(--r-md); min-height:80px; background:var(--surface); color:var(--body); font-size:var(--text-base); }
+    .lang-selector { display:flex; gap:var(--sp1); margin-bottom:var(--sp3); align-items:center; flex-wrap:wrap; }
+    .lang-selector select { flex:1; min-width:140px; padding:10px 14px; border:1.5px solid var(--border); border-radius:var(--r-md); font-family:var(--font); background:var(--surface); color:var(--body); font-size:0.9rem; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:36px; }
+    .lang-selector .swap-btn { width:40px; height:40px; border-radius:50%; border:1.5px solid var(--border); background:var(--surface); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.2rem; color:var(--primary-green); transition:all var(--tr-fast); flex-shrink:0; }
+    .swap-btn:hover { background:var(--secondary); border-color:var(--primary-green); }
+    .trans-page textarea { width:100%; padding:var(--sp3); border:2px solid var(--border); border-radius:var(--r-md); font-family:var(--font); font-size:var(--text-base); min-height:140px; resize:vertical; background:var(--surface); color:var(--body); }
+    .trans-page textarea:focus { border-color:var(--primary-green); outline:none; box-shadow:0 0 0 3px rgba(21,128,61,0.08); }
+    .btn-translate { width:100%; margin-top:var(--sp2); background:var(--primary-green); color:white; padding:var(--sp3); border:none; border-radius:var(--r-md); font-weight:600; font-size:1rem; cursor:pointer; transition:background var(--tr-fast); }
+    .btn-translate:hover { background:var(--dark-green); }
+    .output-box { margin-top:var(--sp3); padding:var(--sp3); border:1px solid var(--border); border-radius:var(--r-md); min-height:100px; background:var(--surface); color:var(--body); font-size:var(--text-base); line-height:1.7; white-space:pre-wrap; }
+    .char-count { text-align:right; font-size:0.8rem; color:var(--muted); margin-top:4px; }
     body.dark textarea, body.dark .output-box, body.dark select { background:var(--dark-surface); color:var(--dark-body); border-color:var(--dark-border); }
+    body.dark .swap-btn { background:var(--dark-surface); border-color:var(--dark-border); }
   </style>
 </head>
 <body>
@@ -27,15 +32,114 @@
       <h2>অনুবাদক</h2>
       <div class="lang-selector">
         <select id="fromLang">
-          <option value="bn">বাংলা</option><option value="en">English</option><option value="ar">العربية</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="fr">Français</option><option value="es">Español</option><option value="zh-CN">中文</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="en">English</option>
+          <option value="ar">العربية (Arabic)</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="ur">اردو (Urdu)</option>
+          <option value="fr">Français (French)</option>
+          <option value="es">Español (Spanish)</option>
+          <option value="de">Deutsch (German)</option>
+          <option value="zh-CN">中文 (Chinese)</option>
+          <option value="ja">日本語 (Japanese)</option>
+          <option value="ko">한국어 (Korean)</option>
+          <option value="pt">Português (Portuguese)</option>
+          <option value="ru">Русский (Russian)</option>
+          <option value="it">Italiano (Italian)</option>
+          <option value="nl">Nederlands (Dutch)</option>
+          <option value="tr">Türkçe (Turkish)</option>
+          <option value="th">ไทย (Thai)</option>
+          <option value="vi">Tiếng Việt (Vietnamese)</option>
+          <option value="id">Bahasa Indonesia</option>
+          <option value="ms">Bahasa Melayu</option>
+          <option value="fa">فارسی (Persian)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="sv">Svenska (Swedish)</option>
+          <option value="no">Norsk (Norwegian)</option>
+          <option value="da">Dansk (Danish)</option>
+          <option value="fi">Suomi (Finnish)</option>
+          <option value="pl">Polski (Polish)</option>
+          <option value="uk">Українська (Ukrainian)</option>
+          <option value="cs">Čeština (Czech)</option>
+          <option value="ro">Română (Romanian)</option>
+          <option value="bg">Български (Bulgarian)</option>
+          <option value="hr">Hrvatski (Croatian)</option>
+          <option value="sr">Српски (Serbian)</option>
+          <option value="sk">Slovenčina (Slovak)</option>
+          <option value="sl">Slovenščina (Slovenian)</option>
+          <option value="lt">Lietuvių (Lithuanian)</option>
+          <option value="lv">Latviešu (Latvian)</option>
+          <option value="et">Eesti (Estonian)</option>
+          <option value="hu">Magyar (Hungarian)</option>
+          <option value="el">Ελληνικά (Greek)</option>
+          <option value="he">עברית (Hebrew)</option>
+          <option value="tl">Tagalog (Filipino)</option>
+          <option value="sw">Kiswahili (Swahili)</option>
+          <option value="af">Afrikaans</option>
         </select>
-        <span>→</span>
+        <button class="swap-btn" onclick="swapLangs()" title="Swap languages">⇄</button>
         <select id="toLang">
-          <option value="en">English</option><option value="bn">বাংলা</option><option value="ar">العربية</option><option value="hi">हिन्दी</option><option value="ur">اردو</option><option value="fr">Français</option><option value="es">Español</option><option value="zh-CN">中文</option>
+          <option value="en">English</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="ar">العربية (Arabic)</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="ur">اردو (Urdu)</option>
+          <option value="fr">Français (French)</option>
+          <option value="es">Español (Spanish)</option>
+          <option value="de">Deutsch (German)</option>
+          <option value="zh-CN">中文 (Chinese)</option>
+          <option value="ja">日本語 (Japanese)</option>
+          <option value="ko">한국어 (Korean)</option>
+          <option value="pt">Português (Portuguese)</option>
+          <option value="ru">Русский (Russian)</option>
+          <option value="it">Italiano (Italian)</option>
+          <option value="nl">Nederlands (Dutch)</option>
+          <option value="tr">Türkçe (Turkish)</option>
+          <option value="th">ไทย (Thai)</option>
+          <option value="vi">Tiếng Việt (Vietnamese)</option>
+          <option value="id">Bahasa Indonesia</option>
+          <option value="ms">Bahasa Melayu</option>
+          <option value="fa">فارسی (Persian)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="sv">Svenska (Swedish)</option>
+          <option value="no">Norsk (Norwegian)</option>
+          <option value="da">Dansk (Danish)</option>
+          <option value="fi">Suomi (Finnish)</option>
+          <option value="pl">Polski (Polish)</option>
+          <option value="uk">Українська (Ukrainian)</option>
+          <option value="cs">Čeština (Czech)</option>
+          <option value="ro">Română (Romanian)</option>
+          <option value="bg">Български (Bulgarian)</option>
+          <option value="hr">Hrvatski (Croatian)</option>
+          <option value="sr">Српски (Serbian)</option>
+          <option value="sk">Slovenčina (Slovak)</option>
+          <option value="sl">Slovenščina (Slovenian)</option>
+          <option value="lt">Lietuvių (Lithuanian)</option>
+          <option value="lv">Latviešu (Latvian)</option>
+          <option value="et">Eesti (Estonian)</option>
+          <option value="hu">Magyar (Hungarian)</option>
+          <option value="el">Ελληνικά (Greek)</option>
+          <option value="he">עברית (Hebrew)</option>
+          <option value="tl">Tagalog (Filipino)</option>
+          <option value="sw">Kiswahili (Swahili)</option>
+          <option value="af">Afrikaans</option>
         </select>
       </div>
-      <textarea id="transInput" placeholder="টেক্সট লিখুন..."></textarea>
-      <button onclick="translateText()">অনুবাদ করুন</button>
+      <textarea id="transInput" placeholder="টেক্সট লিখুন..." oninput="updateCharCount()"></textarea>
+      <div class="char-count" id="charCount">0 / 5000</div>
+      <button class="btn-translate" onclick="translateText()">অনুবাদ করুন</button>
       <div class="output-box" id="transOutput"></div>
     </div>
   </main>
@@ -46,9 +150,23 @@
     <a href="tools.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>টুলস</span></a>
   </nav>
   <script>
+    function swapLangs() {
+      const from = document.getElementById('fromLang');
+      const to = document.getElementById('toLang');
+      const temp = from.value;
+      from.value = to.value;
+      to.value = temp;
+    }
+
+    function updateCharCount() {
+      const len = document.getElementById('transInput').value.length;
+      document.getElementById('charCount').textContent = len + ' / 5000';
+    }
+
     async function translateText() {
       const text = document.getElementById('transInput').value.trim();
       if (!text) return;
+      if (text.length > 5000) { alert('সর্বোচ্চ ৫০০০ অক্ষর অনুবাদ করা যাবে'); return; }
       const from = document.getElementById('fromLang').value;
       const to = document.getElementById('toLang').value;
       document.getElementById('transOutput').textContent = 'অনুবাদ করা হচ্ছে...';
