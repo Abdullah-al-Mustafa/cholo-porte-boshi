@@ -9,78 +9,95 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:system-ui, sans-serif; background:#F8FAFC; min-height:100vh; }
+    body { font-family:system-ui, sans-serif; min-height:100vh; }
     
     /* Login Page */
     #loginPage {
       display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; background: #F8FAFC;
+      min-height: 100vh; background: linear-gradient(135deg, #15803D 0%, #0D4A2A 100%);
+      padding: 20px;
     }
     .login-box {
-      background: white; padding: 40px; border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+      border-radius: 24px; padding: 48px 36px; max-width: 420px; width: 100%;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3); text-align: center;
     }
-    .login-box h2 { margin-bottom: 24px; color: #0F172A; text-align: center; }
+    .login-box .icon {
+      width: 64px; height: 64px; background: #15803D; border-radius: 16px;
+      margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;
+    }
+    .login-box h2 { color: #0F172A; font-size: 1.6rem; margin-bottom: 8px; }
+    .login-box h2 span { color: #15803D; }
+    .login-box p { color: #64748B; font-size: 0.95rem; margin-bottom: 32px; }
+    
+    .btn-google {
+      width: 100%; padding: 14px; background: white; border: 2px solid #E2E8F0;
+      border-radius: 12px; font-size: 0.95rem; font-weight: 600; color: #0F172A;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin-bottom: 20px; transition: all 0.2s;
+    }
+    .btn-google:hover { border-color: #15803D; background: #F0FDF4; }
+    .btn-google svg { width: 20px; height: 20px; }
+    
+    .divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .divider div { flex: 1; height: 1px; background: #E2E8F0; }
+    .divider span { color: #94A3B8; font-size: 0.85rem; }
+    
     .login-box input {
-      width: 100%; padding: 12px 16px; margin-bottom: 16px;
-      border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem;
+      width: 100%; padding: 14px; border: 2px solid #E2E8F0; border-radius: 12px;
+      margin-bottom: 12px; font-size: 0.95rem; outline: none; transition: border-color 0.2s;
     }
-    .login-box button {
-      width: 100%; padding: 12px; background: #15803D; color: white;
-      border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;
+    .login-box input:focus { border-color: #15803D; }
+    
+    .btn-signin {
+      width: 100%; padding: 14px; background: #15803D; color: white; border: none;
+      border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
     }
-    .login-box .error { color: #DC2626; margin-top: 12px; display: none; }
+    .btn-signin:hover { background: #166534; }
+    .login-box .error { color: #DC2626; margin-top: 12px; display: none; font-size: 0.9rem; }
     
     /* Dashboard */
     #dashboardPage { display: none; }
     .header {
-      background: #15803D; color: white; padding: 16px 24px;
-      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(135deg, #15803D, #166534); color: white;
+      padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;
     }
-    .header h1 { font-size: 1.25rem; }
+    .header h1 { font-size: 1.3rem; font-weight: 700; }
     .header button {
       background: rgba(255,255,255,0.2); color: white; border: none;
-      padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;
+      padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;
     }
-    
     .container { max-width: 1000px; margin: 32px auto; padding: 0 20px; }
-    
-    /* Tabs */
     .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
     .tab {
       padding: 8px 16px; background: white; border: 1px solid #E2E8F0;
       border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 0.9rem;
     }
     .tab.active { background: #15803D; color: white; border-color: #15803D; }
-    
-    /* Form */
     .form-card {
       background: white; border-radius: 12px; padding: 24px;
       border: 1px solid #E2E8F0; margin-bottom: 24px;
     }
     .form-card h3 { margin-bottom: 16px; color: #0F172A; }
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; color: #334155; }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%; padding: 10px 12px; border: 1.5px solid #E2E8F0;
-      border-radius: 8px; font-size: 0.95rem; font-family: inherit;
+      border-radius: 8px; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s;
     }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #15803D; outline: none; }
     .form-group textarea { min-height: 100px; resize: vertical; }
     .btn-submit {
       padding: 10px 20px; background: #15803D; color: white;
       border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem;
     }
-    
-    /* Grid List */
-    .list-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-    }
+    .btn-submit:hover { background: #166534; }
+    .list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
     .list-card {
       background: white; border: 1px solid #E2E8F0; border-radius: 10px;
       padding: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
-    .list-card h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .list-card h4 { font-size: 0.95rem; margin-bottom: 4px; color: #0F172A; }
     .list-card p { font-size: 0.8rem; color: #64748B; margin-bottom: 8px; }
     .list-card button {
       padding: 4px 12px; border: 1px solid #FECACA; background: #FEE2E2;
@@ -93,20 +110,29 @@
   <!-- Login Page -->
   <div id="loginPage">
     <div class="login-box">
-      <h2>Admin Login</h2>
+      <div class="icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      </div>
+      <h2>পড়তে বসি <span>Admin</span></h2>
+      <p>Sign in to manage your platform</p>
+      
+      <button class="btn-google" onclick="handleGoogleLogin()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62Z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53Z"/></svg>
+        Sign in with Google
+      </button>
+      
+      <div class="divider"><div></div><span>or</span><div></div></div>
+      
       <input type="email" id="loginEmail" placeholder="Email address">
       <input type="password" id="loginPassword" placeholder="Password">
-      <button onclick="handleLogin()">Sign In</button>
+      <button class="btn-signin" onclick="handleLogin()">Sign In</button>
       <p class="error" id="loginError">Login failed. Check credentials.</p>
     </div>
   </div>
 
   <!-- Dashboard Page -->
   <div id="dashboardPage">
-    <div class="header">
-      <h1>Admin Panel</h1>
-      <button onclick="handleLogout()">Logout</button>
-    </div>
+    <div class="header"><h1>Admin Panel</h1><button onclick="handleLogout()">Logout</button></div>
     <div class="container">
       <div class="tabs">
         <button class="tab active" onclick="switchTab('videos')">Videos</button>
@@ -114,10 +140,8 @@
         <button class="tab" onclick="switchTab('questions')">Questions</button>
       </div>
 
-      <!-- Videos -->
       <div id="tab-videos">
-        <div class="form-card">
-          <h3>Add Video</h3>
+        <div class="form-card"><h3>Add Video</h3>
           <div class="form-group"><label>Title</label><input type="text" id="vTitle"></div>
           <div class="form-group"><label>Class</label><select id="vClass"><option value="All">All</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9-10">9-10</option></select></div>
           <div class="form-group"><label>Subject</label><input type="text" id="vSubject"></div>
@@ -128,10 +152,8 @@
         <div class="list-grid" id="videosList"></div>
       </div>
 
-      <!-- Writings -->
       <div id="tab-writings" style="display:none;">
-        <div class="form-card">
-          <h3>Add Writing</h3>
+        <div class="form-card"><h3>Add Writing</h3>
           <div class="form-group"><label>Category</label><select id="wCategory"><option value="paragraph">Paragraph</option><option value="essay">Essay</option><option value="letter">Letter</option></select></div>
           <div class="form-group"><label>Title</label><input type="text" id="wTitle"></div>
           <div class="form-group"><label>Class</label><select id="wClass"><option value="All">All</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9-10">9-10</option></select></div>
@@ -142,10 +164,8 @@
         <div class="list-grid" id="writingsList"></div>
       </div>
 
-      <!-- Questions -->
       <div id="tab-questions" style="display:none;">
-        <div class="form-card">
-          <h3>Add MCQ</h3>
+        <div class="form-card"><h3>Add MCQ</h3>
           <div class="form-group"><label>Class</label><select id="qClass"><option value="All">All</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9-10">9-10</option></select></div>
           <div class="form-group"><label>Subject</label><input type="text" id="qSubject"></div>
           <div class="form-group"><label>Chapter</label><input type="text" id="qChapter"></div>
@@ -169,41 +189,41 @@
   <script src="firebase-config.js"></script>
 
   <script>
-    // Initialize Firebase
     const db = firebase.firestore();
     
-    // Auth state listener
     auth.onAuthStateChanged(function(user) {
       if (user) {
-        // Logged in
         document.getElementById('loginPage').style.display = 'none';
         document.getElementById('dashboardPage').style.display = 'block';
         loadAllData();
       } else {
-        // Logged out
         document.getElementById('loginPage').style.display = 'flex';
         document.getElementById('dashboardPage').style.display = 'none';
       }
     });
 
-    function handleLogin() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      
-      auth.signInWithEmailAndPassword(email, password)
-        .then(function() {
-          console.log('Login successful');
-        })
-        .catch(function(error) {
-          console.error('Login error:', error);
+    function handleGoogleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => console.log('Google login success', result.user))
+        .catch(error => {
           document.getElementById('loginError').style.display = 'block';
           document.getElementById('loginError').textContent = error.message;
         });
     }
 
-    function handleLogout() {
-      auth.signOut();
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => console.log('Login success'))
+        .catch(error => {
+          document.getElementById('loginError').style.display = 'block';
+          document.getElementById('loginError').textContent = error.message;
+        });
     }
+
+    function handleLogout() { auth.signOut(); }
 
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -212,88 +232,61 @@
       document.getElementById('tab-' + tab).style.display = 'block';
     }
 
-    // Add Video
     async function addVideo() {
       const title = document.getElementById('vTitle').value.trim();
       if (!title) return alert('Title required');
       await db.collection('videos').add({
-        title: title,
-        class: document.getElementById('vClass').value,
+        title, class: document.getElementById('vClass').value,
         subject: document.getElementById('vSubject').value,
         chapter: document.getElementById('vChapter').value,
         url: document.getElementById('vUrl').value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       alert('Video added!');
-      document.getElementById('vTitle').value = '';
-      document.getElementById('vSubject').value = '';
-      document.getElementById('vChapter').value = '';
-      document.getElementById('vUrl').value = '';
+      ['vTitle','vSubject','vChapter','vUrl'].forEach(id => document.getElementById(id).value = '');
       loadVideos();
     }
 
     async function loadVideos() {
       const s = await db.collection('videos').orderBy('createdAt','desc').get();
-      const container = document.getElementById('videosList');
-      container.innerHTML = s.docs.map(d => `
-        <div class="list-card">
-          <h4>${d.data().title}</h4>
-          <p>Class ${d.data().class} • ${d.data().subject || ''}</p>
-          <button onclick="deleteItem('videos','${d.id}')">Delete</button>
-        </div>
+      document.getElementById('videosList').innerHTML = s.docs.map(d => `
+        <div class="list-card"><h4>${d.data().title}</h4><p>Class ${d.data().class} • ${d.data().subject||''}</p><button onclick="deleteItem('videos','${d.id}')">Delete</button></div>
       `).join('') || '<p>No videos</p>';
     }
 
-    // Add Writing
     async function addWriting() {
       const title = document.getElementById('wTitle').value.trim();
       if (!title) return alert('Title required');
       await db.collection('writings').add({
-        category: document.getElementById('wCategory').value,
-        title: title,
+        category: document.getElementById('wCategory').value, title,
         class: document.getElementById('wClass').value,
         subject: document.getElementById('wSubject').value,
         content: document.getElementById('wContent').value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       alert('Writing added!');
-      document.getElementById('wTitle').value = '';
-      document.getElementById('wContent').value = '';
+      ['wTitle','wContent'].forEach(id => document.getElementById(id).value = '');
       loadWritings();
     }
 
     async function loadWritings() {
       const s = await db.collection('writings').orderBy('createdAt','desc').get();
-      const container = document.getElementById('writingsList');
-      container.innerHTML = s.docs.map(d => `
-        <div class="list-card">
-          <h4>${d.data().title}</h4>
-          <p>${d.data().category} • Class ${d.data().class}</p>
-          <button onclick="deleteItem('writings','${d.id}')">Delete</button>
-        </div>
+      document.getElementById('writingsList').innerHTML = s.docs.map(d => `
+        <div class="list-card"><h4>${d.data().title}</h4><p>${d.data().category} • Class ${d.data().class}</p><button onclick="deleteItem('writings','${d.id}')">Delete</button></div>
       `).join('') || '<p>No writings</p>';
     }
 
-    // Add Question
     async function addQuestion() {
       const q = document.getElementById('qQuestion').value.trim();
       if (!q) return alert('Question required');
       const correct = parseInt(document.getElementById('qCorrect').value);
       if (!correct || correct < 1 || correct > 4) return alert('Correct answer number required');
-      const opts = [
-        document.getElementById('qOpt1').value,
-        document.getElementById('qOpt2').value,
-        document.getElementById('qOpt3').value,
-        document.getElementById('qOpt4').value
-      ];
+      const opts = [document.getElementById('qOpt1').value, document.getElementById('qOpt2').value, document.getElementById('qOpt3').value, document.getElementById('qOpt4').value];
       await db.collection('questions').add({
-        type: 'mcq',
-        class: document.getElementById('qClass').value,
+        type: 'mcq', class: document.getElementById('qClass').value,
         subject: document.getElementById('qSubject').value,
         chapter: document.getElementById('qChapter').value,
-        question: q,
-        options: opts.join(','),
-        answer: opts[correct-1],
+        question: q, options: opts.join(','), answer: opts[correct-1],
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       alert('Question added!');
@@ -303,13 +296,8 @@
 
     async function loadQuestions() {
       const s = await db.collection('questions').orderBy('createdAt','desc').limit(20).get();
-      const container = document.getElementById('questionsList');
-      container.innerHTML = s.docs.map(d => `
-        <div class="list-card">
-          <h4>${(d.data().question || '').substring(0,60)}...</h4>
-          <p>${d.data().type} • Class ${d.data().class} • ${d.data().subject}</p>
-          <button onclick="deleteItem('questions','${d.id}')">Delete</button>
-        </div>
+      document.getElementById('questionsList').innerHTML = s.docs.map(d => `
+        <div class="list-card"><h4>${(d.data().question||'').substring(0,60)}...</h4><p>${d.data().type} • Class ${d.data().class} • ${d.data().subject}</p><button onclick="deleteItem('questions','${d.id}')">Delete</button></div>
       `).join('') || '<p>No questions</p>';
     }
 
@@ -320,11 +308,7 @@
       }
     }
 
-    function loadAllData() {
-      loadVideos();
-      loadWritings();
-      loadQuestions();
-    }
+    function loadAllData() { loadVideos(); loadWritings(); loadQuestions(); }
   </script>
 </body>
 </html>
