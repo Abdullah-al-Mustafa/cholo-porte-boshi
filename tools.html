@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>টুলস - পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+  <style>
+    .tools-page { max-width:700px; margin:0 auto; width:100%; }
+    .tools-page h2 { font-size:var(--text-2xl); font-weight:700; color:var(--heading); text-align:center; margin-bottom:var(--sp5); }
+    .tools-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:var(--sp2); }
+    .tool-card { background:var(--surface); border:1.5px solid var(--border); border-radius:24px; padding:36px 20px 32px; text-align:center; cursor:pointer; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow:0 6px 12px -4px rgba(0,0,0,0.07); text-decoration:none; color:var(--body); display:flex; flex-direction:column; align-items:center; gap:var(--sp2); }
+    .tool-card:hover { border-color:var(--primary-green); transform:translateY(-12px); box-shadow:0 30px 35px -12px rgba(21,128,61,0.2); }
+    .tool-icon { width:80px; height:80px; border-radius:22px; background:#ECFDF5; display:flex; align-items:center; justify-content:center; margin-bottom:12px; transition:all 0.2s ease; }
+    .tool-card:hover .tool-icon { background:#C6F6D5; transform:scale(1.15); }
+    .tool-icon svg { width:38px; height:38px; stroke:var(--primary-green); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .tool-card h3 { font-size:1.12rem; font-weight:600; color:var(--heading); margin:0; }
+    .tool-card p { font-size:0.85rem; color:var(--muted); margin:0; }
+    body.dark .tool-card { background:var(--dark-card); border-color:var(--dark-border); }
+    body.dark .tool-card h3 { color:var(--dark-heading); }
+    body.dark .tool-icon { background:rgba(134,239,172,0.15); }
+    body.dark .tool-icon svg { stroke:var(--light-green); }
+  </style>
+</head>
+<body>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">টুলস</span><span style="width:28px;"></span></div></header>
+  <main class="main-content">
+    <div class="tools-page">
+      <h2>টুলস</h2>
+      <div class="tools-grid">
+        <a href="calculator.html" class="tool-card"><div class="tool-icon"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg></div><h3>ক্যালকুলেটর</h3><p>সাধারণ ও বৈজ্ঞানিক হিসাব</p></a>
+        <a href="translator.html" class="tool-card"><div class="tool-icon"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div><h3>অনুবাদক</h3><p>একাধিক ভাষায় অনুবাদ</p></a>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
+    <a href="tools.html" class="nav-item active"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>টুলস</span></a>
+  </nav>
+</body>
+</html>
