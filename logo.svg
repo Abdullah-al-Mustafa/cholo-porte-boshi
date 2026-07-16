@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60">
-  <text x="0" y="42" font-family="'Noto Sans Bengali', 'Hind Siliguri', 'SolaimanLipi', system-ui, sans-serif" font-size="32" font-weight="700" letter-spacing="2" fill="#D4AF37">চলো পড়তে বসি</text>
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Book Base -->
+  <rect x="35" y="45" width="110" height="110" rx="12" fill="#15803D" fill-opacity="0.1"/>
+  <rect x="35" y="45" width="110" height="110" rx="12" stroke="#15803D" stroke-width="14"/>
+  
+  <!-- Book Pages -->
+  <rect x="48" y="55" width="35" height="85" rx="4" fill="white"/>
+  <rect x="97" y="55" width="35" height="85" rx="4" fill="white"/>
+  
+  <!-- Rising Light / Knowledge Symbol -->
+  <path d="M90 28 L78 52 L102 52 Z" fill="#86EFAC"/>
+  <circle cx="90" cy="22" r="12" fill="#15803D"/>
+  
+  <!-- Text -->
+  <text x="90" y="155" text-anchor="middle" fill="#15803D" font-family="system-ui" font-size="18" font-weight="700">পড়তে বসি</text>
 </svg>
