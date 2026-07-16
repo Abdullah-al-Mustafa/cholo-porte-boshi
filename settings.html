@@ -4,49 +4,72 @@
   <style>
     .settings-page { max-width:600px; margin:0 auto; width:100%; }
     .settings-page h2 { font-size:var(--text-2xl); font-weight:700; color:var(--heading); text-align:center; margin-bottom:var(--sp5); }
-    .setting-card {
-      background: var(--surface); border:1.5px solid var(--border); border-radius:24px;
-      padding: 24px 20px; margin-bottom: var(--sp2); display: flex; align-items: center;
-      gap: var(--sp3); cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-      box-shadow: 0 4px 8px -2px rgba(0,0,0,0.04); text-decoration: none; color: var(--body);
-    }
-    .setting-card:hover { border-color: var(--primary-green); transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(21,128,61,0.12); }
-    .setting-icon { width: 52px; height: 52px; border-radius: 16px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .setting-icon svg { width: 26px; height: 26px; stroke: var(--primary-green); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .setting-info h3 { font-size: 1.05rem; font-weight: 600; color: var(--heading); margin-bottom: 2px; }
-    .setting-info p { font-size: 0.85rem; color: var(--muted); }
-    .setting-arrow { margin-left: auto; color: var(--muted); }
-    .setting-arrow svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
-    body.dark .setting-card { background: var(--dark-card); border-color: var(--dark-border); }
-    body.dark .setting-info h3 { color: var(--dark-heading); }
-    body.dark .setting-icon { background: rgba(134,239,172,0.15); }
-    body.dark .setting-icon svg { stroke: var(--light-green); }
+    .setting-card { background: var(--surface); border:1.5px solid var(--border); border-radius:24px; padding:24px 20px; margin-bottom:var(--sp2); display:flex; align-items:center; gap:var(--sp3); cursor:pointer; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow:0 4px 8px -2px rgba(0,0,0,0.04); text-decoration:none; color:var(--body); }
+    .setting-card:hover { border-color:var(--primary-green); transform:translateY(-4px); box-shadow:0 12px 20px -8px rgba(21,128,61,0.12); }
+    .setting-icon { width:52px; height:52px; border-radius:16px; background:#ECFDF5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .setting-icon svg { width:26px; height:26px; stroke:var(--primary-green); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .setting-info h3 { font-size:1.05rem; font-weight:600; color:var(--heading); margin-bottom:2px; }
+    .setting-info p { font-size:0.85rem; color:var(--muted); }
+    .setting-arrow { margin-left:auto; color:var(--muted); transition:transform 0.3s; }
+    .setting-arrow.open { transform:rotate(180deg); }
+    .setting-arrow svg { width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2; }
+    .expandable-content { display:none; padding:var(--sp3); margin-top:calc(-1 * var(--sp2)); margin-bottom:var(--sp2); background:var(--surface); border:1px solid var(--border); border-radius:0 0 24px 24px; border-top:none; }
+    .expandable-content.show { display:block; }
+    .about-text { font-size:0.95rem; line-height:1.8; color:var(--body); }
+    .contact-form { display:flex; flex-direction:column; gap:var(--sp2); }
+    .contact-form input, .contact-form textarea { width:100%; padding:var(--sp2); border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.9rem; font-family:var(--font); background:var(--bg); color:var(--body); }
+    .contact-form textarea { min-height:100px; resize:vertical; }
+    .contact-form button { background:var(--primary-green); color:white; border:none; padding:var(--sp2); border-radius:var(--r-sm); font-weight:600; cursor:pointer; }
+    body.dark .setting-card { background:var(--dark-card); border-color:var(--dark-border); }
+    body.dark .setting-info h3 { color:var(--dark-heading); }
+    body.dark .setting-icon { background:rgba(134,239,172,0.15); }
+    body.dark .setting-icon svg { stroke:var(--light-green); }
+    body.dark .expandable-content { background:var(--dark-card); border-color:var(--dark-border); }
+    body.dark .contact-form input, body.dark .contact-form textarea { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">Settings</span><span style="width:28px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">সেটিংস</span><span style="width:28px;"></span></div></header>
   <main class="main-content">
     <div class="settings-page">
       <h2>সেটিংস</h2>
 
-      <a href="#" class="setting-card" onclick="alert('ভাষা পরিবর্তনের ফিচার শীঘ্রই আসছে')">
+      <!-- Language (static for now) -->
+      <div class="setting-card">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div>
         <div class="setting-info"><h3>অ্যাপ ভাষা</h3><p>বর্তমান: বাংলা</p></div>
-        <span class="setting-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+      </div>
 
-      <a href="#" class="setting-card" onclick="alert('পড়তে বসি - বাংলাদেশ কারিকুলাম ভিত্তিক ফ্রি লার্নিং প্ল্যাটফর্ম')">
+      <!-- About Us (expandable) -->
+      <div class="setting-card" onclick="toggleExpand('aboutContent', this)" style="border-radius:24px 24px 24px 24px;">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
         <div class="setting-info"><h3>আমাদের সম্পর্কে</h3><p>প্ল্যাটফর্ম সম্পর্কে জানুন</p></div>
-        <span class="setting-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <span class="setting-arrow" id="aboutArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="expandable-content" id="aboutContent">
+        <div class="about-text">
+          <p><strong>পড়তে বসি</strong> বাংলাদেশের শিক্ষার্থীদের জন্য একটি সম্পূর্ণ ফ্রি ডিজিটাল শিক্ষা প্ল্যাটফর্ম। এখানে রয়েছে ক্লাস ৬ থেকে ১০ পর্যন্ত ভিডিও ক্লাস, রাইটিং প্র্যাকটিস, পিডিএফ ও গাইড বই, পরীক্ষা প্রস্তুতি, এবং এআই টিউটর।</p>
+          <p style="margin-top:var(--sp1);">আমাদের লক্ষ্য: প্রযুক্তির মাধ্যমে শিক্ষাকে সবার জন্য সহজলভ্য করে তোলা।</p>
+          <p style="margin-top:var(--sp1);">ইমেইল: <a href="mailto:letsconnectcpb@gmail.com">letsconnectcpb@gmail.com</a></p>
+        </div>
+      </div>
 
-      <a href="mailto:letsconnectcpb@gmail.com" class="setting-card">
+      <!-- Contact (expandable form) -->
+      <div class="setting-card" onclick="toggleExpand('contactContent', this)" style="border-radius:24px 24px 24px 24px;">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg></div>
-        <div class="setting-info"><h3>যোগাযোগ</h3><p>ইমেইল করুন: letsconnectcpb@gmail.com</p></div>
-        <span class="setting-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
-      </a>
+        <div class="setting-info"><h3>যোগাযোগ</h3><p>আমাদের সাথে যোগাযোগ করুন</p></div>
+        <span class="setting-arrow" id="contactArrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="expandable-content" id="contactContent">
+        <form class="contact-form" onsubmit="submitContact(event)">
+          <input type="text" id="contactName" placeholder="আপনার নাম" required>
+          <input type="email" id="contactEmail" placeholder="ইমেইল" required>
+          <textarea id="contactMsg" placeholder="আপনার বার্তা লিখুন..." required></textarea>
+          <button type="submit">পাঠান</button>
+        </form>
+      </div>
 
+      <!-- Version -->
       <div class="setting-card">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <div class="setting-info"><h3>ভার্সন</h3><p>v1.0.0</p></div>
@@ -59,5 +82,36 @@
     <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
     <a href="tools.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>টুলস</span></a>
   </nav>
+  <script>
+    function toggleExpand(contentId, cardElement) {
+      const content = document.getElementById(contentId);
+      const arrow = cardElement.querySelector('.setting-arrow');
+      const isOpen = content.classList.contains('show');
+      
+      // Close all expandable contents first
+      document.querySelectorAll('.expandable-content').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.setting-arrow').forEach(el => el.classList.remove('open'));
+      
+      // If it wasn't open, open it now
+      if (!isOpen) {
+        content.classList.add('show');
+        if (arrow) arrow.classList.add('open');
+      }
+    }
+
+    function submitContact(event) {
+      event.preventDefault();
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const msg = document.getElementById('contactMsg').value.trim();
+      if (name && email && msg) {
+        alert('ধন্যবাদ! আমরা শীঘ্রই যোগাযোগ করব।');
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactMsg').value = '';
+        // Future: Formspree integration
+      }
+    }
+  </script>
 </body>
 </html>
