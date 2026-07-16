@@ -132,7 +132,7 @@
       </div>
 
       <div id="sub-mcq" class="form-card"><h3>Add MCQ</h3>
-        <select id="mcqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <select id="mcqClass" onchange="updateSubjectDropdown('mcq')"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
         <input type="text" id="mcqSubject" onchange="loadChaptersForAdmin('mcq', document.getElementById('mcqClass').value, this.value)" placeholder="Subject"><input type="text" id="mcqChapter" placeholder="Chapter">
         <textarea id="mcqQuestion" placeholder="Question"></textarea>
         <p style="color:var(--muted);font-size:0.85rem;margin-bottom:var(--sp2);">৪টি অপশন:</p>
@@ -145,7 +145,7 @@
         <button class="btn-primary" onclick="addMCQ()">Add MCQ</button>
       </div>
       <div id="sub-cq" class="form-card" style="display:none;"><h3>Add CQ</h3>
-        <select id="cqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <select id="cqClass" onchange="updateSubjectDropdown('cq')"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
         <input type="text" id="cqSubject" onchange="loadChaptersForAdmin('cq', document.getElementById('cqClass').value, this.value)" placeholder="Subject"><input type="text" id="cqChapter" placeholder="Chapter">
         <textarea id="cqPassage" placeholder="উদ্দীপক"></textarea>
         <p style="color:var(--muted);font-size:0.85rem;">প্রশ্ন ও কীওয়ার্ড (৪টি):</p>
@@ -158,7 +158,7 @@
         <button class="btn-primary" onclick="addCQ()">Add CQ</button>
       </div>
       <div id="sub-sq" class="form-card" style="display:none;"><h3>Add SQ</h3>
-        <select id="sqClass"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
+        <select id="sqClass" onchange="updateSubjectDropdown('sq')"><option value="All">All Classes</option><option value="6">Class 6</option><option value="7">Class 7</option><option value="8">Class 8</option><option value="9-10">Class 9-10</option></select>
         <input type="text" id="sqSubject" onchange="loadChaptersForAdmin('sq', document.getElementById('sqClass').value, this.value)" placeholder="Subject"><input type="text" id="sqChapter" placeholder="Chapter">
         <textarea id="sqQuestion" placeholder="Question"></textarea>
         <input type="text" id="sqKeywords" placeholder="Keywords (comma separated)">
@@ -192,7 +192,8 @@
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="js/subjects.js"></script>
+<script src="firebase-config.js"></script>
   <script>
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const db = firebase.firestore();
@@ -236,6 +237,28 @@ document.addEventListener("input", function(e) {
 
 // Load chapters when subject changes
 async function loadChaptersForAdmin(type, cls, sub) {
+
+function updateSubjectDropdown(type) {
+  const cls = document.getElementById(type + "Class").value;
+  const select = document.getElementById(type + "SubjectSelect");
+  if (!select) return;
+  select.innerHTML = "<option value=\"\">Select subject</option>";
+  if (!cls) return;
+  
+  let subjects = [];
+  if (cls === "9-10") {
+    const groups = classSubjects["9-10"];
+    if (groups) {
+      Object.values(groups).forEach(arr => arr.forEach(s => { if (!subjects.includes(s)) subjects.push(s); }));
+    }
+  } else {
+    subjects = classSubjects[cls] || [];
+  }
+  
+  subjects.forEach(sub => {
+    select.innerHTML += `<option value="${sub}">${sub}</option>`;
+  });
+}
   const selectId = type + "ChapterSelect";
   const selectEl = document.getElementById(selectId);
   if (!selectEl) return;

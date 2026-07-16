@@ -1,11 +1,21 @@
-// Subjects per class (Bangladesh NCTB Curriculum)
 const classSubjects = {
-  '6': ['Bangla', 'English', 'Mathematics', 'Science', 'Social Science', 'Islamic Studies', 'ICT'],
-  '7': ['Bangla', 'English', 'Mathematics', 'Science', 'Social Science', 'Islamic Studies', 'ICT'],
-  '8': ['Bangla', 'English', 'Mathematics', 'Science', 'Social Science', 'Islamic Studies', 'ICT'],
+  '6': [
+    'বাংলা (Bangla)',
+    'ইংরেজি (English)',
+    'গণিত (Mathematics)',
+    'বিজ্ঞান (অনুসন্ধানী পাঠ) (Science)',
+    'ইতিহাস ও সামাজিক বিজ্ঞান (History and Social Science)',
+    'ডিজিটাল প্রযুক্তি (Digital Technology)',
+    'জীবন ও জীবিকা (Life and Livelihood)',
+    'শিল্প ও সংস্কৃতি (Arts and Culture)',
+    'স্বাস্থ্য সুরক্ষা (Health Protection)',
+    'ধর্ম ও নৈতিক শিক্ষা (Religion & Moral Education)'
+  ],
+  '7': ['বাংলা', 'ইংরেজি', 'গণিত', 'বিজ্ঞান', 'ইতিহাস ও সামাজিক বিজ্ঞান', 'ডিজিটাল প্রযুক্তি', 'জীবন ও জীবিকা', 'শিল্প ও সংস্কৃতি', 'স্বাস্থ্য সুরক্ষা', 'ধর্ম শিক্ষা'],
+  '8': ['বাংলা', 'ইংরেজি', 'গণিত', 'বিজ্ঞান', 'ইতিহাস ও সামাজিক বিজ্ঞান', 'ডিজিটাল প্রযুক্তি', 'জীবন ও জীবিকা', 'শিল্প ও সংস্কৃতি', 'স্বাস্থ্য সুরক্ষা', 'ধর্ম শিক্ষা'],
   '9-10': {
-    'Science': ['Bangla', 'English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'ICT'],
-    'Commerce': ['Bangla', 'English', 'Mathematics', 'Accounting', 'Business Studies', 'Economics', 'ICT'],
-    'Arts': ['Bangla', 'English', 'Mathematics', 'History', 'Geography', 'Civics', 'ICT']
+    'Science': ['বাংলা', 'ইংরেজি', 'গণিত', 'পদার্থবিজ্ঞান', 'রসায়ন', 'জীববিজ্ঞান', 'আইসিটি'],
+    'Commerce': ['বাংলা', 'ইংরেজি', 'গণিত', 'হিসাববিজ্ঞান', 'ব্যবসায় উদ্যোগ', 'অর্থনীতি', 'আইসিটি'],
+    'Arts': ['বাংলা', 'ইংরেজি', 'গণিত', 'ইতিহাস', 'ভূগোল', 'পৌরনীতি', 'আইসিটি']
   }
 };
