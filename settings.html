@@ -20,12 +20,46 @@
     .contact-form input, .contact-form textarea { width:100%; padding:var(--sp2); border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.9rem; font-family:var(--font); background:var(--bg); color:var(--body); }
     .contact-form textarea { min-height:100px; resize:vertical; }
     .contact-form button { background:var(--primary-green); color:white; border:none; padding:var(--sp2); border-radius:var(--r-sm); font-weight:600; cursor:pointer; }
+
+    /* Slide-in notification */
+    .notification-slide {
+      position: fixed;
+      top: 20px; right: -320px;
+      background: var(--surface);
+      border-left: 4px solid var(--primary-green);
+      border-radius: var(--r-md);
+      padding: var(--sp3) var(--sp4);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: var(--sp2);
+      min-width: 280px;
+      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .notification-slide.show { right: 20px; }
+    .notification-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #DCFCE7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notification-icon svg { width: 20px; height: 20px; stroke: var(--primary-green); fill: none; stroke-width: 2; }
+    .notification-text h4 { font-size: 0.95rem; font-weight: 600; color: var(--heading); margin: 0; }
+    .notification-text p { font-size: 0.8rem; color: var(--muted); margin: 2px 0 0; }
+
     body.dark .setting-card { background:var(--dark-card); border-color:var(--dark-border); }
     body.dark .setting-info h3 { color:var(--dark-heading); }
     body.dark .setting-icon { background:rgba(134,239,172,0.15); }
     body.dark .setting-icon svg { stroke:var(--light-green); }
     body.dark .expandable-content { background:var(--dark-card); border-color:var(--dark-border); }
     body.dark .contact-form input, body.dark .contact-form textarea { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
+    body.dark .notification-slide { background: var(--dark-surface); border-color: var(--primary-green); }
+    body.dark .notification-icon { background: rgba(21,128,61,0.2); }
+    body.dark .notification-text h4 { color: var(--dark-heading); }
   </style>
 </head>
 <body>
@@ -34,13 +68,11 @@
     <div class="settings-page">
       <h2>সেটিংস</h2>
 
-      <!-- Language (static for now) -->
       <div class="setting-card">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div>
         <div class="setting-info"><h3>অ্যাপ ভাষা</h3><p>বর্তমান: বাংলা</p></div>
       </div>
 
-      <!-- About Us (expandable) -->
       <div class="setting-card" onclick="toggleExpand('aboutContent', this)" style="border-radius:24px 24px 24px 24px;">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
         <div class="setting-info"><h3>আমাদের সম্পর্কে</h3><p>প্ল্যাটফর্ম সম্পর্কে জানুন</p></div>
@@ -54,7 +86,6 @@
         </div>
       </div>
 
-      <!-- Contact (expandable form) -->
       <div class="setting-card" onclick="toggleExpand('contactContent', this)" style="border-radius:24px 24px 24px 24px;">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg></div>
         <div class="setting-info"><h3>যোগাযোগ</h3><p>আমাদের সাথে যোগাযোগ করুন</p></div>
@@ -69,13 +100,18 @@
         </form>
       </div>
 
-      <!-- Version -->
       <div class="setting-card">
         <div class="setting-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <div class="setting-info"><h3>ভার্সন</h3><p>v1.0.0</p></div>
       </div>
     </div>
   </main>
+
+  <div class="notification-slide" id="notification">
+    <div class="notification-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="notification-text"><h4>পাঠানো হয়েছে!</h4><p>আমরা শীঘ্রই যোগাযোগ করব।</p></div>
+  </div>
+
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
     <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
@@ -87,12 +123,8 @@
       const content = document.getElementById(contentId);
       const arrow = cardElement.querySelector('.setting-arrow');
       const isOpen = content.classList.contains('show');
-      
-      // Close all expandable contents first
       document.querySelectorAll('.expandable-content').forEach(el => el.classList.remove('show'));
       document.querySelectorAll('.setting-arrow').forEach(el => el.classList.remove('open'));
-      
-      // If it wasn't open, open it now
       if (!isOpen) {
         content.classList.add('show');
         if (arrow) arrow.classList.add('open');
@@ -105,11 +137,16 @@
       const email = document.getElementById('contactEmail').value.trim();
       const msg = document.getElementById('contactMsg').value.trim();
       if (name && email && msg) {
-        alert('ধন্যবাদ! আমরা শীঘ্রই যোগাযোগ করব।');
+        // Clear form
         document.getElementById('contactName').value = '';
         document.getElementById('contactEmail').value = '';
         document.getElementById('contactMsg').value = '';
-        // Future: Formspree integration
+        // Show slide-in notification
+        const notif = document.getElementById('notification');
+        notif.classList.add('show');
+        setTimeout(() => { notif.classList.remove('show'); }, 3500);
+        // Open mailto link
+        window.open('mailto:letsconnectcpb@gmail.com?subject=Contact from ' + encodeURIComponent(name) + '&body=' + encodeURIComponent(msg + '\n\nFrom: ' + email));
       }
     }
   </script>
