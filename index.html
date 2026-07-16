@@ -106,7 +106,7 @@
       const v = await db.collection('videos').orderBy('createdAt','desc').limit(4).get();
       document.getElementById('homeVideos').innerHTML = v.empty ? '<p class="text-muted" style="grid-column:1/-1;text-align:center;">কোনো ভিডিও নেই</p>' : v.docs.map(d => {
         const t = getThumb(d.data().url||'');
-        return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="card-icon" style="background-image:url(${t?t:''});background-size:cover;background-position:center;">${!t?'<svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>':''}</div><h4>${d.data().title}</h4></div>`;
+        return `<div class="mini-card" onclick="window.open('${d.data().url}','_blank')"><div class="card-icon" style="background-image:url(${t?t:''});background-size:cover;background-position:center;background-image:url(${t?t:});">${!t?'<svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>':''}</div><h4>${d.data().title}</h4></div>`;
       }).join('');
     })();
   </script>
