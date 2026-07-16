@@ -11,7 +11,6 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:system-ui, sans-serif; min-height:100vh; }
     
-    /* Login Page */
     #loginPage {
       display: flex; align-items: center; justify-content: center;
       min-height: 100vh; background: linear-gradient(135deg, #15803D 0%, #0D4A2A 100%);
@@ -55,8 +54,8 @@
     }
     .btn-signin:hover { background: #166534; }
     .login-box .error { color: #DC2626; margin-top: 12px; display: none; font-size: 0.9rem; }
+    .access-denied-box { display: none; margin-top: 16px; color: #DC2626; }
     
-    /* Dashboard */
     #dashboardPage { display: none; }
     .header {
       background: linear-gradient(135deg, #15803D, #166534); color: white;
@@ -107,7 +106,6 @@
 </head>
 <body>
 
-  <!-- Login Page -->
   <div id="loginPage">
     <div class="login-box">
       <div class="icon">
@@ -127,10 +125,10 @@
       <input type="password" id="loginPassword" placeholder="Password">
       <button class="btn-signin" onclick="handleLogin()">Sign In</button>
       <p class="error" id="loginError">Login failed. Check credentials.</p>
+      <div class="access-denied-box" id="accessDenied">Access denied. You are not an admin.</div>
     </div>
   </div>
 
-  <!-- Dashboard Page -->
   <div id="dashboardPage">
     <div class="header"><h1>Admin Panel</h1><button onclick="handleLogout()">Logout</button></div>
     <div class="container">
@@ -191,21 +189,35 @@
   <script>
     const db = firebase.firestore();
     
-    auth.onAuthStateChanged(function(user) {
+    async function checkAdminAccess(user) {
+      if (!user) return false;
+      const doc = await db.collection('admins').doc(user.uid).get();
+      return doc.exists;
+    }
+
+    auth.onAuthStateChanged(async function(user) {
       if (user) {
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('dashboardPage').style.display = 'block';
-        loadAllData();
+        const isAdmin = await checkAdminAccess(user);
+        if (isAdmin) {
+          document.getElementById('loginPage').style.display = 'none';
+          document.getElementById('dashboardPage').style.display = 'block';
+          loadAllData();
+        } else {
+          // Not an admin – show access denied and sign out
+          document.getElementById('accessDenied').style.display = 'block';
+          document.getElementById('loginError').style.display = 'none';
+          auth.signOut();
+        }
       } else {
         document.getElementById('loginPage').style.display = 'flex';
         document.getElementById('dashboardPage').style.display = 'none';
+        document.getElementById('accessDenied').style.display = 'none';
       }
     });
 
     function handleGoogleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
-        .then(result => console.log('Google login success', result.user))
         .catch(error => {
           document.getElementById('loginError').style.display = 'block';
           document.getElementById('loginError').textContent = error.message;
@@ -216,7 +228,6 @@
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => console.log('Login success'))
         .catch(error => {
           document.getElementById('loginError').style.display = 'block';
           document.getElementById('loginError').textContent = error.message;
