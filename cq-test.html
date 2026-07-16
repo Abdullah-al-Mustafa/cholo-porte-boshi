@@ -40,7 +40,7 @@
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">CQ Test</span><span style="width:28px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;" data-t="cqTest">CQ Test</span><span style="width:28px;"></span></div></header>
   <main class="main-content">
     <div class="cq-page" id="setupArea">
       <h2>CQ পরীক্ষা</h2>
@@ -72,7 +72,7 @@
           <span style="font-size:0.85rem;color:var(--muted);">টি প্রশ্নপত্র</span>
         </div>
       </div>
-      <button class="btn-start" id="startBtn" onclick="startTest()">পরীক্ষা শুরু করুন</button>
+      <button class="btn-start" id="startBtn" onclick="startTest()" data-t="startExam">পরীক্ষা শুরু করুন</button>
     </div>
     <div class="cq-page" id="testArea" style="display:none;"></div>
     <div class="cq-page" id="resultArea" style="display:none;"></div>
@@ -161,8 +161,8 @@
         <div class="question-card">
           ${questionsHtml}
           <div style="display:flex;gap:var(--sp2);margin-top:var(--sp3);">
-            <button class="btn-start" onclick="checkPaper()" style="flex:1;">জমা দিন</button>
-            <button class="btn-start" id="nextBtn" style="flex:1;display:none;background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);" onclick="nextPaper()">পরবর্তী →</button>
+            <button class="btn-start" onclick="checkPaper()" style="flex:1;" data-t="submit">জমা দিন</button>
+            <button class="btn-start" id="nextBtn" style="flex:1;display:none;background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);" onclick="nextPaper()" data-t="next">পরবর্তী →</button>
           </div>
         </div>`;
     }
@@ -211,8 +211,8 @@
         <div class="result-card">
           <div class="score">${percentage}%</div>
           <p>কীওয়ার্ড মিলেছে ${matchedKeywords}/${totalKeywords}</p>
-          <button class="btn-start" onclick="location.reload()">আবার পরীক্ষা দিন</button>
-          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'">ফিরে যান</button>
+          <button class="btn-start" onclick="location.reload()" data-t="tryAgain">আবার পরীক্ষা দিন</button>
+          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'" data-t="goBack">ফিরে যান</button>
         </div>`;
     }
   </script>

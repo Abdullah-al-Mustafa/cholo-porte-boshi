@@ -40,37 +40,37 @@
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:700;font-size:1.2rem;margin:0 auto;">Model Test</span><span style="width:40px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="index.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:700;font-size:1.2rem;margin:0 auto;" data-t="modelTest">Model Test</span><span style="width:40px;"></span></div></header>
   <main class="main-content">
     <div class="page">
-      <h2>Model Test</h2>
+      <h2 data-t="modelTest">Model Test</h2>
       <p class="subtitle">পরীক্ষা দিয়ে নিজেকে যাচাই করো</p>
       
       <!-- Tabs -->
       <div class="tabs" id="testTabs">
-        <button class="tab-btn active" onclick="switchTab('single')">Single Test</button>
-        <button class="tab-btn" onclick="switchTab('full')">Full Model Test</button>
+        <button class="tab-btn active" onclick="switchTab('single')" data-t="singleTest">Single Test</button>
+        <button class="tab-btn" onclick="switchTab('full')" data-t="fullModelTest">Full Model Test</button>
       </div>
 
       <!-- Single Test Cards -->
       <div id="singleTests" class="test-grid">
         <a href="mcq-test.html" class="test-card">
           <div class="test-icon" style="background:#DCFCE7;"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg></div>
-          <h3>MCQ Test</h3>
+          <h3 data-t="mcqTest">MCQ Test</h3>
           <div class="test-info">২৫টি বহুনির্বাচনি প্রশ্ন<br>সময়: ৩০ মিনিট</div>
-          <span class="btn-start">Start Test</span>
+          <span class="btn-start" data-t="startTest">Start Test</span>
         </a>
         <a href="cq-test.html" class="test-card">
           <div class="test-icon" style="background:#DBEAFE;"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-          <h3>CQ Test</h3>
+          <h3 data-t="cqTest">CQ Test</h3>
           <div class="test-info">৫টি সৃজনশীল প্রশ্ন<br>সময়: ৪৫ মিনিট</div>
-          <span class="btn-start">Start Test</span>
+          <span class="btn-start" data-t="startTest">Start Test</span>
         </a>
         <a href="sq-test.html" class="test-card">
           <div class="test-icon" style="background:#FEF3C7;"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
-          <h3>SQ Test</h3>
+          <h3 data-t="sqTest">SQ Test</h3>
           <div class="test-info">১০টি সংক্ষিপ্ত প্রশ্ন<br>সময়: ২০ মিনিট</div>
-          <span class="btn-start">Start Test</span>
+          <span class="btn-start" data-t="startTest">Start Test</span>
         </a>
       </div>
 
@@ -96,5 +96,6 @@
       document.getElementById('fullTests').style.display = tab === 'full' ? 'block' : 'none';
     }
   </script>
+<script src="js/lang.js"></script>
 </body>
 </html>

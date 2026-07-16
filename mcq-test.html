@@ -37,7 +37,7 @@
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">MCQ Test</span><span style="width:28px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;" data-t="mcqTest">MCQ Test</span><span style="width:28px;"></span></div></header>
   <main class="main-content">
     <div class="mcq-page" id="setupArea">
       <h2>MCQ পরীক্ষা</h2>
@@ -69,7 +69,7 @@
           <span style="font-size:0.85rem;color:var(--muted);">টি প্রশ্ন</span>
         </div>
       </div>
-      <button class="btn-start" id="startBtn" onclick="startTest()">পরীক্ষা শুরু করুন</button>
+      <button class="btn-start" id="startBtn" onclick="startTest()" data-t="startExam">পরীক্ষা শুরু করুন</button>
     </div>
     <div class="mcq-page" id="testArea" style="display:none;"></div>
     <div class="mcq-page" id="resultArea" style="display:none;"></div>
@@ -148,7 +148,7 @@
           <p style="font-size:0.8rem;color:var(--muted);margin-bottom:var(--sp2);">প্রশ্ন ${currentIndex+1}/${questions.length}</p>
           <h3>${q.question}</h3>
           ${opts.map((opt,i) => `<button class="option" onclick="checkAnswer(${i}, '${q.answer?.trim().replace(/'/g,"\\'")}', this)">${opt.trim()}</button>`).join('')}
-          <button class="btn-start" id="nextBtn" style="display:none;margin-top:var(--sp3);" onclick="nextQuestion()">পরবর্তী →</button>
+          <button class="btn-start" id="nextBtn" style="display:none;margin-top:var(--sp3);" onclick="nextQuestion()" data-t="next">পরবর্তী →</button>
         </div>`;
     }
 
@@ -170,8 +170,8 @@
         <div class="result-card">
           <div class="score">${score}/${questions.length}</div>
           <p>সঠিক উত্তর</p>
-          <button class="btn-start" onclick="location.reload()">আবার পরীক্ষা দিন</button>
-          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'">ফিরে যান</button>
+          <button class="btn-start" onclick="location.reload()" data-t="tryAgain">আবার পরীক্ষা দিন</button>
+          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'" data-t="goBack">ফিরে যান</button>
         </div>`;
     }
   </script>

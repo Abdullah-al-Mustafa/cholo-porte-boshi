@@ -173,6 +173,8 @@
     };
 
     function changeLanguage(lang) {
+    localStorage.setItem("ui-language", lang);
+    applyLanguage();
       const t = translations[lang];
       document.getElementById('pageTitle').textContent = t.pageTitle;
       document.getElementById('settingsHeading').textContent = t.settingsHeading;
