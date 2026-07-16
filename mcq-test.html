@@ -13,73 +13,36 @@
     .chip.disabled { opacity:0.4; pointer-events:none; }
     .quantity-selector { display:flex; align-items:center; gap:var(--sp2); }
     .quantity-selector input { width:80px; padding:10px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.9rem; text-align:center; font-family:var(--font); background:var(--surface); color:var(--body); }
-    .quantity-selector input:focus { border-color:var(--primary-green); outline:none; }
     .btn-start { width:100%; padding:var(--sp3); background:var(--primary-green); color:white; border:none; border-radius:var(--r-md); font-weight:700; font-size:1.05rem; cursor:pointer; transition:background var(--tr-fast); margin-top:var(--sp5); }
     .btn-start:hover { background:var(--dark-green); }
-    .btn-start:disabled { opacity:0.5; cursor:not-allowed; }
     .question-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp5); margin-bottom:var(--sp3); box-shadow:var(--sh-sm); }
     .question-card h3 { font-size:1.05rem; color:var(--heading); margin-bottom:var(--sp3); }
     .option { display:block; width:100%; padding:var(--sp2) var(--sp3); margin-bottom:var(--sp1); border:1.5px solid var(--border); border-radius:var(--r-sm); background:var(--surface); cursor:pointer; text-align:left; font-size:0.95rem; transition:all var(--tr-fast); font-family:var(--font); color:var(--body); }
     .option:hover { border-color:var(--primary-green); background:var(--secondary); }
     .option.correct { background:#DCFCE7; border-color:#22C55E; color:#166534; font-weight:600; }
     .option.wrong { background:#FEE2E2; border-color:#DC2626; color:#991B1B; }
-    .option:disabled { pointer-events:none; opacity:0.9; }
     .result-card { text-align:center; padding:var(--sp8) var(--sp4); background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-md); }
     .result-card .score { font-size:3rem; font-weight:800; color:var(--primary-green); }
-    .result-card p { color:var(--muted); font-size:1.1rem; }
     body.dark .chip { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
     body.dark .chip.active { background:var(--primary-green); color:white; }
     body.dark .question-card { background:var(--dark-card); border-color:var(--dark-border); }
-    body.dark .question-card h3 { color:var(--dark-heading); }
     body.dark .option { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
-    body.dark .option:hover { background:rgba(21,128,61,0.1); }
-    body.dark .quantity-selector input { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
   </style>
 </head>
 <body>
-  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;" data-t="mcqTest">MCQ Test</span><span style="width:28px;"></span></div></header>
+  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">MCQ Test</span><span style="width:28px;"></span></div></header>
   <main class="main-content">
     <div class="mcq-page" id="setupArea">
       <h2>MCQ পরীক্ষা</h2>
       <div class="selector-group">
         <label class="selector-label">ক্লাস নির্বাচন করুন</label>
         <div class="chip-row" id="classChips">
-      <div class="selector-group" id="groupSelector" style="display:none;">
-        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
-        <div class="chip-row" id="groupChips">
-          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
-          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
-          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
-        </div>
-      </div>
           <button class="chip" onclick="selectClass('6', this)">৬ষ্ঠ</button>
-      <div class="selector-group" id="groupSelector" style="display:none;">
-        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
-        <div class="chip-row" id="groupChips">
-          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
-          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
-          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
-        </div>
-      </div>
           <button class="chip" onclick="selectClass('7', this)">৭ম</button>
-      <div class="selector-group" id="groupSelector" style="display:none;">
-        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
-        <div class="chip-row" id="groupChips">
-          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
-          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
-          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
-        </div>
-      </div>
           <button class="chip" onclick="selectClass('8', this)">৮ম</button>
-      <div class="selector-group" id="groupSelector" style="display:none;">
-        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
-        <div class="chip-row" id="groupChips">
-          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
-          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
-          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
-        </div>
-      </div>
           <button class="chip" onclick="selectClass('9-10', this)">৯ম-১০ম</button>
+        </div>
+      </div>
       <div class="selector-group" id="groupSelector" style="display:none;">
         <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
         <div class="chip-row" id="groupChips">
@@ -87,16 +50,6 @@
           <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
           <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
         </div>
-      </div>
-        </div>
-      <div class="selector-group" id="groupSelector" style="display:none;">
-        <label class="selector-label">গ্রুপ নির্বাচন করুন</label>
-        <div class="chip-row" id="groupChips">
-          <button class="chip" onclick="selectGroup('Science', this)">Science</button>
-          <button class="chip" onclick="selectGroup('Commerce', this)">Commerce</button>
-          <button class="chip" onclick="selectGroup('Arts', this)">Arts</button>
-        </div>
-      </div>
       </div>
       <div class="selector-group">
         <label class="selector-label">বিষয় নির্বাচন করুন</label>
@@ -117,51 +70,66 @@
           <span style="font-size:0.85rem;color:var(--muted);">টি প্রশ্ন</span>
         </div>
       </div>
-      <button class="btn-start" id="startBtn" onclick="startTest()" data-t="startExam">পরীক্ষা শুরু করুন</button>
+      <button class="btn-start" id="startBtn" onclick="startTest()">পরীক্ষা শুরু করুন</button>
     </div>
     <div class="mcq-page" id="testArea" style="display:none;"></div>
     <div class="mcq-page" id="resultArea" style="display:none;"></div>
   </main>
   <nav class="bottom-nav">
-    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span data-t="home">হোম</span></a>
-    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span data-t="exam">পরীক্ষা</span></a>
-    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span data-t="ai">এআই</span></a>
-    <a href="tools.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span data-t="tools">টুলস</span></a>
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
+    <a href="tools.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>টুলস</span></a>
   </nav>
-<script src="js/subjects.js"></script>
-<script src="js/subjects.js"></script>
+  <script src="js/subjects.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
   <script>
     const db = firebase.firestore();
-    let selClass, selGroup = ""; = '', selSubject = '', selChapter = '', allQuestions = [], currentIndex = 0, score = 0, questions = [];
+    let selClass = '', selGroup = '', selSubject = '', selChapter = '', questions = [], currentIndex = 0, score = 0;
 
     function selectClass(cls, el) {
-    function selectGroup(grp, el) {
-      selGroup = grp;
-      document.querySelectorAll("#groupChips .chip").forEach(c => c.classList.remove("active"));
-      el.classList.add("active");
-      loadSubjects("9-10", grp);
-    }
-    selGroup = "";
-    document.querySelectorAll("#groupChips .chip").forEach(c => c.classList.remove("active"));
-    if (cls === "9-10") {
-      document.getElementById("groupSelector").style.display = "block";
-    } else {
-      document.getElementById("groupSelector").style.display = "none";
-    }
-      selClass = cls; selSubject = ''; selChapter = '';
+      selClass = cls; selSubject = ''; selChapter = ''; selGroup = '';
       document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('active'));
       el.classList.add('active');
-      loadSubjects(cls);
-      document.getElementById('chapterChips').innerHTML = '<button class="chip disabled">প্রথমে বিষয় বাছুন</button>';
+      if (cls === '9-10') {
+        document.getElementById('groupSelector').style.display = 'block';
+        document.querySelectorAll('#groupChips .chip').forEach(c => c.classList.remove('active'));
+        document.getElementById('subjectChips').innerHTML = '<button class="chip disabled">গ্রুপ বাছুন</button>';
+        document.getElementById('chapterChips').innerHTML = '<button class="chip disabled">প্রথমে বিষয় বাছুন</button>';
+      } else {
+        document.getElementById('groupSelector').style.display = 'none';
+        loadSubjects(cls, '');
+      }
     }
 
-    async function loadSubjects(cls) {
-      const s = await db.collection('questions').where('type','==','mcq').where('class','==',cls).get();
-      const subjects = [...new Set(s.docs.map(d => d.data().subject).filter(Boolean))];
+    function selectGroup(grp, el) {
+      selGroup = grp;
+      document.querySelectorAll('#groupChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      loadSubjects('9-10', grp);
+    }
+
+    async function loadSubjects(cls, group) {
+      let staticSubjects = [];
+      if (cls === '9-10' && group) {
+        staticSubjects = (classSubjects['9-10'] && classSubjects['9-10'][group]) ? classSubjects['9-10'][group] : [];
+      } else {
+        staticSubjects = classSubjects[cls] || [];
+      }
       const container = document.getElementById('subjectChips');
-      if (subjects.length === 0) { container.innerHTML = '<button class="chip disabled">কোনো বিষয় নেই</button>'; return; }
-      container.innerHTML = subjects.map(sub => `<button class="chip" onclick="selectSubject('${sub}', this)">${sub}</button>`).join('');
+      container.innerHTML = staticSubjects.map(sub => `<button class="chip" onclick="selectSubject('${sub}', this)">${sub}</button>`).join('');
+      // Firestore থেকেও সাবজেক্ট লোড
+      const s = await db.collection('questions').where('type','==','mcq').where('class','==',cls).get();
+      const firestoreSubjects = [...new Set(s.docs.map(d => d.data().subject).filter(Boolean))];
+      firestoreSubjects.forEach(sub => {
+        if (!staticSubjects.includes(sub)) {
+          container.innerHTML += `<button class="chip" onclick="selectSubject('${sub}', this)">${sub}</button>`;
+        }
+      });
+      if (staticSubjects.length === 0 && firestoreSubjects.length === 0) {
+        container.innerHTML = '<button class="chip disabled">কোনো বিষয় নেই</button>';
+      }
+      document.getElementById('chapterChips').innerHTML = '<button class="chip disabled">প্রথমে বিষয় বাছুন</button>';
     }
 
     function selectSubject(sub, el) {
@@ -176,7 +144,7 @@
       const chapters = [...new Set(s.docs.map(d => d.data().chapter).filter(Boolean))];
       const container = document.getElementById('chapterChips');
       if (chapters.length === 0) { container.innerHTML = '<button class="chip disabled">কোনো অধ্যায় নেই</button>'; return; }
-      container.innerHTML = '<button class="chip active" onclick="selectChapter('', this)">সব</button>' + chapters.map(ch => `<button class="chip" onclick="selectChapter('${ch}', this)">${ch}</button>`).join('');
+      container.innerHTML = '<button class="chip active" onclick="selectChapter(\'\', this)">সব</button>' + chapters.map(ch => `<button class="chip" onclick="selectChapter('${ch}', this)">${ch}</button>`).join('');
       selChapter = '';
     }
 
@@ -209,7 +177,7 @@
           <p style="font-size:0.8rem;color:var(--muted);margin-bottom:var(--sp2);">প্রশ্ন ${currentIndex+1}/${questions.length}</p>
           <h3>${q.question}</h3>
           ${opts.map((opt,i) => `<button class="option" onclick="checkAnswer(${i}, '${q.answer?.trim().replace(/'/g,"\\'")}', this)">${opt.trim()}</button>`).join('')}
-          <button class="btn-start" id="nextBtn" style="display:none;margin-top:var(--sp3);" onclick="nextQuestion()" data-t="next">পরবর্তী →</button>
+          <button class="btn-start" id="nextBtn" style="display:none;margin-top:var(--sp3);" onclick="nextQuestion()">পরবর্তী →</button>
         </div>`;
     }
 
@@ -231,8 +199,8 @@
         <div class="result-card">
           <div class="score">${score}/${questions.length}</div>
           <p>সঠিক উত্তর</p>
-          <button class="btn-start" onclick="location.reload()" data-t="tryAgain">আবার পরীক্ষা দিন</button>
-          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'" data-t="goBack">ফিরে যান</button>
+          <button class="btn-start" onclick="location.reload()">আবার পরীক্ষা দিন</button>
+          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'">ফিরে যান</button>
         </div>`;
     }
   </script>
