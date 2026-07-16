@@ -1,27 +1,218 @@
 <!DOCTYPE html>
 <html lang="bn">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CQ পরীক্ষা - চলো পড়তে বসি</title><link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0D1B2A">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CQ Test - পড়তে বসি</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#15803D"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="stylesheet" href="css/style.css">
   <style>
-    .test-page { max-width: 700px; margin: 0 auto; width: 100%; }
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
-    .modal.show { display: flex; }
-    .modal-box { background: var(--surface); border-radius: var(--radius-xl); padding: var(--space-6); max-width: 400px; width: 90%; }
-    .class-option { display: block; width: 100%; padding: var(--space-3); margin-bottom: var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-align: center; background: var(--surface); }
-    .class-option:hover { background: var(--accent-light); border-color: var(--accent); }
-    .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: var(--space-6); margin-bottom: var(--space-4); }
-    .q-meta { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-3); }
-    .q-badge { padding: 2px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
-    .q-badge.type { background: var(--accent); color: var(--primary); }
-    .q-badge.class { background: var(--accent-light); color: var(--primary); }
-    .q-badge.subject { background: var(--secondary); color: white; }
-    .question-card textarea { width: 100%; padding: var(--space-3); border: 2px solid var(--border); border-radius: var(--radius-md); min-height: 100px; font-family: inherit; }
-    .answer-reveal { margin-top: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); display: none; }
-    .answer-reveal.correct { background: #DCFCE7; border: 1px solid #22C55E; display: block; }
-    .answer-reveal.wrong { background: #FEE2E2; border: 1px solid #DC2626; display: block; }
-    .btn-row { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
-    body.dark .question-card { background: var(--dark-card); }
+    .cq-page { max-width:750px; margin:0 auto; width:100%; }
+    .cq-page h2 { font-size:var(--text-2xl); font-weight:700; color:var(--heading); text-align:center; margin-bottom:var(--sp5); }
+    .selector-group { margin-bottom:var(--sp4); }
+    .selector-label { font-size:0.85rem; font-weight:600; color:var(--body); margin-bottom:6px; display:block; }
+    .chip-row { display:flex; gap:var(--sp1); flex-wrap:wrap; }
+    .chip { padding:10px 18px; border-radius:var(--r-full); border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-size:0.9rem; font-weight:500; transition:all var(--tr-fast); font-family:var(--font); color:var(--body); }
+    .chip:hover { border-color:var(--primary-green); }
+    .chip.active { background:var(--primary-green); color:white; border-color:var(--primary-green); font-weight:600; }
+    .chip.disabled { opacity:0.4; pointer-events:none; }
+    .quantity-selector { display:flex; align-items:center; gap:var(--sp2); }
+    .quantity-selector input { width:80px; padding:10px; border:1.5px solid var(--border); border-radius:var(--r-sm); font-size:0.9rem; text-align:center; font-family:var(--font); background:var(--surface); color:var(--body); }
+    .quantity-selector input:focus { border-color:var(--primary-green); outline:none; }
+    .btn-start { width:100%; padding:var(--sp3); background:var(--primary-green); color:white; border:none; border-radius:var(--r-md); font-weight:700; font-size:1.05rem; cursor:pointer; transition:background var(--tr-fast); margin-top:var(--sp5); }
+    .btn-start:hover { background:var(--dark-green); }
+    .passage-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp5); margin-bottom:var(--sp4); box-shadow:var(--sh-sm); }
+    .passage-card .passage-text { font-size:1rem; line-height:1.8; color:var(--body); margin-bottom:var(--sp3); }
+    .question-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--sp5); margin-bottom:var(--sp3); box-shadow:var(--sh-sm); }
+    .question-card h3 { font-size:1.05rem; color:var(--heading); margin-bottom:var(--sp3); }
+    .question-card textarea { width:100%; padding:var(--sp2); border:1.5px solid var(--border); border-radius:var(--r-sm); font-family:var(--font); font-size:0.95rem; min-height:100px; resize:vertical; background:var(--bg); color:var(--body); }
+    .question-card textarea:focus { border-color:var(--primary-green); outline:none; }
+    .feedback { margin-top:var(--sp2); padding:var(--sp2) var(--sp3); border-radius:var(--r-sm); font-size:0.85rem; display:none; }
+    .feedback.show { display:block; }
+    .feedback.partial { background:#FEF3C7; color:#92400E; border:1px solid #FCD34D; }
+    .feedback.correct { background:#DCFCE7; color:#166534; border:1px solid #22C55E; }
+    .feedback.wrong { background:#FEE2E2; color:#991B1B; border:1px solid #DC2626; }
+    .result-card { text-align:center; padding:var(--sp8) var(--sp4); background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-md); }
+    .result-card .score { font-size:3rem; font-weight:800; color:var(--primary-green); }
+    .result-card p { color:var(--muted); font-size:1.1rem; }
+    .sub-question { margin-bottom:var(--sp4); }
+    body.dark .chip { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
+    body.dark .chip.active { background:var(--primary-green); color:white; }
+    body.dark .passage-card, body.dark .question-card { background:var(--dark-card); border-color:var(--dark-border); }
+    body.dark .question-card h3, body.dark .passage-text { color:var(--dark-heading); }
+    body.dark .question-card textarea { background:var(--dark-bg); border-color:var(--dark-border); color:var(--dark-body); }
+    body.dark .quantity-selector input { background:var(--dark-surface); border-color:var(--dark-border); color:var(--dark-body); }
   </style>
 </head>
 <body>
+  <header class="header"><div class="header-inner"><a href="model-test.html" class="icon-btn" aria-label="Back"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a><span style="color:white;font-weight:600;">CQ Test</span><span style="width:28px;"></span></div></header>
+  <main class="main-content">
+    <div class="cq-page" id="setupArea">
+      <h2>CQ পরীক্ষা</h2>
+      <div class="selector-group">
+        <label class="selector-label">ক্লাস নির্বাচন করুন</label>
+        <div class="chip-row" id="classChips">
+          <button class="chip" onclick="selectClass('6', this)">৬ষ্ঠ</button>
+          <button class="chip" onclick="selectClass('7', this)">৭ম</button>
+          <button class="chip" onclick="selectClass('8', this)">৮ম</button>
+          <button class="chip" onclick="selectClass('9-10', this)">৯ম-১০ম</button>
+        </div>
+      </div>
+      <div class="selector-group">
+        <label class="selector-label">বিষয় নির্বাচন করুন</label>
+        <div class="chip-row" id="subjectChips">
+          <button class="chip disabled">প্রথমে ক্লাস বাছুন</button>
+        </div>
+      </div>
+      <div class="selector-group">
+        <label class="selector-label">অধ্যায় (ঐচ্ছিক)</label>
+        <div class="chip-row" id="chapterChips">
+          <button class="chip disabled">প্রথমে বিষয় বাছুন</button>
+        </div>
+      </div>
+      <div class="selector-group">
+        <label class="selector-label">প্রশ্ন সংখ্যা</label>
+        <div class="quantity-selector">
+          <input type="number" id="cqCount" value="2" min="1" max="10" step="1">
+          <span style="font-size:0.85rem;color:var(--muted);">টি প্রশ্নপত্র</span>
+        </div>
+      </div>
+      <button class="btn-start" id="startBtn" onclick="startTest()">পরীক্ষা শুরু করুন</button>
+    </div>
+    <div class="cq-page" id="testArea" style="display:none;"></div>
+    <div class="cq-page" id="resultArea" style="display:none;"></div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>হোম</span></a>
+    <a href="model-test.html" class="nav-item"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><polyline points="9 11 11 13 15 9"/></svg><span>পরীক্ষা</span></a>
+    <a href="cpb-ai.html" class="nav-item"><span style="font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:14px;">AI</span><span>এআই</span></a>
+    <a href="tools.html" class="nav-item"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>টুলস</span></a>
+  </nav>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    let selClass = '', selSubject = '', selChapter = '', cqPapers = [], currentPaperIndex = 0, score = 0, totalKeywords = 0, matchedKeywords = 0;
+
+    function selectClass(cls, el) {
+      selClass = cls; selSubject = ''; selChapter = '';
+      document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      loadSubjects(cls);
+      document.getElementById('chapterChips').innerHTML = '<button class="chip disabled">প্রথমে বিষয় বাছুন</button>';
+    }
+
+    async function loadSubjects(cls) {
+      const s = await db.collection('questions').where('type','==','cq').where('class','==',cls).get();
+      const subjects = [...new Set(s.docs.map(d => d.data().subject).filter(Boolean))];
+      const container = document.getElementById('subjectChips');
+      if (subjects.length === 0) { container.innerHTML = '<button class="chip disabled">কোনো বিষয় নেই</button>'; return; }
+      container.innerHTML = subjects.map(sub => `<button class="chip" onclick="selectSubject('${sub}', this)">${sub}</button>`).join('');
+    }
+
+    function selectSubject(sub, el) {
+      selSubject = sub; selChapter = '';
+      document.querySelectorAll('#subjectChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      loadChapters(selClass, sub);
+    }
+
+    async function loadChapters(cls, sub) {
+      const s = await db.collection('questions').where('type','==','cq').where('class','==',cls).where('subject','==',sub).get();
+      const chapters = [...new Set(s.docs.map(d => d.data().chapter).filter(Boolean))];
+      const container = document.getElementById('chapterChips');
+      if (chapters.length === 0) { container.innerHTML = '<button class="chip disabled">কোনো অধ্যায় নেই</button>'; return; }
+      container.innerHTML = '<button class="chip active" onclick="selectChapter('', this)">সব</button>' + chapters.map(ch => `<button class="chip" onclick="selectChapter('${ch}', this)">${ch}</button>`).join('');
+      selChapter = '';
+    }
+
+    function selectChapter(ch, el) {
+      selChapter = ch;
+      document.querySelectorAll('#chapterChips .chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    async function startTest() {
+      if (!selClass || !selSubject) { alert('ক্লাস ও বিষয় নির্বাচন করুন'); return; }
+      const count = parseInt(document.getElementById('cqCount').value) || 2;
+      let q = db.collection('questions').where('type','==','cq').where('class','==',selClass).where('subject','==',selSubject);
+      if (selChapter) q = q.where('chapter','==',selChapter);
+      const snap = await q.limit(count).get();
+      if (snap.empty) { alert('এই সিলেকশনে কোনো CQ পাওয়া যায়নি'); return; }
+      cqPapers = snap.docs.map(d => ({id: d.id, ...d.data()})).sort(() => Math.random() - 0.5);
+      currentPaperIndex = 0; score = 0; totalKeywords = 0; matchedKeywords = 0;
+      document.getElementById('setupArea').style.display = 'none';
+      document.getElementById('testArea').style.display = 'block';
+      renderPaper();
+    }
+
+    function renderPaper() {
+      if (currentPaperIndex >= cqPapers.length) return showResult();
+      const paper = cqPapers[currentPaperIndex];
+      const questions = paper.questions || [];
+      let questionsHtml = questions.map((q, i) => `
+        <div class="sub-question">
+          <h3>${i+1}. ${q.question}</h3>
+          <textarea id="answer${i}" placeholder="আপনার উত্তর লিখুন..."></textarea>
+          <div class="feedback" id="feedback${i}"></div>
+        </div>
+      `).join('');
+      document.getElementById('testArea').innerHTML = `
+        <div class="passage-card">
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:var(--sp2);">প্রশ্নপত্র ${currentPaperIndex+1}/${cqPapers.length}</p>
+          <div class="passage-text">${paper.passage || ''}</div>
+        </div>
+        <div class="question-card">
+          ${questionsHtml}
+          <div style="display:flex;gap:var(--sp2);margin-top:var(--sp3);">
+            <button class="btn-start" onclick="checkPaper()" style="flex:1;">জমা দিন</button>
+            <button class="btn-start" id="nextBtn" style="flex:1;display:none;background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);" onclick="nextPaper()">পরবর্তী →</button>
+          </div>
+        </div>`;
+    }
+
+    function checkPaper() {
+      const paper = cqPapers[currentPaperIndex];
+      const questions = paper.questions || [];
+      let paperMatched = 0, paperTotal = 0;
+      questions.forEach((q, i) => {
+        const userAnswer = document.getElementById('answer'+i).value.trim().toLowerCase();
+        const keywords = (q.keywords || '').split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+        const matched = keywords.filter(k => userAnswer.includes(k));
+        const fb = document.getElementById('feedback'+i);
+        fb.classList.add('show');
+        if (keywords.length === 0) {
+          fb.classList.add('partial');
+          fb.textContent = 'উত্তর জমা দেওয়া হয়েছে।';
+          paperMatched++; paperTotal++;
+        } else if (matched.length === keywords.length) {
+          fb.classList.add('correct');
+          fb.textContent = `চমৎকার! সব কীওয়ার্ড মিলেছে (${matched.length}/${keywords.length})।`;
+          paperMatched += keywords.length; paperTotal += keywords.length;
+        } else if (matched.length > 0) {
+          fb.classList.add('partial');
+          fb.textContent = `আংশিক সঠিক। ${matched.length}/${keywords.length} কীওয়ার্ড মিলেছে।`;
+          paperMatched += matched.length; paperTotal += keywords.length;
+        } else {
+          fb.classList.add('wrong');
+          fb.textContent = `কোনো কীওয়ার্ড মেলেনি। প্রত্যাশিত: ${keywords.join(', ')}`;
+          paperTotal += keywords.length;
+        }
+        document.getElementById('answer'+i).disabled = true;
+      });
+      totalKeywords += paperTotal;
+      matchedKeywords += paperMatched;
+      document.getElementById('nextBtn').style.display = 'block';
+    }
+
+    function nextPaper() { currentPaperIndex++; renderPaper(); }
+
+    function showResult() {
+      document.getElementById('testArea').style.display = 'none';
+      document.getElementById('resultArea').style.display = 'block';
+      const percentage = totalKeywords > 0 ? Math.round((matchedKeywords / totalKeywords) * 100) : 0;
+      document.getElementById('resultArea').innerHTML = `
+        <div class="result-card">
+          <div class="score">${percentage}%</div>
+          <p>কীওয়ার্ড মিলেছে ${matchedKeywords}/${totalKeywords}</p>
+          <button class="btn-start" onclick="location.reload()">আবার পরীক্ষা দিন</button>
+          <button class="btn-start" style="background:var(--surface);color:var(--primary-green);border:1.5px solid var(--primary-green);margin-top:var(--sp2);" onclick="location.href='model-test.html'">ফিরে যান</button>
+        </div>`;
+    }
+  </script>
+</body>
+</html>
